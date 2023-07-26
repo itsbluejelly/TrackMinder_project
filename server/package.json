@@ -1,7 +1,7 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "A server for the MindTracker App",
+  "description": "A server for the TrackMinder App",
   "main": "server.js",
   "scripts": {
     "test": "node server.js",
