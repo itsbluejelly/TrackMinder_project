@@ -32,13 +32,14 @@ async function signupPostController(req, res, next){
             const saltRounds = await bcrypt.genSalt(12)
             const hashedPassword = await bcrypt.hash(password, saltRounds)
             const createdUser = await UserModel.create({username, email, password: hashedPassword})
-            const token = JWTGenerator(createdUser._id)
+            const token = JWTGenerator.JWTCreater(createdUser._id)
             
             res.status(201).json({
                 success: `${createdUser.username}'s account successfully created`,
                 
                 user: {
                     email: createdUser.email,
+                    username: createdUser.username,
                     token: token
                 }
             })
@@ -78,13 +79,14 @@ async function loginPostController(req, res, next){
             if(!matchedPassword){
                 throw new Error("Invalid password")
             }else{
-                const token = JWTGenerator(foundUser._id)
+                const token = JWTGenerator.JWTCreater(foundUser._id)
 
                 res.status(200).json({
                     success: `${foundUser.username} has successfully logged in`,
 
                     user: {
                         email: foundUser.email,
+                        username: createdUser.username,
                         token: token
                     }
                 })

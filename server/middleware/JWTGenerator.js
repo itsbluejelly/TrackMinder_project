@@ -2,9 +2,14 @@
 const JWT = require('jsonwebtoken')
 
 // A JWT GENERATOR FUNCTION THAT CREATES A JWT ACCESS TOKEN
-function JWTGenerator(id){
+function JWTCreater(id){
     return JWT.sign({id}, process.env.SECRET_KEY, { expiresIn: '24h' })
 }
 
+// A JWT VERIFIER FUNCTION THAT VERIFIES A JWT TOKEN
+function JWTVerifier(token){
+    return JWT.verify(token, process.env.SECRET_KEY)
+}
+
 // EXPORTING THE JWT GENERATOR
-module.exports = JWTGenerator
+module.exports = { JWTCreater, JWTVerifier }

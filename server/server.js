@@ -4,6 +4,7 @@ const dotenv = require('dotenv')
 const mongoose = require('mongoose')
 const eventLogger = require('./middleware/eventLogger')
 const connectDB = require('./config/connectDB')
+const userVerifier = require('./config/userVerifier')
 const rootRouter = require('./routers/rootRouter')
 const userRouter = require('./routers/userRouter')
 // const collectionsRouter = require('./routers/collectionsRouter')
@@ -19,6 +20,7 @@ app.use(express.json())
 // ROUTE MIDDLEWARES
 app.use('/', rootRouter)
 app.use('/user', userRouter)
+app.use(userVerifier)
 // app.use('/collections', collectionsRouter)
 
 // ACTIVATING THE SERVER
