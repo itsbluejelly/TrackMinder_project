@@ -15,7 +15,7 @@ async function eventLogger(message1, message2, fileName){
     const loggedItem = `${dateTime}\t${uuid()}\t${message1}\t${message2}\n`
 
     try{
-        if(!fs.existsSyn(path.join(__dirname, '..', 'logs'))){
+        if(!fs.existsSync(path.join(__dirname, '..', 'logs'))){
             await fsPromises.mkdir(path.join(__dirname, '..', 'logs'))
         }
 
@@ -25,7 +25,7 @@ async function eventLogger(message1, message2, fileName){
         const errorItem = `${dateTime}\t${uuid()}\t${error.name}\t${error.message}\n`
 
         try{
-            if(!fs.existsSyn(path.join(__dirname, '..', 'logs'))){
+            if(!fs.existsSync(path.join(__dirname, '..', 'logs'))){
                 await fsPromises.mkdir(path.join(__dirname, '..', 'logs'))
             }
             
