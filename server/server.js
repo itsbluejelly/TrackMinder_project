@@ -5,6 +5,8 @@ const mongoose = require('mongoose')
 const eventLogger = require('./middleware/eventLogger')
 const connectDB = require('./config/connectDB')
 const rootRouter = require('./routers/rootRouter')
+const userRouter = require('./routers/userRouter')
+// const collectionsRouter = require('./routers/collectionsRouter')
 
 // INSTANSIATE A SERVER APP FROM EXPRESS
 const app = express()
@@ -16,6 +18,8 @@ app.use(express.json())
 
 // ROUTE MIDDLEWARES
 app.use('/', rootRouter)
+app.use('/user', userRouter)
+// app.use('/collections', collectionsRouter)
 
 // ACTIVATING THE SERVER
 const port = process.env.PORT_NUMBER || 4000
