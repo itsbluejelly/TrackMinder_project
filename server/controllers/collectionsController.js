@@ -18,7 +18,11 @@ async function getController(req, res, next){
 
         eventLogger(`Collections of user ${userID} found successfully`, foundCollections, "databaseLogs.txt")
     }catch(error){
-        if(error.message === "Cannot read properties of undefined (reading '_id')"){
+        if(
+            error.message === "Cannot read properties of undefined (reading '_id')" 
+                || 
+            error.message === "Cannot read properties of null (reading '_id')"
+        ){
             res.status(403).json({ error: "Consider signing up or logging in" })
         }else{
             res.status(404).json({ error: error.message })
@@ -32,6 +36,31 @@ async function getController(req, res, next){
 
 // A POSTCONTROLLER FUNCTION THAT HANDLES POST REQUESTS
 async function postController(req, res, next){
+    try{
+        const userID = req.storedUser._id
+        req.body.userID = userID
+        const createdCollection = await CollectionModel.create(req.body)
+        
+        res.status(201).json({
+            success: "Collection created successfuly",
+            data: createdCollection
+        })
+
+        eventLogger(`User ${userID} created collections successfully`, `Collection ID is ${createdCollection._id}`, "databaseLogs.txt")
+    }catch(error){
+        if(
+            error.message === "Cannot read properties of undefined (reading '_id')" 
+                || 
+            error.message === "Cannot read properties of null (reading '_id')"
+        ){
+            res.status(403).json({ error: "Consider signing up or logging in" })
+        }else{
+            res.status(404).json({ error: error.message })
+        }
+        
+        eventLogger(error.name, error.message, "errorLogs.txt")
+    }
+
     next()
 }
 

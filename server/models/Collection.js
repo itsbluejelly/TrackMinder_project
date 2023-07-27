@@ -13,7 +13,11 @@ const CollectionSchema = new Schema(
         },
 
         description: {type: String},
-        userID: {type: String} 
+        
+        userID: {
+            type: String,
+            required: [true, "Your collection must have a userID"]
+        } 
     }, 
     
     { timestamps: true }
