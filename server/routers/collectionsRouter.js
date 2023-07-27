@@ -1,7 +1,7 @@
-// IMPORT NECESSARY MODULES AND CONTROLLERS
+// IMPORT NECESSARY MODULES AND CONTROLLERS AND ROUTERS
 const express = require('express')
 const collectionsController = require('../controllers/collectionsController')
-// const subCollectionRouter = require('./subrouters/subCollectionRouter')
+const subCollectionRouter = require('./subrouters/subCollectionRouter')
 
 // INSTANTIATE A ROUTER FROM EXPRESS
 const collectionsRouter = express.Router()
@@ -13,7 +13,7 @@ collectionsRouter.route("/")
     .delete(collectionsController.deleteController)
 
     // SUB-ROUTE MIDDLEWARE
-    // collectionsRouter.use("/collection", subCollectionRouter)
+    collectionsRouter.use("/collection", subCollectionRouter)
 
 // EXPORT THE COLLECTIONSROUTER
 module.exports = collectionsRouter
