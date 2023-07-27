@@ -10,6 +10,7 @@ async function getController(req, res, next){
         const foundCollections = await CollectionModel
             .find({ userID })
             .sort({ createdAt: -1 })
+            .select("name description createdAt updatedAt")
         
         res.status(200).json({
             success: "Collections fetched successfully",
@@ -55,7 +56,7 @@ async function postController(req, res, next){
         ){
             res.status(403).json({ error: "Consider signing up or logging in" })
         }else{
-            res.status(404).json({ error: error.message })
+            res.status(400).json({ error: error.message })
         }
         
         eventLogger(error.name, error.message, "errorLogs.txt")
