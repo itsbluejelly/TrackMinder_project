@@ -18,7 +18,7 @@ const TaskSchema = new Schema({
         type: String,
         required: [true, "Your task must have a collectionID"]
     }
-})
+}, { timestamps: true })
 
 // EXPORING THE TASK MODEL
 module.exports = mongoose.model("Task", TaskSchema)

@@ -9,8 +9,12 @@ async function getController(req, res, next){
 
         const foundCollections = await CollectionModel
             .find({ userID })
-            .sort({ updatedAt: -1, createdAt: -1 })
             .select("name description createdAt updatedAt")
+            
+            .sort({ 
+                updatedAt: -1, 
+                createdAt: -1 
+            })
         
         res.status(200).json({
             success: "Collections fetched successfully",
