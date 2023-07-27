@@ -91,7 +91,35 @@ async function postController(req, res, next){
 
 // A DELETECONTROLLER FUNCTION THAT DEALS WITH DELETE REQUESTS
 async function deleteController(req, res, next){
-    res.send("Hello World")
+    try{
+        const userID = req.storedUser._id
+        const collectionID = req.query.collection
+
+        if(!collectionID){
+            throw new Error("Missing collectionID, invalid URL")
+        }else if(!mongoose.Types.ObjectId.isValid(collectionID)){
+            throw new Error("The collection parameter is invalid")
+        }else if(!userID){
+            throw new Error("Consider signing up or logging in")
+        }
+
+        const deletedTasks = await TaskModel.deleteMany({ collectionID })
+        res.status(200).json({ success: `${deletedTasks.deletedCount} tasks deleted successfully`})
+        eventLogger(`Tasks from collection ${collectionID} successfully deleted`, `${deletedTasks.deletedCount} tasks deleted successfully`, "databaseLogs.txt")
+    }catch(error){
+        if(
+            error.message === "Cannot read properties of undefined (reading '_id')" 
+                || 
+            error.message === "Cannot read properties of null (reading '_id')"
+        ){
+            res.status(403).json({ error: "Consider signing up or logging in" })
+        }else{
+            res.status(404).json({ error: error.message })
+        }
+        
+        eventLogger(error.name, error.message, "errorLogs.txt")
+    }
+
     next()
 }
 
