@@ -86,7 +86,7 @@ async function loginPostController(req, res, next){
 
                     user: {
                         email: foundUser.email,
-                        username: createdUser.username,
+                        username: foundUser.username,
                         token: token
                     }
                 })

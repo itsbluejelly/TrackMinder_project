@@ -13,8 +13,9 @@ async function userVerifier(req, res, next){
         }
 
         const token = authorization.split(' ')[1]
-        const { id } = JWTGenerator.JWTVerifier(token)
-        const storedUser = await UserModel.findOne({ _id: id}).select("_id")
+        const { _id } = JWTGenerator.JWTVerifier(token)
+        req.storedUser = await UserModel.findOne({ _id}).select("_id")
+
     }catch(error){
         res.status(403)
         eventLogger(error.name, error.message, "errorLogs.txt")
