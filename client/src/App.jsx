@@ -1,6 +1,7 @@
 // IMPORTING NECESSARY MODULES, LAYOUTS AND COMPONENTS
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom'
 import ErrorPage from './pages/ErrorPage.jsx'
+import WelcomePage from './pages/WelcomePage.jsx'
 
 // DEFINING A ROUTER TO DEAL WITH ALL NECESSARY ROUTE PATHS
 const router = createBrowserRouter(
@@ -9,7 +10,7 @@ const router = createBrowserRouter(
     <Route path='/'>
       {/* /welcome || /login || /signup */}
       <Route path='/'>
-        <Route path='welcome'></Route>
+        <Route path='welcome' element={ <WelcomePage/> }></Route>
         <Route path='login'></Route>
         <Route path='signup'></Route>
       </Route>
@@ -41,7 +42,9 @@ const router = createBrowserRouter(
 // EXPORTING APP COMPONENT
 export default function App(){
     return(
-      <div className="main-container">
+      <div 
+        id="main-container" 
+        className="font-[Poppins]">
         <RouterProvider router={router}/>
       </div>
     )

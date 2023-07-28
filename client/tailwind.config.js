@@ -12,7 +12,8 @@ export default {
       },
 
       boxShadow: {
-        'popup': '10px 5px 10px black'
+        'popup': '10px 5px 10px black',
+        'button': '0px 6px 10px 0px rgba(0, 0, 0, 0.15)'
       }
     },
   },
