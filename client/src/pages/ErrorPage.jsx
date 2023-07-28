@@ -22,6 +22,7 @@ export default function ErrorPage(){
                     className="text-xl font-[600] leading-[5rem]"
                 >404, Page Not Found</h1>
                 
+                {/* A LINK TO THE WELCOME ROUTE */}
                 <p>
                     Perhaps try visiting <NavLink to='/welcome' className="underline hover:text-lg transition-all duration-500 active:text-white dark:active:text-[#8875FF]">the home page</NavLink>.
                 </p>

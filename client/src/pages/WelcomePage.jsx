@@ -1,7 +1,7 @@
-// IMPORTING NECESSARY MODULES
+// IMPORTING NECESSARY MODULES AND COMPONENTS
 import { Link } from 'react-scroll'
 import SignupButton from "../components/SignupButton"
-import LoginButton from "../components/LoginButton"
+import LoginButton from '../components/LoginButton'
 import NextButton from "../components/NextButton"
 
 
@@ -38,9 +38,11 @@ export default function WelcomePage(){
                     id="button-container-page1"
                     className='flex items-center gap-[20px] flex-col'
                 >
+                    {/* THE FIRST TWO SIGNUP AND LOGIN BUTTONS, WHICH DIRECT YOU TO SIGNUP AND LOGIN ROUTES RESPECTIVELY */}
                     <SignupButton/>
                     <LoginButton/>
                     
+                    {/* THE NEXT BUTTON, WHICH DIRECTS YOU TO NEXT PAGE */}
                     <Link 
                         to='page2' 
                         smooth={ true }
@@ -50,6 +52,7 @@ export default function WelcomePage(){
                 </div>
             </div>
             
+            {/* THE SECOND INTRO PAGE */}
             <div 
                 className="flex justify-around items-center transition-all duration-500 flex-col relative h-[100vh]"
                 id="page2"
@@ -62,6 +65,7 @@ export default function WelcomePage(){
                     className="dark:text-white font-[Lato] font-[700] text-2xl leading-10 tracking-wider absolute transition-all opacity-10 hover:opacity-100 duration-500 cursor-pointer"
                 >Easily</p>
 
+                {/* THE NEXT BUTTON THAT DIRECTS YOU TO THE NEXT INTRO PAGE */}
                 <Link 
                     to='page3' 
                     smooth={ true }
@@ -70,6 +74,7 @@ export default function WelcomePage(){
                 </Link>
             </div>
             
+            {/* THE LAST INTRO PAGE */}
             <div 
                 className="flex items-center flex-col min-w-[100vw] justify-around h-[100vh]"
                 id="page3"
@@ -88,6 +93,7 @@ export default function WelcomePage(){
                     className="flex flex-col items-center gap-[2rem] mb-[20px]"
                     id="button-container-page3"
                 >
+                    {/* THE SIGNUP AND LOGIN BUTTONS DIRECT YOU TO THE SIGNUP AND LOGIN ROUTES RESPECTIVELY */}
                     <SignupButton/>
                     <LoginButton/>
                 </div>
