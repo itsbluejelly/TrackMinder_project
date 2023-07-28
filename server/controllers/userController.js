@@ -102,8 +102,62 @@ async function loginPostController(req, res, next){
     next()
 }
 
+// A SIGNOUTPOSTCONTROLLER THAT DEALS WITH DELETE REQUESTS
+async function signoutPostController(req, res, next){
+    const { username, email, password} = req.body
+
+    try{
+        const userID = req.storedUser._id
+        
+        if(!username){
+            throw new Error("You must provide a username")
+        }else if(!email){
+            throw new Error("You must provide an email")
+        }else if(!validator.isEmail(email)){
+            throw new Error("You must provide a correct email")
+        }else if(!password){
+            throw new Error("You must provide a password")
+        }else if(password.length < 5){
+            throw new Error("Your password must have a minimum of 5 characters")
+        }else if(!validator.isStrongPassword(password)){
+            throw new Error("Your password is not strong enough")
+        }
+
+        const foundUser = await UserModel.findOne({ email })
+
+        if(!foundUser){
+            throw new Error("This email is not registered") 
+        }else{
+            const matchedPassword = await bcrypt.compare(password, foundUser.password)
+
+            if(!matchedPassword){
+                throw new Error("Invalid password")
+            }else{
+                const deletedUser = await UserModel.findByIdAndDelete(userID)
+                res.status(200).json({ success: "Account terminated successfully"})
+                eventLogger("Account terminated successfully", `User ${deletedUser._id} successfully signed out`, "usersLogs.txt")
+            }
+        }
+    }catch(error){
+        if(
+            error.message === "Cannot read properties of undefined (reading '_id')" 
+                || 
+            error.message === "Cannot read properties of null (reading '_id')"
+        ){
+            res.status(403).json({ error: "Imposter detected" })
+        }else{
+            res.status(400).json({ error: error.message })
+        }
+        
+        eventLogger(error.name, error.message, "errorLogs.txt")
+    }
+
+    next()
+}
+
 // EXPORT THE CONTROLLERS
 module.exports = {
     "loginController": { "postController": loginPostController},
-    "signupController": { "postController": signupPostController}
+    "signupController": { "postController": signupPostController},
+    "signoutController": { "postController": signoutPostController}
 }
