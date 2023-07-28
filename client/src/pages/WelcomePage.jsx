@@ -1,8 +1,8 @@
 // IMPORTING NECESSARY MODULES
 import { Link } from 'react-scroll'
-import SignupButton from "../components/signupButton"
-import LoginButton from "../components/loginButton"
-import NextButton from "../components/nextButton"
+import SignupButton from "../components/SignupButton"
+import LoginButton from "../components/LoginButton"
+import NextButton from "../components/NextButton"
 
 
 // EXPORTING THE WELCOME PAGE

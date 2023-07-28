@@ -2,6 +2,7 @@
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom'
 import ErrorPage from './pages/ErrorPage.jsx'
 import WelcomePage from './pages/WelcomePage.jsx'
+import LoginPage from './pages/LoginPage.jsx'
 
 // DEFINING A ROUTER TO DEAL WITH ALL NECESSARY ROUTE PATHS
 const router = createBrowserRouter(
@@ -11,7 +12,7 @@ const router = createBrowserRouter(
       {/* /welcome || /login || /signup */}
       <Route path='/'>
         <Route path='welcome' element={ <WelcomePage/> }></Route>
-        <Route path='login'></Route>
+        <Route path='login' element={ <LoginPage/> }></Route>
         <Route path='signup'></Route>
       </Route>
 
