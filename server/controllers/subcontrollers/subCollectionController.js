@@ -8,11 +8,14 @@ async function deleteController(req, res, next){
     const idParameter = req.params.id
 
     try{
-        if(!mongoose.Types.ObjectId.isValid(idParameter)){
+        if(!idParameter){
+            throw new Error("Missing collectionID, invalid URL")
+        }else if(!mongoose.Types.ObjectId.isValid(idParameter)){
             throw new Error("The id parameter is invalid")
         }
         
         const userID = req.storedUser._id
+        
         const deletedCollection = await CollectionModel
             .findByIdAndDelete(idParameter)
             .select("name description updatedAt createdAt")
@@ -22,7 +25,7 @@ async function deleteController(req, res, next){
             data: deletedCollection
         })
 
-        eventLogger(`User ${userID} successfully deleted a collection`, `Collection ID was ${deletedCollection}`, "databaseLogs.txt")
+        eventLogger(`User ${userID} successfully deleted a collection`, `Collection ID was ${deletedCollection._id}`, "databaseLogs.txt")
     }catch(error){
         if(
             error.message === "Cannot read properties of undefined (reading '_id')" 
@@ -45,11 +48,14 @@ async function patchController(req, res, next){
     const idParameter = req.params.id
 
     try{
-        if(!mongoose.Types.ObjectId.isValid){
+        if(!idParameter){
+            throw new Error("Missing collectionID, invalid URL")
+        }else if(!mongoose.Types.ObjectId.isValid){
             throw new Error("The id parameter is invalid")
         }
 
         const userID = req.storedUser._id
+        
         const updatedCollection = await CollectionModel
             .findByIdAndUpdate(idParameter, req.body, { new: true })
             .select("name description createdAt updatedAt")

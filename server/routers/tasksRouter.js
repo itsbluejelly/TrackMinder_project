@@ -1,6 +1,7 @@
 // IMPORTING NECESSARY MIDDLEWARES AND CONTROLLERS
 const express = require('express')
 const tasksController = require('../controllers/tasksController')
+const subTaskRouter = require('./subrouters/subTaskRouter')
 
 // INSTANTIATE AN EXPRESS ROUTER
 const tasksRouter = express.Router()
@@ -12,7 +13,7 @@ tasksRouter.route('/')
     .delete(tasksController.deleteController)
 
     // SUB-ROUTE MIDDLEWARES
-    // tasksRouter.use('/task', subTaskRouter)
+    tasksRouter.use('/task', subTaskRouter)
 
 // EXPORTING TASKSROUTER
 module.exports = tasksRouter
