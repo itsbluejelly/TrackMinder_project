@@ -3,6 +3,7 @@ import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } 
 import ErrorPage from './pages/ErrorPage.jsx'
 import WelcomePage from './pages/WelcomePage.jsx'
 import LoginPage from './pages/LoginPage.jsx'
+import SignupPage from './pages/SignupPage.jsx'
 
 // DEFINING A ROUTER TO DEAL WITH ALL NECESSARY ROUTE PATHS
 const router = createBrowserRouter(
@@ -13,7 +14,7 @@ const router = createBrowserRouter(
       <Route path='/'>
         <Route path='welcome' element={ <WelcomePage/> }></Route>
         <Route path='login' element={ <LoginPage/> }></Route>
-        <Route path='signup'></Route>
+        <Route path='signup' element={ <SignupPage/> }></Route>
       </Route>
 
       {/* /home/collections || /home/tasks || /home/user */}

@@ -9,7 +9,7 @@ export default function ErrorPage(){
             id="error-page"
         >
             <img 
-                className="dark:shadow-popup mb-[20px] w-[70%]"
+                className="dark:shadow-popup mb-[20px] w-[70%] lg:w-[50%] mt-[50px]"
                 src="/img/404_image.png" 
                 alt="Error image" 
                 title="Error image"
@@ -19,8 +19,8 @@ export default function ErrorPage(){
             
             <figcaption className="dark:text-white mb-[20px]">
                 <h1
-                    className="text-xl font-[600] leading-[5rem]"
-                >404, Page Not Found</h1>
+                    className="text-xl font-[600] leading-[3rem] w-[20ch]"
+                >Oh no, it appears the page you are looking for is Not Found(404)</h1>
                 
                 {/* A LINK TO THE WELCOME ROUTE */}
                 <p>
