@@ -46,7 +46,42 @@ async function deleteController(req, res, next){
 
 // A PATCHCONTROLLER FUNCTION THAT DEALS WITH PATCH REQUESTS
 async function patchController(req, res, next){
-    res.send("Hello World")
+    try{
+        const userID = req.storedUser._id
+        const idParameter = req.params.id
+
+        if(!userID){
+            throw new Error("Consider signing up or logging in")
+        }else if(!idParameter){
+            throw new Error("Missing taskID, invalid URL")
+        }else if(!mongoose.Types.ObjectId.isValid(idParameter)){
+            throw new Error("The id parameter is invalid")
+        }
+
+        const updatedTask = await TaskModel
+            .findByIdAndUpdate(idParameter, req.body, { new: true})
+            .select("activity deadline createdAt updatedAt")
+
+        res.status(200).json({
+            success: "Task updated successfully",
+            data: updatedTask
+        })
+
+        eventLogger(`A task from collection ${updatedTask.collectionID} successfully updated`, updatedTask, "databaseLogs.txt")
+    }catch(error){
+        if(
+            error.message === "Cannot read properties of undefined (reading '_id')" 
+                || 
+            error.message === "Cannot read properties of null (reading '_id')"
+        ){
+            res.status(403).json({ error: "Consider signing up or logging in"})
+        }else{
+            res.status(404).json({ error: error.message })
+        }
+
+        eventLogger(error.name, error.message, "errorLogs.txt")
+    }
+
     next()
 }
 
