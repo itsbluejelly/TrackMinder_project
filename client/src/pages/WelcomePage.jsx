@@ -1,11 +1,19 @@
+// IMPORTING NECESSARY MODULES
 import { Link } from 'react-scroll'
+import SignupButton from "../components/signupButton"
+import LoginButton from "../components/loginButton"
+import NextButton from "../components/nextButton"
 
+
+// EXPORTING THE WELCOME PAGE
 export default function WelcomePage(){
     return(
+        // A WELCOME-PAGE CONTAINER THAT CONTAINS ALL THREE PAGE INSTANCES
         <div 
             className="flex flex-col scroll-smooth bg-light-theme dark:bg-dark-theme transition-all duration-500 min-h-[100vh] overflow-x-hidden"
             id="welcome-page"
         >
+            {/* A FIRST PAGE THAT CONTAINS ALL 3 BUTTONS AND WELCOME LOGO */}
             <div 
                 className="flex flex-col justify-around items-center transition-all duration-500 h-[100vh]"
                 id="page1"
@@ -26,13 +34,20 @@ export default function WelcomePage(){
                     </figcaption>
                 </figure>
 
-                
-                <Link 
-                    to='page2' 
-                    smooth={ true }
+                <div 
+                    id="button-container-page1"
+                    className='flex items-center gap-[20px] flex-col'
                 >
-                    <div className="text-xl dark:text-white text-center rounded-[50px] w-[200px] p-[20px] dark:shadow-popup dark:bg-[#8875FF] shadow-xl bg-white cursor-pointer transition-all duration-500 animate-bounce">Next</div>
-                </Link>
+                    <SignupButton/>
+                    <LoginButton/>
+                    
+                    <Link 
+                        to='page2' 
+                        smooth={ true }
+                    >
+                        <NextButton/>
+                    </Link>
+                </div>
             </div>
             
             <div 
@@ -51,7 +66,7 @@ export default function WelcomePage(){
                     to='page3' 
                     smooth={ true }
                 >
-                    <div className="text-xl dark:text-white text-center rounded-[50px] w-[200px] p-[20px] shadow-xl transition-all duration-500 animate-bounce cursor-pointer bg-light-theme dark:shadow-popup dark:bg-dark-theme dark:border dark:border-[#8E7CFF]">Next</div>
+                    <NextButton/>
                 </Link>
             </div>
             
@@ -69,10 +84,12 @@ export default function WelcomePage(){
                     <h3 className="dark:text-white font-[Lato] font-[700] text-xl leading-10 text-justify w-[300px] mx-auto hover:underline tracking-wide">Please login to your account or create new account to continue</h3>
                 </header>
 
-                <div className="buttons flex flex-col items-center gap-[2rem] mb-[20px]">
-                    <div className="text-xl dark:text-white text-center rounded-[50px] w-[315px] p-[20px] dark:shadow-popup dark:bg-[#8875FF] shadow-xl bg-white cursor-pointer transition-all duration-500 hover:w-[350px] focus:w-[350px] active:bg-black active:text-white dark:active:bg-white dark:active:text-black">Login</div>
-                    
-                    <div className="text-xl dark:text-white text-center rounded-[50px] w-[315px] bg-button-light-theme p-[20px] shadow-2xl dark:border-[#8E7CFF] cursor-pointer bg-light-theme dark:shadow-popup dark:bg-dark-theme dark:border transition-all duration-500 hover:w-[350px] focus:w-[350px] dark:active:bg-white dark:active:text-black active:bg-black active:text-white">Sign up</div>
+                <div 
+                    className="flex flex-col items-center gap-[2rem] mb-[20px]"
+                    id="button-container-page3"
+                >
+                    <SignupButton/>
+                    <LoginButton/>
                 </div>
             </div>
         </div>
