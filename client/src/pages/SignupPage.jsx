@@ -12,6 +12,8 @@ export default function SignupPage(){
     const [error, setError] = React.useState("")
     // DECLARING A STATE BOOLEAN TO DETERMINE SUCCESS MESSAGES
     const [success, setSuccess] = React.useState("")
+    // DECLARING A STATE BOOLEAN TO DIABLE THE AUHENTICATION BUTTON
+    const [disabled, setDisabled] = React.useState(false)
 
     // DECLARING A VARIABLE TO KEEP TRACK OF FORM DATA
     const [formData, setFormData] = React.useState({
@@ -31,12 +33,33 @@ export default function SignupPage(){
     }
 
     // DECLARING A FUNTION TO SUBMIT FORM DATA
-    function submitData(){
+    async function submitData(){
         setFormData({
             username: "",
             email: "",
             password: ""
         })
+
+        try{
+            const res = await fetch('http://localhost:4000/user/signup', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body:  JSON.stringify(formData)
+            })
+
+            console.log(formData)
+            const response = await res.json()
+            setDisabled(true)
+
+            if(!res.ok){
+                setError(response.error)
+                setDisabled(false)
+            }else{
+                setSuccess(response.success)
+            }
+        }catch(error){
+            setError(error.message)
+        }
     }
 
     return(
@@ -71,6 +94,7 @@ export default function SignupPage(){
             <AuthenticationButton
                 innerText = "Sign Up"
                 handleClick = {submitData}
+                disabled = {disabled}
             />
 
             {/* A FOOTER TEXT TO TOGGLE BTWN LOGIN AND SIGNUP ROUTES */}
