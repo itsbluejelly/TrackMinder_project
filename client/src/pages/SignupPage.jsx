@@ -47,7 +47,6 @@ export default function SignupPage(){
                 body:  JSON.stringify(formData)
             })
 
-            console.log(formData)
             const response = await res.json()
             setDisabled(true)
 
