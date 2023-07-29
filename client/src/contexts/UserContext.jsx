@@ -1,5 +1,5 @@
 // IMPORTING NECESSARY MODULES
-import React from "react";
+import React from "react"
 
 // CREATING A USERCONTEXT AVAILABLE TO EVERY COMPONENT
 export const UserContext = React.createContext()
