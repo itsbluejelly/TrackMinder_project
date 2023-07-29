@@ -1,23 +1,71 @@
 // IMPORTING NECESSARY MODULES AND COMPONENTS
+import React from 'react'
 import { NavLink } from 'react-router-dom'
 import AuthenticationForm from "../components/AuthenticationForm"
 import AuthenticationButton from "../components/AuthenticationButton"
+import ErrorPopup from '../components/ErrorPopup'
 
 // EXPORTING SIGNUPPAGE FUNCTION
 export default function SignupPage(){
+    // DECLARING A STATE BOOLEAN TO DETERMINE ERROR MESSAGES
+    const [error, setError] = React.useState("")
+
+    // DECLARING A VARIABLE TO KEEP TRACK OF FORM DATA
+    const [formData, setFormData] = React.useState({
+        username: "",
+        email: "",
+        password: ""
+    })
+
+    // DECLARING A FUNCTION TO UPDATE FORM DATA
+    function updateData(e){
+        const { name, value } = e.target
+
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            [name]: value
+        }))
+    }
+
+    // DECLARING A FUNTION TO SUBMIT FORM DATA
+    function submitData(){
+        setFormData({
+            username: "",
+            email: "",
+            password: ""
+        })
+
+        console.log(formData)
+        setError("Submitted, check console")
+    }
+
     return(
         // A SIGNUP-PAGE CONTAINER THAT HOLDS ALL SIGNUP PAGE CONTENT
         <div 
             id="signup-page"
-            className="bg-light-theme dark:bg-dark-theme scroll-smooth min-h-[100vh] dark:text-dark-theme-text font-[Lato] transition-all duration-500 pl-[30px] flex flex-col justify-evenly"
+            className="bg-light-theme dark:bg-dark-theme scroll-smooth min-h-[100vh] dark:text-dark-theme-text font-[Lato] transition-all duration-500 flex flex-col justify-evenly relative"
         >
-            <h1 className="font-[700] text-2xl top-[50px] py-[50px] text-left md:text-center">Hello There, Create An Account</h1>
+            {/* AN ERROR COMPONENT ONLY SHOWN IF THERE IS AN ERROR */}
+            {error && <ErrorPopup
+                errorMessage = {error}
+                handleClick = {() => setError("")}
+            />} 
+
+            <h1 className="font-[700] text-2xl top-[50px] py-[50px] text-left md:text-center pl-[30px]">Hello There, Create An Account</h1>
 
             {/* THE AUTHENTICATION FORM WHICH HAS THE EMAIL, PASSWORD AND USERNAME INPUTS */}
-            <AuthenticationForm/>
+            <div className="pl-[30px]">
+                <AuthenticationForm
+                    handleChange = {(e) => updateData(e)}
+                    formData = {formData}
+                />
+            </div>
 
             {/* THE AUTHENTICATION BUTTON THAT POSTS USER INFORMATION */}
-            <AuthenticationButton/>
+            <AuthenticationButton
+                innerText = "Sign Up"
+                handleClick = {submitData}
+            />
 
             {/* A FOOTER TEXT TO TOGGLE BTWN LOGIN AND SIGNUP ROUTES */}
             <p 

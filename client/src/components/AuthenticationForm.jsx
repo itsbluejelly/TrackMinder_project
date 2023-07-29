@@ -1,5 +1,5 @@
 // EXPORTING THE AUTHENTICATION FORM
-export default function AuthenticationForm(){
+export default function AuthenticationForm(props){
     return (
         <div 
             id="form"
@@ -14,6 +14,8 @@ export default function AuthenticationForm(){
                     required
                     autoComplete="on"
                     placeholder="Your username here"
+                    value={props.formData.username}
+                    onChange={props.handleChange}
                     className="dark:rounded-[4px] dark dark:border-[#979797] dark:bg-[#1D1D1D] dark:text-[#535353] p-[10px] w-[90%] md:w-[100%] rounded-[22px] transition-all duration-500"
 
                 />
@@ -27,6 +29,8 @@ export default function AuthenticationForm(){
                     name="email"
                     required
                     placeholder="Your email here"
+                    value={props.formData.email}
+                    onChange={props.handleChange}
                     className="dark:rounded-[4px] dark dark:border-[#979797] dark:bg-[#1D1D1D] dark:text-[#535353] p-[10px] w-[90%] md:w-[100%] rounded-[22px] transition-all duration-500"
                 />
             </div>
@@ -38,6 +42,8 @@ export default function AuthenticationForm(){
                     type="password" 
                     name="password" 
                     required
+                    value={props.formData.password}
+                    onChange={props.handleChange}
                     placeholder="Your password here"
                     className="dark:rounded-[4px] dark dark:border-[#979797] dark:bg-[#1D1D1D] dark:text-[#535353] p-[10px] w-[90%] md:w-[100%] rounded-[22px] transition-all duration-500"
                 />
