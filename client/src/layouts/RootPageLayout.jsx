@@ -1,16 +1,16 @@
 // IMPORTING NECESSARY MODULES
 import React from 'react'
-import UserContextHook from '../hooks/UserContextHook'
 import { Outlet, Navigate } from 'react-router-dom'
 
 // RETURNING THE ROOTPAGELAYOUT
 export default function RootPageLayout(){
-    // OBTAINING THE USER AND DISPATCH GLOBAL VALUES
-    const { user, dispatch } = UserContextHook()
+    //A STATE VARIABLE TO KEEP TRACK OF THE USER
+    const [user, setUser] = React.useState(null) 
 
     // A FUNCTION TO FETCH USER DATA
     function getUser(){
-        dispatch({ type: "GET_USER" })
+        const foundUser = JSON.parse(localStorage.getItem("user"))
+        setUser(foundUser)
     }
 
     // A USEEFFECT TO CALL THE GETUSER FUNCTION
