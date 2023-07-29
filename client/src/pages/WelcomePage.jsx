@@ -5,23 +5,9 @@ import { Navigate } from 'react-router-dom'
 import SignupButton from "../components/SignupButton"
 import LoginButton from '../components/LoginButton'
 import NextButton from "../components/NextButton"
-import UserContextHook from '../hooks/UserContextHook'
 
 // EXPORTING THE WELCOME PAGE
 export default function WelcomePage(){
-    // OBTAINING THE GLOBAL USER STATE FROM THE USER CONTEXT HOOK
-    const { user, dispatch } = UserContextHook()
-    
-    // A USEEFFECT FUNCTION THAT GETS THE CURRENT USER
-    React.useEffect(() => {
-        dispatch({type: "GET_USER"})
-    }, [])
-
-    // A CONDITION TO EXECUTE THE REDIRECT
-    if(user){
-        return <Navigate to="/home/collections"/>
-    }
-
     return(
         // A WELCOME-PAGE CONTAINER THAT CONTAINS ALL THREE PAGE INSTANCES
         <div 

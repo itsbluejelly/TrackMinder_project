@@ -5,6 +5,7 @@ import WelcomePage from './pages/WelcomePage.jsx'
 import LoginPage from './pages/LoginPage.jsx'
 import SignupPage from './pages/SignupPage.jsx'
 import CollectionsPage from './pages/CollectionsPage.jsx'
+import RootLayout from './layouts/RootLayout.jsx'
 
 // DEFINING A ROUTER TO DEAL WITH ALL NECESSARY ROUTE PATHS
 const router = createBrowserRouter(
@@ -12,7 +13,7 @@ const router = createBrowserRouter(
     // THE ROOT PATH TO ENCLOSE ALL ROUTES(/)
     <Route path='/'>
       {/* /welcome || /login || /signup */}
-      <Route path='/'>
+      <Route path='/' element={ <RootLayout/> }>
         <Route path='welcome' element={ <WelcomePage/> }></Route>
         <Route path='login' element={ <LoginPage/> }></Route>
         <Route path='signup' element={ <SignupPage/> }></Route>

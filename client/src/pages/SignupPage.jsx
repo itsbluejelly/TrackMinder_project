@@ -5,7 +5,6 @@ import AuthenticationForm from "../components/AuthenticationForm"
 import AuthenticationButton from "../components/AuthenticationButton"
 import ErrorPopup from '../components/ErrorPopup'
 import SuccessPopup from '../components/SuccessPopup'
-import UserContextHook from '../hooks/UserContextHook'
 
 // EXPORTING SIGNUPPAGE FUNCTION
 export default function SignupPage(){
@@ -15,8 +14,6 @@ export default function SignupPage(){
     const [success, setSuccess] = React.useState("")
     // DECLARING A STATE BOOLEAN TO DIABLE THE AUHENTICATION BUTTON
     const [disabled, setDisabled] = React.useState(false)
-    // OBTAINING THE USER AND DISPATCH FUNCTION FROM THE USERCONTEXTHOOK
-    const { user, dispatch } = UserContextHook()
 
     // DECLARING A VARIABLE TO KEEP TRACK OF FORM DATA
     const [formData, setFormData] = React.useState({
@@ -67,16 +64,6 @@ export default function SignupPage(){
         }catch(error){
             setError(error.message)
         }
-    }
-    
-    // A USEEFFECT FUNCTION THAT GETS THE CURRENT USER
-    React.useEffect(() => {
-        dispatch({type: "GET_USER"})
-    }, [])
-
-    // A CONDITION TO EXECUTE THE REDIRECT
-    if(user){
-        return <Navigate to="/home/collections"/>
     }
 
     return(
