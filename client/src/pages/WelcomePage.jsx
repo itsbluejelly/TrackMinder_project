@@ -15,7 +15,7 @@ export default function WelcomePage(){
         >
             {/* A FIRST PAGE THAT CONTAINS ALL 3 BUTTONS AND WELCOME LOGO */}
             <div 
-                className="flex flex-col justify-around items-center transition-all duration-500 h-[100vh]"
+                className="flex flex-col justify-around items-center transition-all duration-500 h-[100vh] animate-fade-show"
                 id="page1"
             >
                 <figure>

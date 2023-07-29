@@ -4,11 +4,14 @@ import { NavLink } from 'react-router-dom'
 import AuthenticationForm from "../components/AuthenticationForm"
 import AuthenticationButton from "../components/AuthenticationButton"
 import ErrorPopup from '../components/ErrorPopup'
+import SuccessPopup from '../components/SuccessPopup'
 
 // EXPORTING SIGNUPPAGE FUNCTION
 export default function SignupPage(){
     // DECLARING A STATE BOOLEAN TO DETERMINE ERROR MESSAGES
     const [error, setError] = React.useState("")
+    // DECLARING A STATE BOOLEAN TO DETERMINE SUCCESS MESSAGES
+    const [success, setSuccess] = React.useState("")
 
     // DECLARING A VARIABLE TO KEEP TRACK OF FORM DATA
     const [formData, setFormData] = React.useState({
@@ -34,9 +37,6 @@ export default function SignupPage(){
             email: "",
             password: ""
         })
-
-        console.log(formData)
-        setError("Submitted, check console")
     }
 
     return(
@@ -50,6 +50,12 @@ export default function SignupPage(){
                 errorMessage = {error}
                 handleClick = {() => setError("")}
             />} 
+
+            {/* A SUCCESS COMPONENT ONLY SHOWN IF THERE IS AN SUCCESS */}
+            {success && <SuccessPopup
+                successMessage = {success}
+                handleClick = {() => setSuccess("")}
+            />}
 
             <h1 className="font-[700] text-2xl top-[50px] py-[50px] text-left md:text-center pl-[30px]">Hello There, Create An Account</h1>
 
