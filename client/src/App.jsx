@@ -5,7 +5,6 @@ import WelcomePage from './pages/WelcomePage.jsx'
 import LoginPage from './pages/LoginPage.jsx'
 import SignupPage from './pages/SignupPage.jsx'
 import CollectionsPage from './pages/CollectionsPage.jsx'
-import UserContextHook from './hooks/UserContextHook.jsx'
 
 // DEFINING A ROUTER TO DEAL WITH ALL NECESSARY ROUTE PATHS
 const router = createBrowserRouter(

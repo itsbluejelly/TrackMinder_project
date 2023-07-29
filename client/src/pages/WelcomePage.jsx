@@ -17,6 +17,7 @@ export default function WelcomePage(){
         dispatch({type: "GET_USER"})
     }, [])
 
+    // A CONDITION TO EXECUTE THE REDIRECT
     if(user){
         return <Navigate to="/home/collections"/>
     }

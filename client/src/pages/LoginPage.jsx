@@ -68,6 +68,16 @@ export default function LoginPage(){
             setError(error.message)
         }
     }
+    
+    // A USEEFFECT FUNCTION THAT GETS THE CURRENT USER
+    React.useEffect(() => {
+        dispatch({type: "GET_USER"})
+    }, [])
+
+    // A CONDITION TO EXECUTE THE REDIRECT
+    if(user){
+        return <Navigate to="/home/collections"/>
+    }
 
     return(
         // A LOGIN-PAGE CONTAINER THAT HOLDS ALL LOGIN PAGE CONTENT
