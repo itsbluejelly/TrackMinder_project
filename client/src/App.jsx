@@ -1,11 +1,11 @@
 // IMPORTING NECESSARY MODULES, LAYOUTS AND COMPONENTS
-import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, createRoutesFromElements, Navigate, Route, RouterProvider } from 'react-router-dom'
 import ErrorPage from './pages/ErrorPage.jsx'
 import WelcomePage from './pages/WelcomePage.jsx'
 import LoginPage from './pages/LoginPage.jsx'
 import SignupPage from './pages/SignupPage.jsx'
 import CollectionsPage from './pages/CollectionsPage.jsx'
-import RootPageLayout from './layouts/RootPageLayout.jsx'
+import UserContextHook from './hooks/UserContextHook.jsx'
 
 // DEFINING A ROUTER TO DEAL WITH ALL NECESSARY ROUTE PATHS
 const router = createBrowserRouter(
@@ -13,14 +13,14 @@ const router = createBrowserRouter(
     // THE ROOT PATH TO ENCLOSE ALL ROUTES(/)
     <Route path='/'>
       {/* /welcome || /login || /signup */}
-      <Route path='/' element={ <RootPageLayout/> }>
+      <Route path='/'>
         <Route path='welcome' element={ <WelcomePage/> }></Route>
         <Route path='login' element={ <LoginPage/> }></Route>
         <Route path='signup' element={ <SignupPage/> }></Route>
       </Route>
 
       {/* /home/collections || /home/tasks || /home/user */}
-      <Route path='home' element={ <HomePageLayout/> }>
+      <Route path='home'>
         <Route path='collections' element={ <CollectionsPage/> }>
           {/* home/collections/collection/:id */}
           <Route path='collection/:id'></Route>
