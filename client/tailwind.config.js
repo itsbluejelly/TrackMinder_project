@@ -16,7 +16,8 @@ export default {
         'popup': '10px 5px 10px black',
         'button': '0px 6px 10px 0px rgba(0, 0, 0, 0.15)',
         'titleCard': '-2px 5px 15px black',
-        'successCard': '0px 0px 50px black'
+        'successCard': '0px 0px 50px black',
+        'collectionCard': '0px 4px 15px 0px rgba(0, 0, 0, 0.25)'
       },
 
       backgroundImage: {

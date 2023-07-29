@@ -1,28 +1,30 @@
 // IMPORTING NECESSARY MODULES
-import React from "react"
-import { Navigate } from "react-router-dom"
-import UserContextHook from "../hooks/UserContextHook"
+import NavBar from "../components/NavBar"
+import CollectionCell from "../components/CollectionCell"
+import Footer from "../components/Footer"
 
 // EXPORTING A COLLECTIONSPAGE FUNTION
 export default function CollectionsPage(){
-    // OBTAINING THE GLOBAL USER STATE FROM THE USER CONTEXT HOOK
-    const { user, dispatch } = UserContextHook()
-    
-    // A USEEFFECT FUNCTION THAT GETS THE CURRENT USER
-    React.useEffect(() => {
-        dispatch({type: "GET_USER"})
-    }, [])
-
-    // A CONDITION TO EXECUTE THE REDIRECT
-    if(!user){
-        return <Navigate to="/welcome"/>
-    }
-
     return(
+        // A COLLECTIONS PAGE CONTAINER THAT HOLDS ALL NECESSARY COLLECTIONS
         <div 
             id="collections-page"
+            className="min-h-screen bg-light-theme scroll-smooth dark:bg-dark-theme dark:text-dark-theme-text transition-all duration-500 relative"
         >
-            <p>+</p>
+            {/* A NAVBAR TO DIRECT TO THE HOME PAGE, OR THE USER PROFILE */}
+            <NavBar/>
+            
+            {/* A GRID OR FLEX CONTAINER FOR ALL COLLECTIONS */}
+            <div className="lg:grid grid-flow-row lg:grid-cols-3 gap-2 flex flex-col justify-center items-center md:grid md:grid-cols-2">
+                <CollectionCell/>
+                <CollectionCell/>
+                <CollectionCell/>
+                <CollectionCell/>
+            </div>
+            
+            {/* A FOOTER TO EITHER DELETE ALL OR ADD A COLLECTION */}
+            <Footer/>
+            
         </div>
     )
 }

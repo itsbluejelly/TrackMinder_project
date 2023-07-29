@@ -6,6 +6,7 @@ import LoginPage from './pages/LoginPage.jsx'
 import SignupPage from './pages/SignupPage.jsx'
 import CollectionsPage from './pages/CollectionsPage.jsx'
 import RootLayout from './layouts/RootLayout.jsx'
+import HomeLayout from './layouts/HomeLayout.jsx'
 
 // DEFINING A ROUTER TO DEAL WITH ALL NECESSARY ROUTE PATHS
 const router = createBrowserRouter(
@@ -20,7 +21,7 @@ const router = createBrowserRouter(
       </Route>
 
       {/* /home/collections || /home/tasks || /home/user */}
-      <Route path='home'>
+      <Route path='home' element={ <HomeLayout/> }>
         <Route path='collections' element={ <CollectionsPage/> }>
           {/* home/collections/collection/:id */}
           <Route path='collection/:id'></Route>
