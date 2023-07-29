@@ -55,6 +55,8 @@ export default function SignupPage(){
                 setDisabled(false)
             }else{
                 setSuccess(response.success)
+                localStorage.removeItem("user")
+                localStorage.setItem("user", JSON.stringify(response.user))
             }
         }catch(error){
             setError(error.message)
