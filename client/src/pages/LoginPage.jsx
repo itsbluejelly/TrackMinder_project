@@ -1,6 +1,6 @@
 // IMPORTING NECESSARY MODULES AND COMPONENTS
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, Navigate } from 'react-router-dom'
 import AuthenticationForm from "../components/AuthenticationForm"
 import AuthenticationButton from "../components/AuthenticationButton"
 import ErrorPopup from '../components/ErrorPopup'

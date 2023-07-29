@@ -18,6 +18,11 @@ export function UserContextReducer(state, action){
 
             return { user: null }
 
+        case "GET_USER":
+            const user = localStorage.getItem("user")
+
+            return { user }
+
         default:
             return state
     }

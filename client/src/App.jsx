@@ -4,6 +4,8 @@ import ErrorPage from './pages/ErrorPage.jsx'
 import WelcomePage from './pages/WelcomePage.jsx'
 import LoginPage from './pages/LoginPage.jsx'
 import SignupPage from './pages/SignupPage.jsx'
+import CollectionsPage from './pages/CollectionsPage.jsx'
+import RootPageLayout from './layouts/RootPageLayout.jsx'
 
 // DEFINING A ROUTER TO DEAL WITH ALL NECESSARY ROUTE PATHS
 const router = createBrowserRouter(
@@ -11,15 +13,15 @@ const router = createBrowserRouter(
     // THE ROOT PATH TO ENCLOSE ALL ROUTES(/)
     <Route path='/'>
       {/* /welcome || /login || /signup */}
-      <Route path='/'>
+      <Route path='/' element={ <RootPageLayout/> }>
         <Route path='welcome' element={ <WelcomePage/> }></Route>
         <Route path='login' element={ <LoginPage/> }></Route>
         <Route path='signup' element={ <SignupPage/> }></Route>
       </Route>
 
       {/* /home/collections || /home/tasks || /home/user */}
-      <Route path='home'>
-        <Route path='collections'>
+      <Route path='home' element={ <HomePageLayout/> }>
+        <Route path='collections' element={ <CollectionsPage/> }>
           {/* home/collections/collection/:id */}
           <Route path='collection/:id'></Route>
         </Route>
@@ -43,11 +45,11 @@ const router = createBrowserRouter(
 
 // EXPORTING APP COMPONENT
 export default function App(){
-    return(
-      <div 
-        id="main-container" 
-        className="font-[Poppins]">
-        <RouterProvider router={router}/>
-      </div>
-    )
+  return(
+    <div 
+      id="main-container" 
+      className="font-[Poppins]">
+      <RouterProvider router={router}/>
+    </div>
+  )
 }
