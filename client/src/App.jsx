@@ -5,6 +5,7 @@ import WelcomePage from './pages/WelcomePage.jsx'
 import LoginPage from './pages/LoginPage.jsx'
 import SignupPage from './pages/SignupPage.jsx'
 import CollectionsPage from './pages/CollectionsPage.jsx'
+import CollectionPage from './pages/CollectionPage.jsx'
 import RootLayout from './layouts/RootLayout.jsx'
 import HomeLayout from './layouts/HomeLayout.jsx'
 
@@ -23,8 +24,8 @@ const router = createBrowserRouter(
       {/* /home/collections || /home/tasks || /home/user */}
       <Route path='home' element={ <HomeLayout/> }>
         <Route path='collections' element={ <CollectionsPage/> }>
-          {/* home/collections/collection/:id */}
-          <Route path='collection/:id'></Route>
+          {/* home/collection/:id */}
+          <Route path='collection/:id' element={ <CollectionPage/> }></Route>
         </Route>
 
         <Route path='tasks'>
