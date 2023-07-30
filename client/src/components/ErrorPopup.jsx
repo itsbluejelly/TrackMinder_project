@@ -1,7 +1,7 @@
 // EXPORTING THE ERRORPOPUP FUNCTION
 export default function ErrorPopup(props){
     return(
-        <div className="flex justify-center min-h-[100vh] absolute items-center w-full z-20 bg-opacity-30 bg-white">
+        <div className="flex justify-center min-h-full absolute items-center w-full z-20 bg-opacity-30 bg-white">
             <div className="flex flex-col gap-[3rem] bg-white w-[350px] items-center rounded-[10px] p-[20px] shadow-titleCard transition-all duration-500 animate-drop-down">
                 <h1 className="mt-[10px] text-center text-red-700 font-bold text-xl">{props.errorMessage}</h1>
                 

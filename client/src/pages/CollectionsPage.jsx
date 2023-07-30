@@ -10,19 +10,20 @@ import AuthenticationButton from '../components/AuthenticationButton'
 import DataForm from "../components/DataForm"
 import { formatDistanceToNow } from "date-fns"
 
-
 // EXPORTING A COLLECTIONSPAGE FUNTION
 export default function CollectionsPage(){
     //DEFINING A STATE BOOLEAN TO KEEP TRACK OF ERROR MESSAGES
     const [error, setError] = React.useState(false)
     //DEFINING A STATE BOOLEAN TO KEEP TRACK OF SUCCESS MESSAGES
     const [success, setSuccess] = React.useState(false)
-    // DEFINING A STATE BOOLEAN TO KEEP TRACK OF BUTTON STATE
-    const [deleteOneDisabled, setDeleteOneDisabled] = React.useState(false)
     // DEFINING A STATE BOOLEAN TO ACTIVATE FORM
     const [showForm, setShowForm] = React.useState(false)
+    // DEFINING A STATE BOOLEAN TO DISABLE FORM BUTTON
+    const [disabled, setDisabled] = React.useState(false)
     // DEFINING A STATE TO KEEP TRACK OF THE COLLECTIONS
     const [collections, setCollections] = React.useState([])
+    // DEFINING A STATE TO KEEP TRACK OF COLLECTION TO UPDATE
+    const [collection1D, setCollectionID] = React.useState('')
     
     //DEFINING A STATE TO KEEP TRACK OF FORM DATA
     const [formData, setFormData] = React.useState({
@@ -66,12 +67,10 @@ export default function CollectionsPage(){
             })
 
             const response = await res.json()
-            setDeleteOneDisabled(true)
 
             if(!res.ok){
                 setSuccess('')
                 setError(response.error)
-                setDeleteOneDisabled(false)
             }else{
                 setError('')
                 setSuccess(response.success)
@@ -82,7 +81,71 @@ export default function CollectionsPage(){
         }
     }
 
+    // A FUNCTION TO UPDATE FORM DATA
+    function updateFormData(e){
+        const { name, value } = e.target
+
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            [name] : value
+        }))
+    }
+
+    // A FUNCTION THAT PARSES THROUGH FORM DATA
+    function validateForm(){
+        const { name, description } = formData
+
+        if(!name && !description){
+            return null
+        }else if(!name && description){
+            return {description}
+        }else if(!description && name){
+            return {name}
+        }else{
+            return formData
+        }
+    }
+
+    // A FUNCTION THAT UPDATES THE COLLECTION ID
+    function updateCollectionID(id){
+        setCollectionID(id)
+        setShowForm(true)
+        setDisabled(false)
+    }
+
     // A FUNCTION THAT UPDATES A SINGLE COLLECTION
+    async function submitUpdatedData(id){
+        if(!validateForm()){
+            return
+        }
+
+        try{
+            const res = await fetch(`http://localhost:4000/collections/collection/${id}`, {
+                method: 'PATCH',
+                headers: {'Authorization': `Bearer ${user.token}`},
+                body: JSON.stringify(validateForm())
+            })
+            const response = await res.json()
+            setDisabled(true)
+            console.log(JSON.stringify(validateForm()))
+
+            if(!res.ok){
+                setSuccess('')
+                setError(response.error)
+                setDisabled(false)
+            }else{
+                setError('')
+                setSuccess(response.success)
+                setFormData({
+                    name: "",
+                    description: ""
+                })
+            }
+        }catch(error){
+            setSuccess('')
+            setError(error.message)
+        }
+    }
 
     // A FUNCTION THAT GENERATES A LIST OF COLLECTIONCELLS
     function collectionsArrayGenerator(){
@@ -97,7 +160,7 @@ export default function CollectionsPage(){
                     id={collection._id}
                     description={collection.description}
                     handleDelete={() => deleteCollection(collection._id)}
-                    deleteDisabled = {deleteOneDisabled}
+                    updateCollectionID={() => updateCollectionID(collection._id)}
                 />
             )
         })
@@ -109,7 +172,7 @@ export default function CollectionsPage(){
     }, [])
 
     // A USEEFFECT FUNCION THAT CALLS GETCOLLECTIONS
-    // React.useEffect(() => getCollections, [])
+    React.useEffect(() => {getCollections()}, [])
 
     return(
         // A COLLECTIONS PAGE CONTAINER THAT HOLDS ALL NECESSARY COLLECTIONS
@@ -130,8 +193,22 @@ export default function CollectionsPage(){
             />}
 
             {/* A POPUP FORM IF THE UPDATE BUTTON IS CLICKED */}
-            {!showForm && <DataForm
-                button = {<AuthenticationButton/>}
+            {showForm && <DataForm
+                button = {<AuthenticationButton
+                    innerText="Update"
+                    handleClick={() => submitUpdatedData(collection1D)}
+                    disabled={disabled}
+                />}
+                hideForm = {() => setShowForm(false)}
+                formData = {formData}
+                handleChange = {(e) => updateFormData(e)}
+                fieldTitle1 = "Name"
+                fieldPlaceholder1 = "Your collection name"
+                fieldType1 = "name"
+                fieldTitle2 = "Description"
+                fieldPlaceholder2 = "Your optional description"
+                fieldType2 = "description"
+                formTitle = "Update collection"
             />}
 
             {/* A NAVBAR TO DIRECT TO THE HOME PAGE, OR THE USER PROFILE */}

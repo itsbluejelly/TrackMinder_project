@@ -54,7 +54,7 @@ async function patchController(req, res, next){
     try{
         if(!idParameter){
             throw new Error("Missing collectionID, invalid URL")
-        }else if(!mongoose.Types.ObjectId.isValid){
+        }else if(!mongoose.Types.ObjectId.isValid(idParameter)){
             throw new Error("The id parameter is invalid")
         }
 

@@ -31,12 +31,6 @@ export default function CollectionCell(props){
                     onClick={props.handleDelete}
                     disabled={props.deleteDisabled}
                 >&#128465;</button>
-                
-                <button 
-                    className="absolute top-[35%] right-[5%] p-[5px] text-[2rem] mt-[10px] rounded-full border active:bg-blue-600 transition-all duration-500 active:scale-125 shadow-xl cursor-pointer  dark:border-white border-black active:text-white active:border-white dark:active:text-black dark:active:border-black" 
-                    title="update-button"
-                    id="update-button"
-                >&#128394;</button>
             </div>
         </div>
     )
