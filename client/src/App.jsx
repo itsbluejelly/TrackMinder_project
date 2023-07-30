@@ -23,10 +23,9 @@ const router = createBrowserRouter(
 
       {/* /home/collections || /home/tasks || /home/user */}
       <Route path='home' element={ <HomeLayout/> }>
-        <Route path='collections' element={ <CollectionsPage/> }>
+        <Route path='collections' element={ <CollectionsPage/> }></Route>
           {/* home/collection/:id */}
-          <Route path='collection/:id' element={ <CollectionPage/> }></Route>
-        </Route>
+        <Route path='collection/:id' element={ <CollectionPage/> }></Route>
 
         <Route path='tasks'>
           {/* home/tasks/task/:id */}
@@ -39,7 +38,7 @@ const router = createBrowserRouter(
           <Route path='signout'></Route>
         </Route>
       </Route>
-
+      
       <Route path ="/*" element={<ErrorPage/>}></Route>
     </Route>
   )

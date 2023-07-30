@@ -9,13 +9,13 @@ export default function CollectionCell(props){
                 <NavLink 
                     className="text-2xl tracking-wider"
                     id="collection-name"
-                    to={ props.id }
+                    to={`/home/collection/${props.id}`}
                 >{ props.name }</NavLink>
                 
                 <small 
                     className="text-justify text-sm flex justify-center items-center break-words mt-[5px] bg-[gold] p-[10px] rounded-[10px] dark:bg-[silver]"
                     id="updated-date"
-                >{ props.updatedAt }</small>
+                >{ props.updateDate }</small>
             </h1>
 
             <div className="flex justify-center h-[75%] items-center bg-[#F4C27F] dark:bg-[#8687E7] rounded-b-[25px]">

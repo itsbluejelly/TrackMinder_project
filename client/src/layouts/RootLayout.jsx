@@ -15,7 +15,7 @@ export default function RootLayout(){
 
     // REDIRECT IF USER FOUND
     if(user){
-        return <Navigate to='/home/collections'/>
+        return <Navigate to='/home/collections' replace = {true}/>
     }
 
     return(

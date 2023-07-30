@@ -15,7 +15,7 @@ export default function HomeLayout(){
 
     // REDIRECT IF USER FOUND
     if(!user){
-        return <Navigate to='/welcome'/>
+        return <Navigate to='/welcome' replace = {true}/>
     }
 
     return(
