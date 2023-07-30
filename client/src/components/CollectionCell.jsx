@@ -15,7 +15,7 @@ export default function CollectionCell(props){
                 <small 
                     className="text-justify text-sm flex justify-center items-center break-words mt-[5px] bg-[gold] p-[10px] rounded-[10px] dark:bg-[silver]"
                     id="updated-date"
-                >{ props.updateDate }</small>
+                >{ props.createdDate }</small>
             </h1>
 
             <div className="flex justify-center h-[75%] items-center bg-[#F4C27F] dark:bg-[#8687E7] rounded-b-[25px]">
@@ -28,6 +28,8 @@ export default function CollectionCell(props){
                     className="absolute top-[35%] left-[5%] p-[5px] text-[2rem] mt-[10px] rounded-full border active:bg-red-600 transition-all duration-500 active:scale-125 shadow-xl cursor-pointer  dark:border-white border-black active:text-white active:border-white dark:active:text-black dark:active:border-black" 
                     title="delete-button"
                     id="delete-button"
+                    onClick={props.handleDelete}
+                    disabled={props.deleteDisabled}
                 >&#128465;</button>
                 
                 <button 

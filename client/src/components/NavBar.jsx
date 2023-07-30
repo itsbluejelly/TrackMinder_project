@@ -7,7 +7,7 @@ export default function NavBar(props){
         <header className="sticky top-0 flex justify-between w-full bg-white dark:bg-[#8687E7] text-black font-semibold text-lg p-[20px] z-10 shadow-collectionCard dark:shadow-popup">
             <NavLink 
                 className="text-xl  my-auto dark:active:text-white active:underline active:underline-offset-2 transition-all duration-500 active:text-light-theme hover:scale-105 ml-[20px]" 
-                to='/home/collections'
+                to={props.url}
             >{props.navigationTitle}</NavLink>
 
             {/* LINK TO USER PROFILE */}

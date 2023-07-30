@@ -17,7 +17,6 @@ export default function AuthenticationForm(props){
                     value={props.formData.username}
                     onChange={props.handleChange}
                     className="dark:rounded-[4px] dark dark:border-[#979797] dark:bg-[#1D1D1D] dark:text-[#535353] p-[10px] w-[90%] md:w-[100%] rounded-[22px] transition-all duration-500"
-
                 />
             </div>
 

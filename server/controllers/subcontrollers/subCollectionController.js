@@ -2,6 +2,7 @@
 const mongoose = require('mongoose')
 const eventLogger = require('../../middleware/eventLogger')
 const CollectionModel = require('../../models/Collection')
+const TaskModel = require('../../models/Task')
 
 // A DELETECONTROLLER FUNCTION THAT DEALS WITH DELETE REQUESTS
 async function deleteController(req, res, next){
@@ -20,6 +21,9 @@ async function deleteController(req, res, next){
             .findByIdAndDelete(idParameter)
             .select("name description updatedAt createdAt")
         
+        const collectionID = deletedCollection._id    
+        await TaskModel.deleteMany({ collectionID })    
+
         res.status(200).json({
             success: "Collection deleted successfully",
             data: deletedCollection

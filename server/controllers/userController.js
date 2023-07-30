@@ -20,8 +20,6 @@ async function signupPostController(req, res, next){
             throw new Error("You must provide a password")
         }else if(password.length < 5){
             throw new Error("Your password must have a minimum of 5 characters")
-        }else if(!validator.isStrongPassword(password)){
-            throw new Error("Your password is not strong enough")
         }
 
         const foundUser = await UserModel.findOne({ email })

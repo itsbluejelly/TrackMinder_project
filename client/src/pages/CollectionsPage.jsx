@@ -6,7 +6,10 @@ import Footer from "../components/Footer"
 import UserContextHook from '../hooks/UserContextHook'
 import ErrorPopup from '../components/ErrorPopup'
 import SuccessPopup from '../components/SuccessPopup'
-import { format } from "date-fns"
+import AuthenticationButton from '../components/AuthenticationButton'
+import DataForm from "../components/DataForm"
+import { formatDistanceToNow } from "date-fns"
+
 
 // EXPORTING A COLLECTIONSPAGE FUNTION
 export default function CollectionsPage(){
@@ -14,8 +17,19 @@ export default function CollectionsPage(){
     const [error, setError] = React.useState(false)
     //DEFINING A STATE BOOLEAN TO KEEP TRACK OF SUCCESS MESSAGES
     const [success, setSuccess] = React.useState(false)
+    // DEFINING A STATE BOOLEAN TO KEEP TRACK OF BUTTON STATE
+    const [deleteOneDisabled, setDeleteOneDisabled] = React.useState(false)
+    // DEFINING A STATE BOOLEAN TO ACTIVATE FORM
+    const [showForm, setShowForm] = React.useState(false)
     // DEFINING A STATE TO KEEP TRACK OF THE COLLECTIONS
     const [collections, setCollections] = React.useState([])
+    
+    //DEFINING A STATE TO KEEP TRACK OF FORM DATA
+    const [formData, setFormData] = React.useState({
+        name: "",
+        description: ""
+    }) 
+
     // OBTAINING THE GLOBAL USER AND DISPATCH FUNCTIONS
     const { user, dispatch } = UserContextHook()
 
@@ -42,31 +56,60 @@ export default function CollectionsPage(){
             setError(error.message)
         }
     }
+    
+    // A FUNCTION THAT DELETES A SINGLE COLLECTION
+    async function deleteCollection(id){
+        try{
+            const res = await fetch(`http://localhost:4000/collections/collection/${id}`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${user.token}` }
+            })
+
+            const response = await res.json()
+            setDeleteOneDisabled(true)
+
+            if(!res.ok){
+                setSuccess('')
+                setError(response.error)
+                setDeleteOneDisabled(false)
+            }else{
+                setError('')
+                setSuccess(response.success)
+            }
+        }catch(error){
+            setSuccess('')
+            setError(error.message)
+        }
+    }
+
+    // A FUNCTION THAT UPDATES A SINGLE COLLECTION
 
     // A FUNCTION THAT GENERATES A LIST OF COLLECTIONCELLS
     function collectionsArrayGenerator(){
         return collections.map(collection => {
-            const dateTime = `${format(new Date(collection.updatedAt), "do 'of' MMMM yyyy")}`
+            const dateTime = `${formatDistanceToNow(new Date(collection.updatedAt), { addSuffix: true })}`
 
             return (
                 <CollectionCell
                     name = {collection.name}
-                    updateDate = {`Last update: ${dateTime}`}
+                    createdDate = {`Created ${dateTime}`}
                     key={collection._id}
                     id={collection._id}
                     description={collection.description}
+                    handleDelete={() => deleteCollection(collection._id)}
+                    deleteDisabled = {deleteOneDisabled}
                 />
             )
         })
     }
 
-    // A USEEFFECT FUNCTION THAT UPDATES THE NAVBAR TO THE USER;S USERNAME
+    // A USEEFFECT FUNCTION THAT UPDATES THE NAVBAR TO THE USER'S USERNAME
     React.useEffect(() => {
         dispatch({ type: "GET_USER" })
     }, [])
 
     // A USEEFFECT FUNCION THAT CALLS GETCOLLECTIONS
-    React.useEffect(() => getCollections, [])
+    // React.useEffect(() => getCollections, [])
 
     return(
         // A COLLECTIONS PAGE CONTAINER THAT HOLDS ALL NECESSARY COLLECTIONS
@@ -86,10 +129,16 @@ export default function CollectionsPage(){
                 handleClick = {() => setSuccess("")}
             />}
 
+            {/* A POPUP FORM IF THE UPDATE BUTTON IS CLICKED */}
+            {!showForm && <DataForm
+                button = {<AuthenticationButton/>}
+            />}
+
             {/* A NAVBAR TO DIRECT TO THE HOME PAGE, OR THE USER PROFILE */}
             <NavBar
                 navigationTitle = "TrackMinder"
                 username = { user.username }
+                url = "/welcome"
             />
             
             {/* A GRID OR FLEX CONTAINER FOR ALL COLLECTIONS */}
