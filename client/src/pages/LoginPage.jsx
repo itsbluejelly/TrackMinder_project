@@ -54,9 +54,11 @@ export default function LoginPage(){
             setDisabled(true)
 
             if(!res.ok){
+                setSuccess('')
                 setError(response.error)
                 setDisabled(false)
             }else{
+                setError('')
                 setSuccess(response.success)
                 
                 dispatch({
@@ -65,6 +67,7 @@ export default function LoginPage(){
                 })
             }
         }catch(error){
+            setSuccess('')
             setError(error.message)
         }
     }

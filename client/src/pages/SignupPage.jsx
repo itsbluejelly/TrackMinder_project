@@ -5,6 +5,7 @@ import AuthenticationForm from "../components/AuthenticationForm"
 import AuthenticationButton from "../components/AuthenticationButton"
 import ErrorPopup from '../components/ErrorPopup'
 import SuccessPopup from '../components/SuccessPopup'
+import UserContextHook from '../hooks/UserContextHook'
 
 // EXPORTING SIGNUPPAGE FUNCTION
 export default function SignupPage(){
@@ -14,6 +15,8 @@ export default function SignupPage(){
     const [success, setSuccess] = React.useState("")
     // DECLARING A STATE BOOLEAN TO DIABLE THE AUHENTICATION BUTTON
     const [disabled, setDisabled] = React.useState(false)
+    // IMPORTING GLOBAL USER AND DISPATCH
+    const { user, dispatch } = UserContextHook()
 
     // DECLARING A VARIABLE TO KEEP TRACK OF FORM DATA
     const [formData, setFormData] = React.useState({
@@ -51,9 +54,11 @@ export default function SignupPage(){
             setDisabled(true)
 
             if(!res.ok){
+                setSuccess('')
                 setError(response.error)
                 setDisabled(false)
             }else{
+                setError('')
                 setSuccess(response.success)
                 
                 dispatch({
@@ -62,6 +67,7 @@ export default function SignupPage(){
                 })
             }
         }catch(error){
+            setSuccess('')
             setError(error.message)
         }
     }
