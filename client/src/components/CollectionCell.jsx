@@ -29,7 +29,7 @@ export default function CollectionCell(props){
                     title="delete-button"
                     id="delete-button"
                     onClick={props.handleDelete}
-                    disabled={props.deleteDisabled}
+                    disabled={props.disabled}
                 >&#128465;</button>
                 
                 <button 

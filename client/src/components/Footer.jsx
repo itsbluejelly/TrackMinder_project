@@ -6,6 +6,7 @@ export default function Footer(props){
                 <button 
                     className="rounded-full bg-white border border-black w-[50px] h-[50px] flex justify-center items-center transition-all duration-500 active:scale-110 hover:scale-110 cursor-pointer text-black text-4xl font-[700] active:bg-green-700 active:text-white hover:shadow-button mx-auto"
                     onClick={props.showForm}
+                    disabled={props.disabled}
                 >+</button>
                 
                 <span className="mt-0 mx-auto font-[Lato]">Add collection</span>

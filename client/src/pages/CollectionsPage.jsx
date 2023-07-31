@@ -16,7 +16,9 @@ export default function CollectionsPage(){
     const [error, setError] = React.useState(false)
     //DEFINING A STATE BOOLEAN TO KEEP TRACK OF SUCCESS MESSAGES
     const [success, setSuccess] = React.useState(false)
-    // DEFINING A STATE BOOLEAN TO ACTIVATE FORM
+    // DEFINING A STATE BOOLEAN TO ACTIVATE UPDATE FORM
+    const [showUpdatedForm, setShowUpdatedForm] = React.useState(false)
+    // DEFINING A STATE BOOLEAN TO ACTIVATE ADDING FORM
     const [showForm, setShowForm] = React.useState(false)
     // DEFINING A STATE BOOLEAN TO DISABLE FORM BUTTON
     const [disabled, setDisabled] = React.useState(false)
@@ -67,17 +69,35 @@ export default function CollectionsPage(){
             })
 
             const response = await res.json()
+            setDisabled(true)
 
             if(!res.ok){
                 setSuccess('')
-                setError(response.error)
+                
+                setError(
+                        response.error === "Consider signing up or logging in" 
+                    ? 
+                        "Cannot re-delete a collection" 
+                    : 
+                        response.error
+                )
+
+                setDisabled(false)
             }else{
                 setError('')
                 setSuccess(response.success)
+                setDisabled(false)
             }
         }catch(error){
             setSuccess('')
-            setError(error.message)
+            
+            setError(
+                    error.message === "Consider signing up or logging in" 
+                ? 
+                    "Cannot re-delete a collection" 
+                : 
+                    error.message
+            )
         }
     }
 
@@ -109,12 +129,12 @@ export default function CollectionsPage(){
     // A FUNCTION THAT UPDATES THE COLLECTION ID
     function updateCollectionID(id){
         setCollectionID(id)
-        setShowForm(true)
+        setShowUpdatedForm(true)
         setDisabled(false)
     }
 
     // A FUNCTION THAT UPDATES A SINGLE COLLECTION
-    async function submitUpdatedData(id){
+    async function updateCollection(id){
         if(!validateForm()){
             return
         }
@@ -149,6 +169,41 @@ export default function CollectionsPage(){
         }
     }
 
+    // A FUNCTION THAT CREATES A SINGLE COLLECTION
+    async function createCollection(){
+        setFormData({
+            name: "",
+            description: ""
+        })
+
+        try{
+            const res = await fetch("http://localhost:4000/collections", {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${user.token}`,
+                    'Content-Type': "application/json"
+                },
+                body: JSON.stringify(formData)
+            })
+
+            const response = await res.json()
+            setDisabled(true)
+
+            if(!res.ok){
+                setSuccess('')
+                setError(response.error)
+                setDisabled(false)
+            }else{
+                setError('')
+                setSuccess(response.success)
+                setDisabled(false)
+            }
+        }catch(error){
+            setSuccess('')
+            setError(error.message)
+        }
+    }
+
     // A FUNCTION THAT GENERATES A LIST OF COLLECTIONCELLS
     function collectionsArrayGenerator(){
         return collections.map(collection => {
@@ -163,6 +218,7 @@ export default function CollectionsPage(){
                     description={collection.description}
                     handleDelete={() => deleteCollection(collection._id)}
                     updateCollectionID={() => updateCollectionID(collection._id)}
+                    disabled={disabled}
                 />
             )
         })
@@ -195,23 +251,49 @@ export default function CollectionsPage(){
             />}
 
             {/* A POPUP FORM IF THE UPDATE BUTTON IS CLICKED */}
-            {showForm && <DataForm
-                button = {<AuthenticationButton
-                    innerText="Update"
-                    handleClick={() => submitUpdatedData(collection1D)}
-                    disabled={disabled}
-                />}
-                hideForm = {() => setShowForm(false)}
-                formData = {formData}
-                handleChange = {(e) => updateFormData(e)}
-                fieldTitle1 = "Name"
-                fieldPlaceholder1 = "Your collection name"
-                fieldType1 = "name"
-                fieldTitle2 = "Description"
-                fieldPlaceholder2 = "Your optional description"
-                fieldType2 = "description"
-                formTitle = "Update collection"
-            />}
+            {
+                showUpdatedForm 
+            ? 
+                <DataForm
+                    button = {<AuthenticationButton
+                        innerText="Update"
+                        handleClick={() => updateCollection(collection1D)}
+                        disabled={disabled}
+                    />}
+                    hideForm = {() => setShowUpdatedForm(false)}
+                    formData = {formData}
+                    handleChange = {(e) => updateFormData(e)}
+                    fieldTitle1 = "Name"
+                    fieldPlaceholder1 = "Your collection name"
+                    fieldType1 = "name"
+                    fieldTitle2 = "Description"
+                    fieldPlaceholder2 = "Your optional description"
+                    fieldType2 = "description"
+                    formTitle = "Update collection"
+                />
+            :
+                    showForm
+                ?
+                    <DataForm
+                    button = {<AuthenticationButton
+                        innerText="Create"
+                        handleClick={createCollection}
+                        disabled={disabled}
+                    />}
+                        hideForm = {() => setShowForm(false)}
+                        formData = {formData}
+                        handleChange = {(e) => updateFormData(e)}
+                        fieldTitle1 = "Name"
+                        fieldPlaceholder1 = "Your collection name"
+                        fieldType1 = "name"
+                        fieldTitle2 = "Description"
+                        fieldPlaceholder2 = "Your optional description"
+                        fieldType2 = "description"
+                        formTitle = "Create collection"
+                    />
+                :
+                    null
+            }
 
             {/* A NAVBAR TO DIRECT TO THE HOME PAGE, OR THE USER PROFILE */}
             <NavBar
@@ -226,7 +308,10 @@ export default function CollectionsPage(){
             </div>
             
             {/* A FOOTER TO EITHER DELETE ALL OR ADD A COLLECTION */}
-            <Footer/>
+            <Footer
+                disabled={disabled}
+                showForm={() => setShowForm(true)}
+            />
             
         </div>
     )
