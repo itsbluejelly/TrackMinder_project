@@ -122,12 +122,14 @@ export default function CollectionsPage(){
         try{
             const res = await fetch(`http://localhost:4000/collections/collection/${id}`, {
                 method: 'PATCH',
-                headers: {'Authorization': `Bearer ${user.token}`},
+                headers: {
+                    'Authorization': `Bearer ${user.token}`,
+                    'Content-Type': "application/json"
+                },
                 body: JSON.stringify(validateForm())
             })
             const response = await res.json()
             setDisabled(true)
-            console.log(JSON.stringify(validateForm()))
 
             if(!res.ok){
                 setSuccess('')
