@@ -7,7 +7,9 @@ import UserContextHook from '../hooks/UserContextHook'
 import ErrorPopup from '../components/ErrorPopup'
 import SuccessPopup from '../components/SuccessPopup'
 import AuthenticationButton from '../components/AuthenticationButton'
+import CollectionContextHook from "../hooks/CollectionContextHook"
 import DataForm from "../components/DataForm"
+
 import { formatDistanceToNow } from "date-fns"
 
 // EXPORTING A COLLECTIONSPAGE FUNTION
@@ -22,10 +24,8 @@ export default function CollectionsPage(){
     const [showForm, setShowForm] = React.useState(false)
     // DEFINING A STATE BOOLEAN TO DISABLE FORM BUTTON
     const [disabled, setDisabled] = React.useState(false)
-    // DEFINING A STATE TO KEEP TRACK OF THE COLLECTIONS
-    const [collections, setCollections] = React.useState([])
     // DEFINING A STATE TO KEEP TRACK OF COLLECTION TO UPDATE
-    const [collection1D, setCollectionID] = React.useState('')
+    const [collectionID, setCollectionID] = React.useState('')
     
     //DEFINING A STATE TO KEEP TRACK OF FORM DATA
     const [formData, setFormData] = React.useState({
@@ -35,6 +35,8 @@ export default function CollectionsPage(){
 
     // OBTAINING THE GLOBAL USER AND DISPATCH FUNCTIONS
     const { user, dispatch } = UserContextHook()
+    // OBTAINING THE GLOBAL COLLECTIONS AND DISPATCH FUNCTIONS
+    const { collections, dispatch: collectionsDispatch } = CollectionContextHook()
 
     // A FUNCTION THAT FETCHES ALL THE COLLECTIONS
     async function getCollections(){
@@ -52,7 +54,11 @@ export default function CollectionsPage(){
             }else{
                 setError('')
                 setSuccess(response.success)
-                setCollections(response.data)
+                
+                collectionsDispatch({
+                    type: "GET_COLLECTIONS",
+                    payload: response.data
+                })
             }
         }catch(error){
             setSuccess('')
@@ -87,6 +93,11 @@ export default function CollectionsPage(){
                 setError('')
                 setSuccess(response.success)
                 setDisabled(false)
+
+                collectionsDispatch({
+                    type: "DELETE_COLLECTION",
+                    payload: response.data
+                })
             }
         }catch(error){
             setSuccess('')
@@ -139,6 +150,11 @@ export default function CollectionsPage(){
             return
         }
 
+        setFormData({
+            name: "",
+            description: ""
+        })
+
         try{
             const res = await fetch(`http://localhost:4000/collections/collection/${id}`, {
                 method: 'PATCH',
@@ -158,9 +174,10 @@ export default function CollectionsPage(){
             }else{
                 setError('')
                 setSuccess(response.success)
-                setFormData({
-                    name: "",
-                    description: ""
+
+                collectionsDispatch({
+                    type: "UPDATE_COLLECTION",
+                    payload: response.data
                 })
             }
         }catch(error){
@@ -197,6 +214,11 @@ export default function CollectionsPage(){
                 setError('')
                 setSuccess(response.success)
                 setDisabled(false)
+
+                collectionsDispatch({
+                    type: "ADD_COLLECTION",
+                    payload: response.data
+                })
             }
         }catch(error){
             setSuccess('')
@@ -231,6 +253,8 @@ export default function CollectionsPage(){
                 setError('')
                 setSuccess(response.success)
                 setDisabled(false)
+
+                collectionsDispatch({ type: "DELETE_ALL_COLLECTIONS"})
             }
         }catch(error){
             setSuccess('')
@@ -298,7 +322,7 @@ export default function CollectionsPage(){
                 <DataForm
                     button = {<AuthenticationButton
                         innerText="Update"
-                        handleClick={() => updateCollection(collection1D)}
+                        handleClick={() => updateCollection(collectionID)}
                         disabled={disabled}
                     />}
                     hideForm = {() => setShowUpdatedForm(false)}
@@ -345,7 +369,7 @@ export default function CollectionsPage(){
             
             {/* A GRID OR FLEX CONTAINER FOR ALL COLLECTIONS */}
             <div className="lg:grid grid-flow-row lg:grid-cols-3 gap-2 flex flex-col justify-center items-center md:grid md:grid-cols-2">
-                { collectionsArrayGenerator() }
+                {collections && collectionsArrayGenerator() }
             </div>
             
             {/* A FOOTER TO EITHER DELETE ALL OR ADD A COLLECTION */}
