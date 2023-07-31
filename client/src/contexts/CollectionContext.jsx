@@ -13,8 +13,8 @@ export function CollectionContextReducer(state, action){
         
         case "UPDATE_COLLECTION":
             const updatedCollectionsArray = []
-
             state.collections.map(collection => {
+
                 if(collection._id === action.payload._id){
                     updatedCollectionsArray.unshift(action.payload)
                 }else{
