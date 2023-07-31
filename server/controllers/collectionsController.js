@@ -1,6 +1,7 @@
 // IMPORTING NECESSARY MIDDLEWARES
 const eventLogger = require('../middleware/eventLogger')
 const CollectionModel = require('../models/Collection')
+const TaskModel = require('../models/Task')
 
 // A GETCONTROLLER FUNCTION THAT HANDLES GET REQUESTS
 async function getController(req, res, next){
@@ -73,7 +74,9 @@ async function postController(req, res, next){
 async function deleteController(req, res, next){
     try{
         const userID = req.storedUser._id
+        const collectionID = await CollectionModel.findOne({ userID }).select("_id")
         const deletedCollections = await CollectionModel.deleteMany({ userID })
+        await TaskModel.deleteMany({ collectionID })
         res.status(200).json({ success: `${deletedCollections.deletedCount} collections deleted successfully`})
         eventLogger(`User ${userID} successfully deleted collections`, `${deletedCollections.deletedCount} collections deleted successfully`, "databaseLogs.txt")
     }catch(error){

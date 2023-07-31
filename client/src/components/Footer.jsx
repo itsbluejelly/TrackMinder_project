@@ -13,7 +13,11 @@ export default function Footer(props){
             </div>
             
             <div className="flex flex-col gap-[1rem]">
-                <button className="rounded-full bg-white border border-black w-[50px] h-[50px] flex justify-center items-center transition-all duration-500 active:scale-110 hover:scale-110 cursor-pointer text-black text-4xl font-[700] active:bg-red-700 active:text-white active:border-white hover:shadow-button mx-auto">&#128465;</button>
+                <button 
+                    className="rounded-full bg-white border border-black w-[50px] h-[50px] flex justify-center items-center transition-all duration-500 active:scale-110 hover:scale-110 cursor-pointer text-black text-4xl font-[700] active:bg-red-700 active:text-white active:border-white hover:shadow-button mx-auto"
+                    disabled={props.disabled}
+                    onClick={props.handleDelete}
+                >&#128465;</button>
                 <span className="mt-0 mx-auto font-[Lato]">Delete all</span>
             </div>
         </footer>

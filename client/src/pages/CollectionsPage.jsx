@@ -204,6 +204,47 @@ export default function CollectionsPage(){
         }
     }
 
+    // A FUNCTION THAT DELETES ALL COLLECTIONS
+    async function deleteAllCollections(){
+        try{
+            const res = await fetch("http://localhost:4000/collections", {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${user.token}` }
+            })
+
+            const response = await res.json()
+            setDisabled(true)
+
+            if(!res.ok){
+                setSuccess('')
+                
+                setError(
+                        response.error === "Consider signing up or logging in" 
+                    ? 
+                        "Cannot re-delete a collection" 
+                    : 
+                        response.error
+                )
+
+                setDisabled(false)
+            }else{
+                setError('')
+                setSuccess(response.success)
+                setDisabled(false)
+            }
+        }catch(error){
+            setSuccess('')
+            
+            setError(
+                    error.message === "Consider signing up or logging in" 
+                ? 
+                    "Cannot re-delete a collection" 
+                : 
+                    error.message
+            )
+        }
+    }
+
     // A FUNCTION THAT GENERATES A LIST OF COLLECTIONCELLS
     function collectionsArrayGenerator(){
         return collections.map(collection => {
@@ -311,6 +352,7 @@ export default function CollectionsPage(){
             <Footer
                 disabled={disabled}
                 showForm={() => setShowForm(true)}
+                handleDelete={deleteAllCollections}
             />
             
         </div>
