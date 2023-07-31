@@ -9,7 +9,7 @@ export default function Footer(props){
                     disabled={props.disabled}
                 >+</button>
                 
-                <span className="mt-0 mx-auto font-[Lato]">Add collection</span>
+                <span className="mt-0 mx-auto font-[Lato]">{props.addTitle}</span>
             </div>
             
             <div className="flex flex-col gap-[1rem]">
@@ -18,7 +18,7 @@ export default function Footer(props){
                     disabled={props.disabled}
                     onClick={props.handleDelete}
                 >&#128465;</button>
-                <span className="mt-0 mx-auto font-[Lato]">Delete all</span>
+                <span className="mt-0 mx-auto font-[Lato]">{props.deleteTitle}</span>
             </div>
         </footer>
     )

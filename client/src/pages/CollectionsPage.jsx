@@ -315,7 +315,7 @@ export default function CollectionsPage(){
                 handleClick = {() => setSuccess("")}
             />}
 
-            {/* A POPUP FORM IF THE UPDATE BUTTON IS CLICKED */}
+            {/* A POPUP FORM IF THE UPDATE OR ADD BUTTON IS CLICKED */}
             {
                 showUpdatedForm 
             ? 
@@ -377,6 +377,8 @@ export default function CollectionsPage(){
                 disabled={disabled}
                 showForm={() => setShowForm(true)}
                 handleDelete={deleteAllCollections}
+                addTitle="Add Collection"
+                deleteTitle="Delete Collection"
             />
             
         </div>
