@@ -8,8 +8,7 @@ const Schema = mongoose.Schema
 const TaskSchema = new Schema({
     activity: {
         type: String,
-        required: [true, "Your task must have an activity"],
-        unique: [true, "This activity is already set"]
+        required: [true, "Your task must have an activity"]
     },
 
     deadline: { type: Date },
@@ -17,7 +16,12 @@ const TaskSchema = new Schema({
     collectionID: {
         type: String,
         required: [true, "Your task must have a collectionID"]
-    }
+    },
+    
+    userID: {
+        type: String,
+        required: [true, "Your task must have a userID"]
+    } 
 }, { timestamps: true })
 
 // EXPORING THE TASK MODEL

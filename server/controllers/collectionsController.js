@@ -74,9 +74,8 @@ async function postController(req, res, next){
 async function deleteController(req, res, next){
     try{
         const userID = req.storedUser._id
-        const collectionID = await CollectionModel.findOne({ userID }).select("_id")
         const deletedCollections = await CollectionModel.deleteMany({ userID })
-        await TaskModel.deleteMany({ collectionID })
+        await TaskModel.deleteMany({ userID })
         res.status(200).json({ success: `${deletedCollections.deletedCount} collections deleted successfully`})
         eventLogger(`User ${userID} successfully deleted collections`, `${deletedCollections.deletedCount} collections deleted successfully`, "databaseLogs.txt")
     }catch(error){

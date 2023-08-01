@@ -385,7 +385,7 @@ export default function CollectionsPage(){
                 showForm={() => setShowForm(true)}
                 handleDelete={deleteAllCollections}
                 addTitle="Add Collection"
-                deleteTitle="Delete Collection"
+                deleteTitle="Delete Collections"
             />
             
         </div>
