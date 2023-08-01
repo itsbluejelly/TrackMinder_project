@@ -44,7 +44,8 @@ export default function App(){
   return(
     <div 
       id="main-container" 
-      className="font-[Poppins]">
+      className="font-[Poppins]"
+    >
       <RouterProvider router={router}/>
     </div>
   )

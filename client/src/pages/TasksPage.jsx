@@ -6,9 +6,10 @@ import DataForm from "../components/DataForm"
 import AuthenticationButton from "../components/AuthenticationButton"
 import NavBar from "../components/NavBar"
 import Footer from "../components/Footer"
+import TaskCell from "../components/TaskCell"
 import UserContextHook from "../hooks/UserContextHook"
 import CollectionContextHook from "../hooks/CollectionContextHook"
-import TaskCell from "../components/TaskCell"
+import TaskContextHook from "../hooks/TaskContextHook"
 
 import { useParams } from 'react-router-dom'
 import { format } from "date-fns"
@@ -21,8 +22,6 @@ export default function TasksPage(){
     const [success, setSuccess] = React.useState('')
     // A STATE TO MANAGE TASK ID
     const [taskID, setTaskID] = React.useState('')
-    // A STATE TO MANAGE TASKS
-    const [tasks, setTasks] = React.useState([])
     
     // A STATE TO MANAGE FORM DATA
     const [formData, setFormData] = React.useState({
@@ -40,6 +39,8 @@ export default function TasksPage(){
     const { user, dispatch } = UserContextHook()
     // OBTAINING GLOBAL COLLECTIONS AND DISPATCH FUNCTION
     const { collections, dispatch: collectionsDispatch } = CollectionContextHook()
+    // OBTAINING GLOBAL TASKS AND DISPATCH FUNCTION
+    const { tasks, dispatch:tasksDispatch } = TaskContextHook()
     // OBTAINING OF COLLECTION_ID
     const { id: collectionID } = useParams()
 
@@ -66,7 +67,11 @@ export default function TasksPage(){
             }else{
                 setError('')
                 setSuccess(response.success)
-                setTasks(response.data)
+                
+                tasksDispatch({
+                    type: "GET_TASKS",
+                    payload: response.data
+                })
             }
         }catch(error){
             setSuccess('')
@@ -101,6 +106,11 @@ export default function TasksPage(){
                 setError('')
                 setSuccess(response.success)
                 setDisabled(false)
+
+                tasksDispatch({
+                    type: "DELETE_TASK",
+                    payload: response.data
+                })
             }
         }catch(error){
             setSuccess('')
@@ -181,6 +191,11 @@ export default function TasksPage(){
                 setError('')
                 setSuccess(response.success)
                 setDisabled(false)
+
+                tasksDispatch({
+                    type: "UPDATE_TASK",
+                    payload: response.data
+                })
             }
         }catch(error){
             setSuccess('')
@@ -215,6 +230,11 @@ export default function TasksPage(){
                 setError(response.error)
                 setDisabled(false)
             }else{
+                tasksDispatch({
+                    type: "ADD_TASK",
+                    payload: response.data
+                })
+
                 setError('')
                 setSuccess(response.success)
                 setDisabled(false)
@@ -253,6 +273,8 @@ export default function TasksPage(){
                 setError('')
                 setSuccess(response.success)
                 setDisabled(false)
+
+                tasksDispatch({ type: "DELETE_ALL_TASKS" })
             }
         }catch(error){
             setSuccess('')
