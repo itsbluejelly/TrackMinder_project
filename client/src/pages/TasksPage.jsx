@@ -28,13 +28,38 @@ export default function TasksPage(){
     const { user, dispatch } = UserContextHook()
     // OBTAINING GLOBAL COLLECTIONS AND DISPATCH FUNCTION
     const { collections, dispatch: collectionsDispatch } = CollectionContextHook()
+    // OBTAINING OF COLLECTION_ID
+    const { id } = useParams()
 
     // A FUNCTION THAT OBTAINS COLLECTION NAME
     function getCollectionName(){
-        const { id } = useParams()
         const visitedCollection = collections.filter(collection => collection._id === id)
 
         return visitedCollection[0].name
+    }
+
+    // A FUNCTION THAT FETCHES ALL RELEVANT TASKS FROM API
+    async function getTasks(){
+        try{
+            const res = await fetch(`http://localhost:4000/tasks/?collection=${id}`, {
+                method: "GET",
+                headers: {'Authorization': `Bearer ${user.token}`}
+            })
+
+            const response = await res.json()
+
+            if(!res.ok){
+                setSuccess('')
+                setError(response.error)
+            }else{
+                setError('')
+                setSuccess(response.success)
+                setTasks(response.data)
+            }
+        }catch(error){
+            setSuccess('')
+            setError(error.message)
+        }
     }
 
     // A FUNCTION THAT CONVERTS FETCHED TASKS OBJECTS TO TASKS COMPONENTS
@@ -61,16 +86,27 @@ export default function TasksPage(){
         })
     }
 
+    // A USEEFFECT HANDLER THAT CALLS GETTASKS ONCE AFTER PAGE LOADS
+    React.useEffect(() => {
+        getTasks()
+    }, [])
+
     return (
         //A TASKS-PAGE CONTAINER MASKING ALL ELEMENTS 
         <div 
             id="tasks-container"
             className="min-h-screen bg-light-theme scroll-smooth dark:bg-dark-theme dark:text-dark-theme-text transition-all duration-500 relative">
             {/* AN ERROR POPUP IF AN ERROR OCCURS */}
-            {error && <ErrorPopup/>}
+            {error && <ErrorPopup
+                errorMessage = {error}
+                handleClick = {() => setError('')}
+            />}
 
             {/* A SUCCESS POPUP IF A SUCCESS OCCURS */}
-            {success && <SuccessPopup/>}
+            {success && <SuccessPopup
+                successMessage = {success}
+                handleClick = {() => setSuccess('')}
+            />}
 
             {/* A POPUP FORM IF EITHER CREATE OR UPDATE BUTTON IS CLICKED */}
             {

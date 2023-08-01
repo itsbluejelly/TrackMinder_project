@@ -3,7 +3,7 @@ export default function TaskCell(props){
     return(
         <div className="w-[80%] min-h-[80px] bg-orange-300 rounded-[20px] mt-[200px] shadow-button p-[10px] dark:bg-[#8687E7] animate-drop-down transition-all duration-500 flex flex-col">
             <div className="bg-white rounded-t-[20px] rounded-b-md mb-[10px] border border-black shadow-button text-black">
-                <h1 className="text-2xl font-[700] tracking-wide text-black hover:underline transition-all duration-500 cursor-text pl-[10px] break-words text-left max-h-[10ch] overflow-scroll max-w-[95%]">{props.activity}</h1 >
+                <h1 className="text-2xl font-[700] tracking-wide text-black hover:underline transition-all duration-500 cursor-text pl-[10px] break-words text-left max-h-[10ch] overflow-y-scroll max-w-[95%]">{props.activity}</h1 >
             </div>
             
             <div className="flex justify-evenly items-center font-[500] text-lg gap-[1rem] text-center">
