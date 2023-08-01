@@ -35,6 +35,7 @@ export default function TaskCell(props){
                 <button 
                     className="absolute bottom-[5%] right-[4%] text-[1rem] mt-[10px] rounded-full border w-[30px] h-[30px] active:bg-blue-600 transition-all duration-500 active:scale-125 dark:shadow-titleCard shadow-knob cursor-pointer  dark:border-white border-black active:text-white active:border-white dark:active:text-black dark:active:border-black"
                     id="update-button"
+                    onClick={props.handleUpdate}
                     disabled={props.disabled} 
                 >&#128394;</button>
             </div>

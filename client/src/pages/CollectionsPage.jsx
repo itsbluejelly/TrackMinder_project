@@ -109,6 +109,8 @@ export default function CollectionsPage(){
                 : 
                     error.message
             )
+
+            setDisabled(false)
         }
     }
 
@@ -179,10 +181,13 @@ export default function CollectionsPage(){
                     type: "UPDATE_COLLECTION",
                     payload: response.data
                 })
+
+                setDisabled(false)
             }
         }catch(error){
             setSuccess('')
             setError(error.message)
+            setDisabled(false)
         }
     }
 
@@ -223,6 +228,7 @@ export default function CollectionsPage(){
         }catch(error){
             setSuccess('')
             setError(error.message)
+            setDisabled(false)
         }
     }
 
@@ -266,6 +272,8 @@ export default function CollectionsPage(){
                 : 
                     error.message
             )
+
+            setDisabled(false)
         }
     }
 
@@ -325,10 +333,12 @@ export default function CollectionsPage(){
                     handleChange = {(e) => updateFormData(e)}
                     fieldTitle1 = "Name"
                     fieldPlaceholder1 = "Your collection name"
-                    fieldType1 = "name"
+                    fieldType1 = "text"
+                    fieldName1 = "name"
                     fieldTitle2 = "Description"
                     fieldPlaceholder2 = "Your optional description"
-                    fieldType2 = "description"
+                    fieldType2 = "text"
+                    fieldName2 = "description"
                     formTitle = "Update collection"
                 />
             :
@@ -345,10 +355,12 @@ export default function CollectionsPage(){
                         handleChange = {(e) => updateFormData(e)}
                         fieldTitle1 = "Name"
                         fieldPlaceholder1 = "Your collection name"
-                        fieldType1 = "name"
+                        fieldType1 = "text"
+                        fieldName1 = "name"
                         fieldTitle2 = "Description"
                         fieldPlaceholder2 = "Your optional description"
-                        fieldType2 = "description"
+                        fieldType2 = "text"
+                        fieldName2 = "description"
                         formTitle = "Create collection"
                     />
                 :

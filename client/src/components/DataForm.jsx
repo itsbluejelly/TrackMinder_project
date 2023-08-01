@@ -18,36 +18,36 @@ export default function DataForm(props){
                     </h1>
                     
                     <div 
-                        id="name-field" 
+                        id="first-field" 
                         className="flex gap-[1rem]"
                     >
                         <p className="my-auto">{props.fieldTitle1}</p>
                         
                         <input 
-                            type="text"
+                            type={props.fieldType1}
                             autoComplete="on"
-                            name={props.fieldType1}
+                            name={props.fieldName1}
                             required
                             placeholder={props.fieldPlaceholder1}
                             onChange={props.handleChange}
-                            value={props.formData.name}
+                            value={props.formData.name || props.formData.activity}
                             className="dark:rounded-[4px] dark dark:border-[#979797] dark:bg-[#1D1D1D] dark:text-[#535353] p-[10px] w-[90%] md:w-[100%] rounded-[22px] transition-all duration-500"
                         />
                     </div>
                     
                     <div 
-                        id="description-field" 
+                        id="second-field" 
                         className="flex gap-[1rem] justify-center"
                     >
                         <p className="my-auto break-words">{props.fieldTitle2}</p>
                         
                         <input 
-                            type="text"
+                            type={props.fieldType2}
                             autoComplete="on"
-                            name={props.fieldType2}
+                            name={props.fieldName2}
                             placeholder={props.fieldPlaceholder2}
                             onChange={props.handleChange}
-                            value={props.formData.description}
+                            value={props.formData.description || props.formData.deadline}
                             className="dark:rounded-[4px] dark dark:border-[#979797] dark:bg-[#1D1D1D] dark:text-[#535353] p-[10px] w-[90%] md:w-[100%] rounded-[22px] transition-all duration-500"
                         />
                     </div>

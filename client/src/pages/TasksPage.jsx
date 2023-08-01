@@ -19,8 +19,17 @@ export default function TasksPage(){
     const [error, setError] = React.useState('')
     // A STATE TO DETERMINE APPEARANCE OF SUCCESS POPUP
     const [success, setSuccess] = React.useState('')
+    // A STATE TO MANAGE TASK ID
+    const [taskID, setTaskID] = React.useState('')
     // A STATE TO MANAGE TASKS
     const [tasks, setTasks] = React.useState([])
+    
+    // A STATE TO MANAGE FORM DATA
+    const [formData, setFormData] = React.useState({
+        activity: "",
+        deadline: ""
+    })
+
     // A BOOLEAN TO DETERMINE WHETHER A FORM RELAYS UPDATE INFO
     const [showUpdateForm, setShowUpdateForm] = React.useState(false)
     // A BOOLEAN TO DETERMINE WHETHER A FORM RELAYS POST INFO
@@ -103,6 +112,80 @@ export default function TasksPage(){
                 : 
                     error.message
             )
+
+            setDisabled(false)
+        }
+    }
+
+    // A FUNCTION THAT REVEALS THE UPDATED FORM UPON CLICKING AND UPDATES FOCUSED TASK ID
+    function updateTaskID(id){
+        setTaskID(id)
+        setDisabled(false)
+        setShowUpdateForm(true)
+    }
+
+    // A FUNCTION THAT UPDATES FORMDATA FIELDS
+    function updateFormData(e){
+        const { name, value } = e.target
+
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            [name]: value
+        }))
+    }
+
+    // A FUNCTION THAT VALIDATES FORM DATA
+    function validateFormData(){
+        const { activity, deadline } = formData
+
+        if(!activity && !deadline){
+            return null
+        }else if(!activity && deadline){
+            return { deadline }
+        }else if(!deadline && activity){
+            return { activity }
+        }else{
+            return formData
+        }
+    }
+
+    // A FUNCTION THAT UPDATES A TASK
+    async function updateTask(id){
+        setFormData({
+            activity: "",
+            deadline: ""
+        })
+
+        if(!validateFormData()){
+            return
+        }
+
+        try{
+            const res = await fetch(`http://localhost:4000/tasks/task/${id}`, {
+                method: "PATCH",
+                body: JSON.stringify(validateFormData()),
+                headers: {
+                    "Authorization": `Bearer ${user.token}`,
+                    "Content-Type": "application/json"
+                } 
+            })
+
+            const response = await res.json()
+            setDisabled(true)
+
+            if(!res.ok){
+                setSuccess('')
+                setError(response.error)
+                setDisabled(false)
+            }else{
+                setError('')
+                setSuccess(response.success)
+                setDisabled(false)
+            }
+        }catch(error){
+            setSuccess('')
+            setError(error.message)
+            setDisabled(false)
         }
     }
 
@@ -125,6 +208,7 @@ export default function TasksPage(){
                     deadlineTime={deadlineTime}
                     disabled={disabled}
                     handleDelete = {() => deleteTask(task._id)}
+                    handleUpdate = {() => updateTaskID(task._id)}
                     key={task._id}
                     id={task._id}    
                 />
@@ -160,7 +244,26 @@ export default function TasksPage(){
                 :
                         showUpdateForm
                     ?
-                        <DataForm/>
+                        <DataForm
+                            formTitle="Update Task"
+                            hideForm = {() => setShowUpdateForm(false)}
+                            fieldTitle1 = "Activity"
+                            fieldType1 = "text"
+                            fieldName1 = "activity"
+                            fieldPlaceholder1 = "Your task's activity"
+                            handleChange = {(e) => updateFormData(e)}
+                            formData = {formData}
+                            fieldTitle2 = "Deadline"
+                            fieldType2 = "datetime-local"
+                            fieldName2 = "deadline"
+                            fieldPlaceholder2 = "Your optional date and time"
+                            
+                            button = {<AuthenticationButton
+                                innerText = "Update"
+                                disabled = {disabled}
+                                handleClick = {() => updateTask(taskID)}
+                            />}
+                        />
                     :
                         null
             }
@@ -181,6 +284,8 @@ export default function TasksPage(){
             <Footer
                 addTitle="Add Task"
                 deleteTitle="Delete Task"
+                disabled={disabled}
+                showForm={() => setShowForm(true)}
             />
         </div>
     )
