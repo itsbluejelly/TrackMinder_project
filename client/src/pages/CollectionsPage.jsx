@@ -289,11 +289,6 @@ export default function CollectionsPage(){
         })
     }
 
-    // A USEEFFECT FUNCTION THAT UPDATES THE NAVBAR TO THE USER'S USERNAME
-    React.useEffect(() => {
-        dispatch({ type: "GET_USER" })
-    }, [])
-
     // A USEEFFECT FUNCION THAT CALLS GETCOLLECTIONS
     React.useEffect(() => {getCollections()}, [])
 

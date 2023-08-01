@@ -26,11 +26,16 @@ export default function TaskCell(props){
 
             <div className="relative mt-[30px]">
                 <button 
-                    className="absolute bottom-[5%] left-[4%] text-[1rem] mt-[10px] rounded-full border w-[30px] h-[30px] active:bg-red-600 transition-all duration-500 active:scale-125 dark:shadow-titleCard shadow-knob cursor-pointer  dark:border-white border-black active:text-white active:border-white dark:active:text-black dark:active:border-black" 
+                    className="absolute bottom-[5%] left-[4%] text-[1rem] mt-[10px] rounded-full border w-[30px] h-[30px] active:bg-red-600 transition-all duration-500 active:scale-125 dark:shadow-titleCard shadow-knob cursor-pointer  dark:border-white border-black active:text-white active:border-white dark:active:text-black dark:active:border-black"
+                    id="delete-button"
+                    onClick={props.handleDelete}
+                    disabled={props.disabled}
                 >&#128465;</button>
                 
                 <button 
-                    className="absolute bottom-[5%] right-[4%] text-[1rem] mt-[10px] rounded-full border w-[30px] h-[30px] active:bg-blue-600 transition-all duration-500 active:scale-125 dark:shadow-titleCard shadow-knob cursor-pointer  dark:border-white border-black active:text-white active:border-white dark:active:text-black dark:active:border-black" 
+                    className="absolute bottom-[5%] right-[4%] text-[1rem] mt-[10px] rounded-full border w-[30px] h-[30px] active:bg-blue-600 transition-all duration-500 active:scale-125 dark:shadow-titleCard shadow-knob cursor-pointer  dark:border-white border-black active:text-white active:border-white dark:active:text-black dark:active:border-black"
+                    id="update-button"
+                    disabled={props.disabled} 
                 >&#128394;</button>
             </div>
         </div>

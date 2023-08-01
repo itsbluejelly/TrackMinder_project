@@ -9,6 +9,7 @@ import Footer from "../components/Footer"
 import UserContextHook from "../hooks/UserContextHook"
 import CollectionContextHook from "../hooks/CollectionContextHook"
 import TaskCell from "../components/TaskCell"
+
 import { useParams } from 'react-router-dom'
 import { format } from "date-fns"
 
@@ -24,16 +25,18 @@ export default function TasksPage(){
     const [showUpdateForm, setShowUpdateForm] = React.useState(false)
     // A BOOLEAN TO DETERMINE WHETHER A FORM RELAYS POST INFO
     const [showForm, setShowForm] = React.useState(false)
+    // A BOOLEAN TO DETERMINE IF A BUTTON IS DISABLED
+    const [disabled, setDisabled] = React.useState(false)
     // OBTAINING GLOBAL USER AND DISPATCH FUNCTIONS
     const { user, dispatch } = UserContextHook()
     // OBTAINING GLOBAL COLLECTIONS AND DISPATCH FUNCTION
     const { collections, dispatch: collectionsDispatch } = CollectionContextHook()
     // OBTAINING OF COLLECTION_ID
-    const { id } = useParams()
+    const { id: collectionID } = useParams()
 
     // A FUNCTION THAT OBTAINS COLLECTION NAME
     function getCollectionName(){
-        const visitedCollection = collections.filter(collection => collection._id === id)
+        const visitedCollection = collections.filter(collection => collection._id === collectionID)
 
         return visitedCollection[0].name
     }
@@ -41,7 +44,7 @@ export default function TasksPage(){
     // A FUNCTION THAT FETCHES ALL RELEVANT TASKS FROM API
     async function getTasks(){
         try{
-            const res = await fetch(`http://localhost:4000/tasks/?collection=${id}`, {
+            const res = await fetch(`http://localhost:4000/tasks/?collection=${collectionID}`, {
                 method: "GET",
                 headers: {'Authorization': `Bearer ${user.token}`}
             })
@@ -62,6 +65,47 @@ export default function TasksPage(){
         }
     }
 
+    // A FUNCTION THAT DELETES A TASK
+    async function deleteTask(id){
+        try{
+            const res = await fetch(`http://localhost:4000/tasks/task/${id}`, {
+                method: "DELETE",
+                headers: { "Authorization": `Bearer ${user.token}` }
+            })
+
+            const response = await res.json()
+            setDisabled(true)
+
+            if(!res.ok){
+                setSuccess('')
+            
+                setError(
+                    response.error === "Consider signing up or logging in" 
+                    ? 
+                        "Cannot re-delete a collection" 
+                    : 
+                        response.error
+                )
+
+                setDisabled(false)
+            }else{
+                setError('')
+                setSuccess(response.success)
+                setDisabled(false)
+            }
+        }catch(error){
+            setSuccess('')
+            
+            setError(
+                error.message === "Consider signing up or logging in" 
+                ? 
+                    "Cannot re-delete a collection" 
+                : 
+                    error.message
+            )
+        }
+    }
+
     // A FUNCTION THAT CONVERTS FETCHED TASKS OBJECTS TO TASKS COMPONENTS
     function generateTasksArray(){
         return tasks.map(task => {
@@ -79,6 +123,8 @@ export default function TasksPage(){
                     updatedDate={updatedDate}    
                     updatedTime={updatedTime}    
                     deadlineTime={deadlineTime}
+                    disabled={disabled}
+                    handleDelete = {() => deleteTask(task._id)}
                     key={task._id}
                     id={task._id}    
                 />
@@ -87,9 +133,7 @@ export default function TasksPage(){
     }
 
     // A USEEFFECT HANDLER THAT CALLS GETTASKS ONCE AFTER PAGE LOADS
-    React.useEffect(() => {
-        getTasks()
-    }, [])
+    React.useEffect(() => {getTasks()}, [])
 
     return (
         //A TASKS-PAGE CONTAINER MASKING ALL ELEMENTS 
