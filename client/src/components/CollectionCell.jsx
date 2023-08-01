@@ -25,7 +25,7 @@ export default function CollectionCell(props){
                 >{ props.description }</p>
                 
                 <button 
-                    className="absolute top-[35%] left-[5%] p-[5px] text-[2rem] mt-[10px] rounded-full border active:bg-red-600 transition-all duration-500 active:scale-125 shadow-xl cursor-pointer  dark:border-white border-black active:text-white active:border-white dark:active:text-black dark:active:border-black" 
+                    className="absolute top-[35%] left-[5%] p-[5px] text-[2rem] mt-[10px] rounded-full border active:bg-red-600 transition-all duration-500 active:scale-125 w-[45px] h-[45px] dark:shadow-titleCard shadow-knob cursor-pointer  dark:border-white border-black active:text-white active:border-white dark:active:text-black dark:active:border-black" 
                     title="delete-button"
                     id="delete-button"
                     onClick={props.handleDelete}
@@ -33,7 +33,7 @@ export default function CollectionCell(props){
                 >&#128465;</button>
                 
                 <button 
-                    className="absolute top-[35%] right-[5%] p-[5px] text-[2rem] mt-[10px] rounded-full border active:bg-blue-600 transition-all duration-500 active:scale-125 shadow-xl cursor-pointer  dark:border-white border-black active:text-white active:border-white dark:active:text-black dark:active:border-black" 
+                    className="absolute top-[35%] right-[5%] p-[5px] text-[2rem] mt-[10px] rounded-full border active:bg-blue-600 transition-all duration-500 active:scale-125 dark:shadow-titleCard shadow-knob w-[45px] h-[45px] cursor-pointer  dark:border-white border-black active:text-white active:border-white dark:active:text-black dark:active:border-black" 
                     title="update-button"
                     id={props.id}
                     onClick={props.updateCollectionID}

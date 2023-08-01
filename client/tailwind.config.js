@@ -17,7 +17,8 @@ export default {
         'button': '0px 6px 10px 0px rgba(0, 0, 0, 0.15)',
         'titleCard': '-2px 5px 15px black',
         'successCard': '0px 0px 50px black',
-        'collectionCard': '0px 4px 15px 0px rgba(0, 0, 0, 0.25)'
+        'collectionCard': '0px 4px 15px 0px rgba(0, 0, 0, 0.25)',
+        'knob': '2px 2px 10px black'
       },
 
       backgroundImage: {

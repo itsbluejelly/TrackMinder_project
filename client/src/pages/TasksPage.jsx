@@ -8,6 +8,7 @@ import NavBar from "../components/NavBar"
 import Footer from "../components/Footer"
 import UserContextHook from "../hooks/UserContextHook"
 import CollectionContextHook from "../hooks/CollectionContextHook"
+import TaskCell from "../components/TaskCell"
 import { useParams } from 'react-router-dom'
 
 // EXPORTING THE COLLECTION PAGE FUNCTION
@@ -18,6 +19,8 @@ export default function TasksPage(){
     const [success, setSuccess] = React.useState('')
     // A STATE TO MANAGE NAME OF COLLECTION VISITED
     const [collectionName, setCollectionName] = React.useState('')
+    // A STATE TO MANAGE TASKS
+    const [tasks, setTasks] = React.useState([])
     // A BOOLEAN TO DETERMINE WHETHER A FORM RELAYS UPDATE INFO
     const [showUpdateForm, setShowUpdateForm] = React.useState(false)
     // A BOOLEAN TO DETERMINE WHETHER A FORM RELAYS POST INFO
@@ -31,17 +34,17 @@ export default function TasksPage(){
     function getCollectionName(){
         const { id } = useParams()
         const visitedCollection = collections.filter(collection => collection._id === id)
-        
-        console.log(visitedCollection)
+
         return visitedCollection[0].name
     }
+
+    // 
 
     return (
         //A TASKS-PAGE CONTAINER MASKING ALL ELEMENTS 
         <div 
             id="tasks-container"
-            className="min-h-screen bg-light-theme scroll-smooth dark:bg-dark-theme dark:text-dark-theme-text transition-all duration-500 relative"
-        >
+            className="min-h-screen bg-light-theme scroll-smooth dark:bg-dark-theme dark:text-dark-theme-text transition-all duration-500 relative">
             {/* AN ERROR POPUP IF AN ERROR OCCURS */}
             {error && <ErrorPopup/>}
 
@@ -64,13 +67,19 @@ export default function TasksPage(){
             {/* A NAVBAR TO DIRECT TO COLLECTIONS PAGE OR USER PROFILE */}
             <NavBar
                 url='/home/collections'
-                navigationTitle= {`${getCollectionName()}`}
+                navigationTitle= {getCollectionName()}
                 username = {user.username}
             />
+        
+            {/* A CONTAINER FOR ALL TASK CELLS */}
+            <div className="flex flex-col justify-evenly items-center">
+                <TaskCell/>
+            </div>
 
             {/* A FOOTER CONTAINING ADD AND DELETE BUTTONS */}
             <Footer
-                
+                addTitle="Add Task"
+                deleteTitle="Delete Task"
             />
         </div>
     )
