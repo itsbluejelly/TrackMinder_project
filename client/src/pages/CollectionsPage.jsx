@@ -272,7 +272,7 @@ export default function CollectionsPage(){
     // A FUNCTION THAT GENERATES A LIST OF COLLECTIONCELLS
     function collectionsArrayGenerator(){
         return collections.map(collection => {
-            const dateTime = `${formatDistanceToNow(new Date(collection.updatedAt), { addSuffix: true })}`
+            const dateTime = `${formatDistanceToNow(new Date(collection.createdAt), { addSuffix: true })}`
 
             return (
                 <CollectionCell

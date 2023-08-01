@@ -10,6 +10,7 @@ import UserContextHook from "../hooks/UserContextHook"
 import CollectionContextHook from "../hooks/CollectionContextHook"
 import TaskCell from "../components/TaskCell"
 import { useParams } from 'react-router-dom'
+import { format } from "date-fns"
 
 // EXPORTING THE COLLECTION PAGE FUNCTION
 export default function TasksPage(){
@@ -17,8 +18,6 @@ export default function TasksPage(){
     const [error, setError] = React.useState('')
     // A STATE TO DETERMINE APPEARANCE OF SUCCESS POPUP
     const [success, setSuccess] = React.useState('')
-    // A STATE TO MANAGE NAME OF COLLECTION VISITED
-    const [collectionName, setCollectionName] = React.useState('')
     // A STATE TO MANAGE TASKS
     const [tasks, setTasks] = React.useState([])
     // A BOOLEAN TO DETERMINE WHETHER A FORM RELAYS UPDATE INFO
@@ -38,7 +37,29 @@ export default function TasksPage(){
         return visitedCollection[0].name
     }
 
-    // 
+    // A FUNCTION THAT CONVERTS FETCHED TASKS OBJECTS TO TASKS COMPONENTS
+    function generateTasksArray(){
+        return tasks.map(task => {
+            const deadline = 
+                task.deadline ? `${format(new Date(task.deadline), "do 'of' MMMM yyyy\thh:mm:ss aaaa")}` : "" 
+            const dateTime = `${format(new Date(task.updatedAt), "do 'of' MMMM yyyy\thh:mm:ss aaaa")}`
+            
+            const [deadlineDate, deadlineTime] = deadline.split('\t')
+            const [updatedDate, updatedTime] = dateTime.split('\t')
+            
+            return (
+                <TaskCell
+                    activity={task.activity}
+                    deadlineDate={deadlineDate}    
+                    updatedDate={updatedDate}    
+                    updatedTime={updatedTime}    
+                    deadlineTime={deadlineTime}
+                    key={task._id}
+                    id={task._id}    
+                />
+            )
+        })
+    }
 
     return (
         //A TASKS-PAGE CONTAINER MASKING ALL ELEMENTS 
@@ -73,7 +94,7 @@ export default function TasksPage(){
         
             {/* A CONTAINER FOR ALL TASK CELLS */}
             <div className="flex flex-col justify-evenly items-center">
-                <TaskCell/>
+                {generateTasksArray()}
             </div>
 
             {/* A FOOTER CONTAINING ADD AND DELETE BUTTONS */}
