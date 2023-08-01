@@ -8,6 +8,7 @@ import CollectionsPage from './pages/CollectionsPage.jsx'
 import TasksPage from './pages/TasksPage.jsx'
 import RootLayout from './layouts/RootLayout.jsx'
 import HomeLayout from './layouts/HomeLayout.jsx'
+import UserLayout from './layouts/UserLayout.jsx'
 
 // DEFINING A ROUTER TO DEAL WITH ALL NECESSARY ROUTE PATHS
 const router = createBrowserRouter(
@@ -27,7 +28,7 @@ const router = createBrowserRouter(
           {/* home/collection/:id */}
         <Route path='collection/:id' element={ <TasksPage/> }></Route>
 
-        <Route path='user'>
+        <Route path='user' element={<UserLayout/>}>
           {/* /home/user/profile || /home/user/signout */}
           <Route path='profile'></Route>
           <Route path='signout'></Route>

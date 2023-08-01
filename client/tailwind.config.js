@@ -23,7 +23,7 @@ export default {
 
       backgroundImage: {
         'light-theme-gradient': 'linear-gradient(218deg, #D8605B 0%, #F4C27F 100%)',
-        'dark-theme-gradient': 'linear-gradient(218deg, #8875FF 0%, rgba(134, 135, 231, 0.50) 100%)'
+        'dark-theme-gradient': 'linear-gradient(315deg, #111 0%, #4F4F4F 100%)'
       },
 
       animation: { 

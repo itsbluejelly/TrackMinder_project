@@ -3,6 +3,8 @@ const bcrypt = require('bcrypt')
 const validator = require('validator')
 const eventLogger = require('../middleware/eventLogger')
 const UserModel = require('../models/User')
+const CollectionModel = require('../models/Collection')
+const TaskModel = require('../models/Task')
 const JWTGenerator = require('../middleware/JWTGenerator')
 
 // A SIGNUPPOST CONTROLLER THAT DEALS WITH SIGNUP REQUESTS
@@ -117,8 +119,6 @@ async function signoutPostController(req, res, next){
             throw new Error("You must provide a password")
         }else if(password.length < 5){
             throw new Error("Your password must have a minimum of 5 characters")
-        }else if(!validator.isStrongPassword(password)){
-            throw new Error("Your password is not strong enough")
         }
 
         const foundUser = await UserModel.findOne({ email })
@@ -132,6 +132,9 @@ async function signoutPostController(req, res, next){
                 throw new Error("Invalid password")
             }else{
                 const deletedUser = await UserModel.findByIdAndDelete(userID)
+                await CollectionModel.deleteMany({ userID })
+                await TaskModel.deleteMany({ userID })
+                
                 res.status(200).json({ success: "Account terminated successfully"})
                 eventLogger("Account terminated successfully", `User ${deletedUser._id} successfully signed out`, "usersLogs.txt")
             }
