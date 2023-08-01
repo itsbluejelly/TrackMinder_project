@@ -189,6 +189,42 @@ export default function TasksPage(){
         }
     }
 
+    // A FUNCTION THAT CREATES A TASK
+    async function createTask(){
+        setFormData({
+            activity: "",
+            deadline: ""
+        })
+
+        try{
+            const res = await fetch(`http://localhost:4000/tasks?collection=${collectionID}`, {
+                method: "POST",
+                body: JSON.stringify(formData),
+                headers: {
+                    "Authorization": `Bearer ${user.token}`,
+                    "Content-Type": "application/json"
+                } 
+            })
+
+            const response = await res.json()
+            setDisabled(true)
+
+            if(!res.ok){
+                setSuccess('')
+                setError(response.error)
+                setDisabled(false)
+            }else{
+                setError('')
+                setSuccess(response.success)
+                setDisabled(false)
+            }
+        }catch(error){
+            setSuccess('')
+            setError(error.message)
+            setDisabled(false)
+        }
+    }
+
     // A FUNCTION THAT CONVERTS FETCHED TASKS OBJECTS TO TASKS COMPONENTS
     function generateTasksArray(){
         return tasks.map(task => {
@@ -240,7 +276,26 @@ export default function TasksPage(){
             {
                     showForm
                 ?
-                    <DataForm/>
+                    <DataForm
+                        formTitle="Add Task"
+                        hideForm = {() => setShowForm(false)}
+                        fieldTitle1 = "Activity"
+                        fieldType1 = "text"
+                        fieldName1 = "activity"
+                        fieldPlaceholder1 = "Your task's activity"
+                        handleChange = {(e) => updateFormData(e)}
+                        formData = {formData}
+                        fieldTitle2 = "Deadline"
+                        fieldType2 = "datetime-local"
+                        fieldName2 = "deadline"
+                        fieldPlaceholder2 = "Your optional date and time"
+                        
+                        button = {<AuthenticationButton
+                            innerText = "Add Task"
+                            disabled = {disabled}
+                            handleClick = {() => createTask()}
+                        />}
+                    />
                 :
                         showUpdateForm
                     ?
@@ -277,7 +332,7 @@ export default function TasksPage(){
         
             {/* A CONTAINER FOR ALL TASK CELLS */}
             <div className="flex flex-col justify-evenly items-center">
-                {generateTasksArray()}
+                {tasks && generateTasksArray()}
             </div>
 
             {/* A FOOTER CONTAINING ADD AND DELETE BUTTONS */}

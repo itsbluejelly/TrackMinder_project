@@ -22,7 +22,7 @@ async function getController(req, res, next){
             .select("activity deadline createdAt updatedAt")
             
             .sort({
-                deadline: -1,
+                deadline: 1,
                 updatedAt: -1,
                 createdAt: -1
             })
