@@ -62,7 +62,6 @@ export default function LoginPage(){
                 })
             }
         }catch(error){
-            setSuccess('')
             setError(error.message)
         }
     }

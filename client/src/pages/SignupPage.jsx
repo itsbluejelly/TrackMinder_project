@@ -62,7 +62,6 @@ export default function SignupPage(){
                 })
             }
         }catch(error){
-            setSuccess('')
             setError(error.message)
         }
     }
