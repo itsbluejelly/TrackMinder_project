@@ -9,7 +9,7 @@ const userRouter = express.Router()
 // ROUTE MIDDLEWARES
 userRouter.post('/login', loginController.postController)
 userRouter.post('/signup', signupController.postController)
-userRouter.delete('/signout', userVerifier, signoutController.postController)
+userRouter.delete('/signout', userVerifier, signoutController.deleteController)
 
 // EXPORTING THE USERSROUTER
 module.exports = userRouter

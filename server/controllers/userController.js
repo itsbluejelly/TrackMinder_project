@@ -103,7 +103,7 @@ async function loginPostController(req, res, next){
 }
 
 // A SIGNOUTPOSTCONTROLLER THAT DEALS WITH DELETE REQUESTS
-async function signoutPostController(req, res, next){
+async function signoutDeleteController(req, res, next){
     const { username, email, password} = req.body
 
     try{
@@ -160,5 +160,5 @@ async function signoutPostController(req, res, next){
 module.exports = {
     "loginController": { "postController": loginPostController},
     "signupController": { "postController": signupPostController},
-    "signoutController": { "postController": signoutPostController}
+    "signoutController": { "deleteController": signoutDeleteController}
 }
