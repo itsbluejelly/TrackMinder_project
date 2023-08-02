@@ -6,6 +6,7 @@ import LoginPage from './pages/LoginPage.jsx'
 import SignupPage from './pages/SignupPage.jsx'
 import CollectionsPage from './pages/CollectionsPage.jsx'
 import TasksPage from './pages/TasksPage.jsx'
+import ProfilePage from './pages/ProfilePage.jsx'
 import RootLayout from './layouts/RootLayout.jsx'
 import HomeLayout from './layouts/HomeLayout.jsx'
 import UserLayout from './layouts/UserLayout.jsx'
@@ -30,7 +31,7 @@ const router = createBrowserRouter(
 
         <Route path='user' element={<UserLayout/>}>
           {/* /home/user/profile || /home/user/signout */}
-          <Route path='profile'></Route>
+          <Route path='profile' element={<ProfilePage/>}></Route>
           <Route path='signout'></Route>
         </Route>
       </Route>
