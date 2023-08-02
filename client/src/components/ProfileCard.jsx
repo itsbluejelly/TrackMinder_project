@@ -63,6 +63,7 @@ export default function ProfileCard(props){
                     <div 
                         className="flex justify-between p-[10px] text-xl font-[600] bg-red-700 rounded-b-[25px] h-full hover:scale-105 active:bg-white transition-all duration-500 cursor-pointer hover:rounded-[25px] active:text-red-700 hover:shadow-knob animate-pop-up"
                         id="signout-button"
+                        onClick = {props.handleSignOut}
                     >
                         <p className="pl-[10px]  hover:underline hover:text-white transition-all duration-500 dark:hover:text-cyan-200 text-sm break-words max-w-[15ch]">Delete account permanently</p>
                         <p className="pr-[10px] hover:text-white transition-all duration-500 dark:hover:text-black">Sign Out</p>
