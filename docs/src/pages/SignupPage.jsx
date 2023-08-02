@@ -41,7 +41,7 @@ export default function SignupPage(){
         })
 
         try{
-            const res = await fetch('http://localhost:4000/user/signup', {
+            const res = await fetch('https://strange-toad-uniform.cyclic.cloud/user/signup', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body:  JSON.stringify(formData)

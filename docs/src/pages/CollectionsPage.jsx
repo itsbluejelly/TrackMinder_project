@@ -41,7 +41,7 @@ export default function CollectionsPage(){
     // A FUNCTION THAT FETCHES ALL THE COLLECTIONS
     async function getCollections(){
         try{
-            const res = await fetch('http://localhost:4000/collections', {
+            const res = await fetch('https://strange-toad-uniform.cyclic.cloud/collections', {
                 headers: {'Authorization':  `Bearer ${user.token}`},
                 method: 'GET'
             })
@@ -69,7 +69,7 @@ export default function CollectionsPage(){
     // A FUNCTION THAT DELETES A SINGLE COLLECTION
     async function deleteCollection(id){
         try{
-            const res = await fetch(`http://localhost:4000/collections/collection/${id}`, {
+            const res = await fetch(`https://strange-toad-uniform.cyclic.cloud/collections/collection/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${user.token}` }
             })
@@ -158,7 +158,7 @@ export default function CollectionsPage(){
         })
 
         try{
-            const res = await fetch(`http://localhost:4000/collections/collection/${id}`, {
+            const res = await fetch(`https://strange-toad-uniform.cyclic.cloud/collections/collection/${id}`, {
                 method: 'PATCH',
                 headers: {
                     'Authorization': `Bearer ${user.token}`,
@@ -199,7 +199,7 @@ export default function CollectionsPage(){
         })
 
         try{
-            const res = await fetch("http://localhost:4000/collections", {
+            const res = await fetch("https://strange-toad-uniform.cyclic.cloud/collections", {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${user.token}`,
@@ -235,7 +235,7 @@ export default function CollectionsPage(){
     // A FUNCTION THAT DELETES ALL COLLECTIONS
     async function deleteAllCollections(){
         try{
-            const res = await fetch("http://localhost:4000/collections", {
+            const res = await fetch("https://strange-toad-uniform.cyclic.cloud/collections", {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${user.token}` }
             })
