@@ -52,8 +52,9 @@ export default function ProfileCard(props){
                     </div>
 
                     <div 
-                        className="flex justify-between p-[10px] border-b-black border-b-[2px] text-xl font-[600] dark:border-b-white hover:scale-105 active:bg-white transition-all duration-500 cursor-pointer bg-yellow-500 text-black hover:rounded-[25px] dark:text-white active:text-yellow-500 hover:shadow-knob animate-pop-up"
+                        className="flex justify-between p-[10px] border-b-black border-b-[2px] text-xl font-[600] dark:border-b-white hover:scale-105 active:bg-white transition-all duration-500 cursor-pointer bg-yellow-500 text-black hover:rounded-[25px] active:text-yellow-500 hover:shadow-knob animate-pop-up"
                         id="logout-button"
+                        onClick={props.handleLogOut}
                     >
                         <p className="pr-[10px] hover:underline hover:text-white transition-all duration-500 dark:hover:text-cyan-200 text-sm break-words max-w-[20ch]">Deactivate your account temporarily</p>
                         <p className="pl-[10px] hover:text-white transition-all duration-500 dark:hover:text-white">Log Out</p>
@@ -63,7 +64,7 @@ export default function ProfileCard(props){
                         className="flex justify-between p-[10px] text-xl font-[600] bg-red-700 rounded-b-[25px] h-full hover:scale-105 active:bg-white transition-all duration-500 cursor-pointer hover:rounded-[25px] active:text-red-700 hover:shadow-knob animate-pop-up"
                         id="signout-button"
                     >
-                        <p className="pl-[10px]  hover:underline hover:text-white transition-all duration-500 dark:hover:text-cyan-200 text-sm">Delete account permanently</p>
+                        <p className="pl-[10px]  hover:underline hover:text-white transition-all duration-500 dark:hover:text-cyan-200 text-sm break-words max-w-[15ch]">Delete account permanently</p>
                         <p className="pr-[10px] hover:text-white transition-all duration-500 dark:hover:text-black">Sign Out</p>
                     </div>
                 </div>

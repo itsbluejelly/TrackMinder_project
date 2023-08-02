@@ -4,15 +4,12 @@ import { NavLink, Navigate } from 'react-router-dom'
 import AuthenticationForm from "../components/AuthenticationForm"
 import AuthenticationButton from "../components/AuthenticationButton"
 import ErrorPopup from '../components/ErrorPopup'
-import SuccessPopup from '../components/SuccessPopup'
 import UserContextHook from '../hooks/UserContextHook'
 
 // EXPORTING THE LOGIN PAGE
 export default function LoginPage(){
     // DECLARING A STATE BOOLEAN TO DETERMINE ERROR MESSAGES
     const [error, setError] = React.useState("")
-    // DECLARING A STATE BOOLEAN TO DETERMINE SUCCESS MESSAGES
-    const [success, setSuccess] = React.useState("")
     // DECLARING A STATE BOOLEAN TO DIABLE THE AUHENTICATION BUTTON
     const [disabled, setDisabled] = React.useState(false)
     // OBTAINING THE USER AND DISPATCH FUNCTION FROM THE USERCONTEXTHOOK
@@ -54,12 +51,10 @@ export default function LoginPage(){
             setDisabled(true)
 
             if(!res.ok){
-                setSuccess('')
                 setError(response.error)
                 setDisabled(false)
             }else{
                 setError('')
-                setSuccess(response.success)
                 
                 dispatch({
                     type: "LOG_IN",
@@ -82,12 +77,6 @@ export default function LoginPage(){
             {error && <ErrorPopup
                 errorMessage = {error}
                 handleClick = {() => setError("")}
-            />} 
-
-            {/* A SUCCESS COMPONENT ONLY SHOWN IF THERE IS AN SUCCESS */}
-            {success && <SuccessPopup
-                successMessage = {success}
-                handleClick = {() => setSuccess("")}
             />}
 
             <h1 className="font-[700] text-2xl top-[50px] py-[50px] text-left md:text-center pl-[30px]">Welcome back, Log In</h1>
