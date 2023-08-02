@@ -4,6 +4,7 @@ import ErrorPage from './pages/ErrorPage.jsx'
 import WelcomePage from './pages/WelcomePage.jsx'
 import LoginPage from './pages/LoginPage.jsx'
 import SignupPage from './pages/SignupPage.jsx'
+import SignoutPage from './pages/SignoutPage.jsx'
 import CollectionsPage from './pages/CollectionsPage.jsx'
 import TasksPage from './pages/TasksPage.jsx'
 import ProfilePage from './pages/ProfilePage.jsx'
@@ -32,7 +33,7 @@ const router = createBrowserRouter(
         <Route path='user' element={<UserLayout/>}>
           {/* /home/user/profile || /home/user/signout */}
           <Route path='profile' element={<ProfilePage/>}></Route>
-          <Route path='signout'></Route>
+          <Route path='signout' element={<SignoutPage/>}></Route>
         </Route>
       </Route>
       

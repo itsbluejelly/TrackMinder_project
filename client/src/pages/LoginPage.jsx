@@ -70,7 +70,7 @@ export default function LoginPage(){
     return(
         // A LOGIN-PAGE CONTAINER THAT HOLDS ALL LOGIN PAGE CONTENT
         <div 
-            id="signup-page"
+            id="login-page"
             className="bg-light-theme dark:bg-dark-theme scroll-smooth min-h-[100vh] dark:text-dark-theme-text font-[Lato] transition-all duration-500 flex flex-col justify-evenly relative"
         >
             {/* AN ERROR COMPONENT ONLY SHOWN IF THERE IS AN ERROR */}

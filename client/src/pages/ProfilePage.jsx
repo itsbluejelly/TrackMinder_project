@@ -6,7 +6,7 @@ import SignOutPopup from "../components/SignOutPopup"
 
 // EXPORTING THE PROFILEPAGE FUNCTION
 export default function ProfilePage(){
-    // A STATE TO MANAGE ERROR POPUP AS A NOTIFICATION
+    // A STATE TO MANAGE SIGN OUT POPUP AS A NOTIFICATION
     const [showSignOut, setshowSignOut] = React.useState(false)
     // OBTAINING GLOBAL USER AND DISPATCH FUNCTION
     const { user, dispatch } = UserContextHook()
