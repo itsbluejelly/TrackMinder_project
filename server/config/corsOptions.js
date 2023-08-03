@@ -1,5 +1,5 @@
 // AN ARRAY OF ACCEPTED URLS
-const whiteList = ['http://localhost:5173']
+const whiteList = ['http://localhost:5173', 'https://itsbluejelly.github.io/TrackMinder_project/']
 
 // A FUNCTION THAT VALIDATES THE ACCESSIBLE URLS
 function confirmURL(origin, callback){
