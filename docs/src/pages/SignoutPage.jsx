@@ -42,7 +42,7 @@ export default function signoutPage(){
         })
 
         try{
-            const res = await fetch('http://localhost:4000/user/signout', {
+            const res = await fetch('https://strange-toad-uniform.cyclic.cloud/user/signout', {
                 method: "DELETE",
                 
                 headers: {
