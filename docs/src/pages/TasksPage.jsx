@@ -54,7 +54,8 @@ export default function TasksPage(){
     // A FUNCTION THAT FETCHES ALL RELEVANT TASKS FROM API
     async function getTasks(){
         try{
-            const res = await fetch(`https://rich-trousers-hare.cyclic.cloud/tasks/?collection=${collectionID}`, {
+            const res = await fetch(`
+https://trackminder-project.onrender.com/tasks/?collection=${collectionID}`, {
                 method: "GET",
                 headers: {'Authorization': `Bearer ${user.token}`}
             })
@@ -82,7 +83,8 @@ export default function TasksPage(){
     // A FUNCTION THAT DELETES A TASK
     async function deleteTask(id){
         try{
-            const res = await fetch(`https://rich-trousers-hare.cyclic.cloud/tasks/task/${id}`, {
+            const res = await fetch(`
+https://trackminder-project.onrender.com/tasks/task/${id}`, {
                 method: "DELETE",
                 headers: { "Authorization": `Bearer ${user.token}` }
             })
@@ -171,7 +173,8 @@ export default function TasksPage(){
         }
 
         try{
-            const res = await fetch(`https://rich-trousers-hare.cyclic.cloud/tasks/task/${id}`, {
+            const res = await fetch(`
+https://trackminder-project.onrender.com/tasks/task/${id}`, {
                 method: "PATCH",
                 body: JSON.stringify(validateFormData()),
                 headers: {
@@ -212,7 +215,8 @@ export default function TasksPage(){
         })
 
         try{
-            const res = await fetch(`https://rich-trousers-hare.cyclic.cloud/tasks?collection=${collectionID}`, {
+            const res = await fetch(`
+https://trackminder-project.onrender.com/tasks?collection=${collectionID}`, {
                 method: "POST",
                 body: JSON.stringify(formData),
                 
@@ -249,7 +253,8 @@ export default function TasksPage(){
     // A FUNCTION THAT DELETES ALL TASK
     async function deleteAllTasks(){
         try{
-            const res = await fetch(`https://rich-trousers-hare.cyclic.cloud/tasks/?collection=${collectionID}`, {
+            const res = await fetch(`
+https://trackminder-project.onrender.com/tasks/?collection=${collectionID}`, {
                 method: "DELETE",
                 headers: { "Authorization": `Bearer ${user.token}` }
             })

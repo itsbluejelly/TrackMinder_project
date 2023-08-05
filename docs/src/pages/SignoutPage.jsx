@@ -42,7 +42,7 @@ export default function signoutPage(){
         })
 
         try{
-            const res = await fetch('https://rich-trousers-hare.cyclic.cloud/user/signout', {
+            const res = await fetch('https://trackminder-project.onrender.com/user/signout', {
                 method: "DELETE",
                 
                 headers: {

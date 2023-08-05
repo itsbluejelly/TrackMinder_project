@@ -41,7 +41,7 @@ export default function SignupPage(){
         })
 
         try{
-            const res = await fetch('https://rich-trousers-hare.cyclic.cloud/user/signup', {
+            const res = await fetch('https://trackminder-project.onrender.com/user/signup', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body:  JSON.stringify(formData)

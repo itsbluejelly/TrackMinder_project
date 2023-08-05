@@ -41,7 +41,7 @@ export default function CollectionsPage(){
     // A FUNCTION THAT FETCHES ALL THE COLLECTIONS
     async function getCollections(){
         try{
-            const res = await fetch('https://rich-trousers-hare.cyclic.cloud/collections', {
+            const res = await fetch('https://trackminder-project.onrender.com/collections', {
                 headers: {'Authorization':  `Bearer ${user.token}`},
                 method: 'GET'
             })
@@ -69,7 +69,8 @@ export default function CollectionsPage(){
     // A FUNCTION THAT DELETES A SINGLE COLLECTION
     async function deleteCollection(id){
         try{
-            const res = await fetch(`https://rich-trousers-hare.cyclic.cloud/collections/collection/${id}`, {
+            const res = await fetch(`
+https://trackminder-project.onrender.com/collections/collection/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${user.token}` }
             })
@@ -158,7 +159,8 @@ export default function CollectionsPage(){
         })
 
         try{
-            const res = await fetch(`https://rich-trousers-hare.cyclic.cloud/collections/collection/${id}`, {
+            const res = await fetch(`
+https://trackminder-project.onrender.com/collections/collection/${id}`, {
                 method: 'PATCH',
                 headers: {
                     'Authorization': `Bearer ${user.token}`,
@@ -199,7 +201,7 @@ export default function CollectionsPage(){
         })
 
         try{
-            const res = await fetch("https://rich-trousers-hare.cyclic.cloud/collections", {
+            const res = await fetch("https://trackminder-project.onrender.com/collections", {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${user.token}`,
@@ -235,7 +237,7 @@ export default function CollectionsPage(){
     // A FUNCTION THAT DELETES ALL COLLECTIONS
     async function deleteAllCollections(){
         try{
-            const res = await fetch("https://rich-trousers-hare.cyclic.cloud/collections", {
+            const res = await fetch("https://trackminder-project.onrender.com/collections", {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${user.token}` }
             })

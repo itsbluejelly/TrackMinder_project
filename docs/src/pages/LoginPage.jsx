@@ -41,7 +41,7 @@ export default function LoginPage(){
         })
 
         try{
-            const res = await fetch('https://rich-trousers-hare.cyclic.cloud/user/login', {
+            const res = await fetch('https://trackminder-project.onrender.com/user/login', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body:  JSON.stringify(formData)
