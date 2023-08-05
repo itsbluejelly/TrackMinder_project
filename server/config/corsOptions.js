@@ -1,5 +1,5 @@
 // AN ARRAY OF ACCEPTED URLS
-const whiteList = ['http://localhost:5173', 'https://itsbluejelly.github.io', 'https://trackminder-project.onrender.com']
+const whiteList = ['http://localhost:5173', 'https://itsbluejelly.github.io', 'https://trackminder-project.onrender.com:3000']
 
 // A FUNCTION THAT VALIDATES THE ACCESSIBLE URLS
 function confirmURL(origin, callback){
@@ -14,7 +14,7 @@ function confirmURL(origin, callback){
 const corsOptions = {
     origin: confirmURL,
     methods: 'GET,POST,PATCH,DELETE',
-    allowedHeaders: 'Authorization,Content-Type,Access-Control-Allow-Origin'
+    allowedHeaders: 'Authorization,Content-Type'
 }
 
 // EXPORTING CORSOPTIONS
