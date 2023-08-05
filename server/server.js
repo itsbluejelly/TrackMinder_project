@@ -24,11 +24,11 @@ app.use(express.json())
 // ROUTE MIDDLEWARES
 app.use('/', rootRouter)
 app.get('/ok', (req, res, next)=> {
-    res.status(200)
+    res.status(200).send("Hi")
     next()
 })
 app.use('/user', userRouter)
-app.use(userVerifier)
+// app.use(userVerifier)
 app.use('/collections', collectionsRouter)
 app.use('/tasks', tasksRouter)
 
