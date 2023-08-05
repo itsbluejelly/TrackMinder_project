@@ -14,7 +14,7 @@ function confirmURL(origin, callback){
 const corsOptions = {
     origin: confirmURL,
     methods: 'GET,POST,PATCH,DELETE',
-    allowedHeaders: 'Authorization,Content-Type'
+    allowedHeaders: 'Authorization,Content-Type,Access-Control-Allow-Origin'
 }
 
 // EXPORTING CORSOPTIONS
