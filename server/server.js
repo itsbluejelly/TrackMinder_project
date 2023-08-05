@@ -28,7 +28,7 @@ app.get('/ok', (req, res, next)=> {
     next()
 })
 app.use('/user', userRouter)
-// app.use(userVerifier)
+app.use(userVerifier)
 app.use('/collections', collectionsRouter)
 app.use('/tasks', tasksRouter)
 
