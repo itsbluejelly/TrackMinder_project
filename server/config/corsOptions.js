@@ -1,5 +1,5 @@
 // AN ARRAY OF ACCEPTED URLS
-const whiteList = ['http://localhost:5173', 'https://itsbluejelly.github.io', 'http://trackminder-project.onrender.com']
+const whiteList = ['http://localhost:5173', 'https://itsbluejelly.github.io', 'http://localhost:3000', 'http://gamebrag.onrender.com', 'https://gamebrag.onrender.com']
 // A FUNCTION THAT VALIDATES THE ACCESSIBLE URLS
 function confirmURL(origin, callback){
     if(whiteList.includes(origin)){
