@@ -24,7 +24,7 @@ export default function ErrorPage(){
                 
                 {/* A LINK TO THE WELCOME ROUTE */}
                 <p>
-                    Perhaps try visiting <NavLink to='/welcome' className="underline hover:text-lg transition-all duration-500 active:text-white dark:active:text-[#8875FF]">the home page</NavLink>.
+                    Perhaps try visiting <NavLink to='/TrackMinder_project' className="underline hover:text-lg transition-all duration-500 active:text-white dark:active:text-[#8875FF]">the home page</NavLink>.
                 </p>
             </figcaption>
         </figure>

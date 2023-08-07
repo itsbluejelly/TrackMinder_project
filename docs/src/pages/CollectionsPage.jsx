@@ -373,7 +373,7 @@ https://trackminder-project.onrender.com/collections/collection/${id}`, {
             <NavBar
                 navigationTitle = "TrackMinder"
                 username = { user.username }
-                url = "/welcome"
+                url = "/TrackMinder_project"
             />
             
             {/* A GRID OR FLEX CONTAINER FOR ALL COLLECTIONS */}

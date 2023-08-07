@@ -17,9 +17,9 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     // THE ROOT PATH TO ENCLOSE ALL ROUTES(/)
     <Route path='/'>
-      {/* /welcome || /login || /signup */}
+      {/* /TrackMinder_project || /login || /signup */}
       <Route path='/' element={ <RootLayout/> }>
-        <Route path='welcome' element={ <WelcomePage/> }></Route>
+        <Route path='TrackMinder_project' element={ <WelcomePage/> }></Route>
         <Route path='login' element={ <LoginPage/> }></Route>
         <Route path='signup' element={ <SignupPage/> }></Route>
       </Route>

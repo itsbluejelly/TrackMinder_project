@@ -15,7 +15,7 @@ export default function HomeLayout(){
 
     // REDIRECT IF USER FOUND
     if(!user){
-        return <Navigate to='/welcome' replace = {true}/>
+        return <Navigate to='/TrackMinder_project' replace = {true}/>
     }
 
     return(

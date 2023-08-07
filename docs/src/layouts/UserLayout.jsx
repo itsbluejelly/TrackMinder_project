@@ -15,7 +15,7 @@ export default function UserLayout(){
     if(!user){
         return (
             <Navigate 
-                to="/welcome"
+                to="/TrackMinder_project"
                 replace={true}
             />
         )
