@@ -11,6 +11,7 @@ const rootRouter = require('./routers/rootRouter')
 const userRouter = require('./routers/userRouter')
 const collectionsRouter = require('./routers/collectionsRouter')
 const tasksRouter = require('./routers/tasksRouter')
+const okRouter = require('./routers/okRouter')
 
 // INSTANSIATE A SERVER APP FROM EXPRESS
 const app = express()
@@ -23,10 +24,7 @@ app.use(express.json())
 
 // ROUTE MIDDLEWARES
 app.use('/', rootRouter)
-app.get('/ok', (req, res, next)=> {
-    res.status(200).send("Hi")
-    next()
-})
+app.use('/ok', okRouter)
 app.use('/user', userRouter)
 app.use(userVerifier)
 app.use('/collections', collectionsRouter)
