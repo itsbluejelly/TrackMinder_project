@@ -10,7 +10,7 @@ export default function ErrorPage(){
         >
             <img 
                 className="dark:shadow-popup mb-[20px] w-[70%] lg:w-[50%] mt-[50px]"
-                src="./public/img/404_image.png" 
+                src="/img/404_image.png" 
                 alt="Error image" 
                 title="Error image"
                 width="371"
