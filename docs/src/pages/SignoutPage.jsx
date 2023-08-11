@@ -4,6 +4,7 @@ import ErrorPopup from "../components/ErrorPopup"
 import AuthenticationButton from "../components/AuthenticationButton"
 import AuthenticationForm from "../components/AuthenticationForm"
 import UserContextHook from "../hooks/UserContextHook"
+import StyleContextHook from "../hooks/StyleContextHook"
 import { NavLink } from "react-router-dom"
 
 // EXPORTING DEFAULT SIGNOUTPAGE FUNCTION
@@ -22,6 +23,50 @@ export default function signoutPage(){
 
     // OBTAINING GLOBAL USER AND DISPATCH CONTEXT
     const { user, dispatch } = UserContextHook()
+    // OBTAINING GLOBAL DARKMODE AND DISPATCH CONTEXT
+    const {darkMode, dispatch:styleDispatch} = StyleContextHook()
+
+    // AN OBJECT OF STYLE PROPERTIES
+    const styles ={
+        signoutPage: {
+            dark: {
+                backgroundColor: "#121212",
+                color: "rgba(255, 255, 255, 0.87)"
+            },
+
+            light: { backgroundColor: "rgba(244, 194, 127, 0.67)" }
+        },
+
+        authenticationForm: {
+            dark: {input: {
+                borderRadius: "4px",
+                borderColor: "#979797",
+                backgroundColor: "#1D1D1D",
+                color: "#535353"
+            }},
+
+            light: {input: { borderRadius: "22px" }}
+        },
+
+        authenticationButton: {
+            dark: {
+                backgroundImage: "linear-gradient(218deg, #8875FF 0%, rgba(134, 135, 231, 0.50) 100%)",
+                borderRadius: "5px"
+            },
+
+            light: {
+                backgroundImage: "linear-gradient(218deg, #D8605B 0%, #F4C27F 100%)",
+                borderRadius: "50px",
+                boxShadow: "0px 6px 10px 0px rgba(0, 0, 0, 0.15)"
+            }
+        },
+
+        footer: {
+            dark: { color: "#8875FF" },
+            light: { color: "#D8605B"}
+        }
+    }
+
 
     // A FUNCTION TO UPDATE FORM DATA
     function updateFormData(e){
@@ -89,7 +134,8 @@ export default function signoutPage(){
         // A SIGNOUTPAGE CONTAINER THAT HOLDS ALL CONTENT
         <div 
             id="signout-page"
-            className="bg-light-theme dark:bg-dark-theme scroll-smooth min-h-[100vh] dark:text-dark-theme-text font-[Lato] transition-all duration-500 flex flex-col justify-evenly relative"
+            className="font-[Lato] transition-all duration-500 flex flex-col justify-evenly relative scroll-smooth min-h-[100vh]"
+            style={darkMode ? styles.signoutPage.dark : styles.signoutPage.light}
         >
             {/* AN ERROR COMPONENT ONLY SHOWN IF THERE IS AN ERROR */}
             {error && <ErrorPopup
@@ -104,6 +150,7 @@ export default function signoutPage(){
                 <AuthenticationForm
                     handleChange = {(e) => updateFormData(e)}
                     formData = {formData}
+                    styles = {darkMode ? styles.authenticationForm.dark : styles.authenticationForm.light}
                 />
             </div>
 
@@ -112,13 +159,18 @@ export default function signoutPage(){
                 innerText = "Sign Out"
                 handleClick = {submitFormData}
                 disabled = {disabled}
+                styles = {darkMode ? styles.authenticationButton.dark : styles.authenticationButton.light}
             />
 
             {/* A FOOTER TEXT TO TOGGLE BTWN HOME AND SIGNOUT ROUTES */}
             <p 
                 className="mb-[30px] text-center tracking-wide"
                 >
-                    Having doubts? <NavLink className="text-[#D8605B] font-[700] cursor-pointer dark:text-[#8875FF] hover:underline transition-all duration-500 active:text-white" to="/home/collections">Go back to home page</NavLink>
+                    Having doubts? <NavLink 
+                        className=" hover:underline transition-all duration-500 active:text-white" to="/home/collections"
+                        id="footer"
+                        style={darkMode ? styles.footer.dark : styles.footer.light}
+                    >Go back to home page</NavLink>
             </p>
         </div>
     )

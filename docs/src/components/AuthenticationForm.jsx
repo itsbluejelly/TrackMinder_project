@@ -16,7 +16,8 @@ export default function AuthenticationForm(props){
                     placeholder="Your username here"
                     value={props.formData.username}
                     onChange={props.handleChange}
-                    className="dark:rounded-[4px] dark dark:border-[#979797] dark:bg-[#1D1D1D] dark:text-[#535353] p-[10px] w-[90%] md:w-[100%] rounded-[22px] transition-all duration-500"
+                    className="p-[10px] w-[90%] md:w-[100%] transition-all duration-500"
+                    style={props.styles.input}
                 />
             </div>
 
@@ -30,7 +31,8 @@ export default function AuthenticationForm(props){
                     placeholder="Your email here"
                     value={props.formData.email}
                     onChange={props.handleChange}
-                    className="dark:rounded-[4px] dark dark:border-[#979797] dark:bg-[#1D1D1D] dark:text-[#535353] p-[10px] w-[90%] md:w-[100%] rounded-[22px] transition-all duration-500"
+                    className="dark:rounded-[4px] dark:border-[#979797] dark:bg-[#1D1D1D] dark:text-[#535353] p-[10px] w-[90%] md:w-[100%] rounded-[22px] transition-all duration-500"
+                    style={props.styles.input}
                 />
             </div>
 
@@ -44,7 +46,8 @@ export default function AuthenticationForm(props){
                     value={props.formData.password}
                     onChange={props.handleChange}
                     placeholder="Your password here"
-                    className="dark:rounded-[4px] dark dark:border-[#979797] dark:bg-[#1D1D1D] dark:text-[#535353] p-[10px] w-[90%] md:w-[100%] rounded-[22px] transition-all duration-500"
+                    className="dark:rounded-[4px] dark:border-[#979797] dark:bg-[#1D1D1D] dark:text-[#535353] p-[10px] w-[90%] md:w-[100%] rounded-[22px] transition-all duration-500"
+                    style={props.styles.input}
                 />
             </div>
         </div>
