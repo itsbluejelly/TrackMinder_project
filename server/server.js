@@ -19,7 +19,7 @@ const app = express()
 // NON-ROUTE MIDDLEWARES
 dotenv.config()
 connectDB()
-app.use(cors())
+app.use(cors(corsOptions))
 app.use(express.json())
 
 // ROUTE MIDDLEWARES

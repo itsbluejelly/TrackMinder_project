@@ -55,7 +55,7 @@ export default function TasksPage(){
     async function getTasks(){
         try{
             const res = await fetch(`
-https://trackminder-project.onrender.com/tasks/?collection=${collectionID}`, {
+http://localhost:3000/tasks/?collection=${collectionID}`, {
                 method: "GET",
                 headers: {'Authorization': `Bearer ${user.token}`}
             })
@@ -84,7 +84,7 @@ https://trackminder-project.onrender.com/tasks/?collection=${collectionID}`, {
     async function deleteTask(id){
         try{
             const res = await fetch(`
-https://trackminder-project.onrender.com/tasks/task/${id}`, {
+http://localhost:3000/tasks/task/${id}`, {
                 method: "DELETE",
                 headers: { "Authorization": `Bearer ${user.token}` }
             })
@@ -174,7 +174,7 @@ https://trackminder-project.onrender.com/tasks/task/${id}`, {
 
         try{
             const res = await fetch(`
-https://trackminder-project.onrender.com/tasks/task/${id}`, {
+http://localhost:3000/tasks/task/${id}`, {
                 method: "PATCH",
                 body: JSON.stringify(validateFormData()),
                 headers: {
@@ -216,7 +216,7 @@ https://trackminder-project.onrender.com/tasks/task/${id}`, {
 
         try{
             const res = await fetch(`
-https://trackminder-project.onrender.com/tasks?collection=${collectionID}`, {
+http://localhost:3000/tasks?collection=${collectionID}`, {
                 method: "POST",
                 body: JSON.stringify(formData),
                 
@@ -254,7 +254,7 @@ https://trackminder-project.onrender.com/tasks?collection=${collectionID}`, {
     async function deleteAllTasks(){
         try{
             const res = await fetch(`
-https://trackminder-project.onrender.com/tasks/?collection=${collectionID}`, {
+http://localhost:3000/tasks/?collection=${collectionID}`, {
                 method: "DELETE",
                 headers: { "Authorization": `Bearer ${user.token}` }
             })

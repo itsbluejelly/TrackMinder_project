@@ -9,6 +9,7 @@ import SuccessPopup from '../components/SuccessPopup'
 import AuthenticationButton from '../components/AuthenticationButton'
 import CollectionContextHook from "../hooks/CollectionContextHook"
 import DataForm from "../components/DataForm"
+import StyleContextHook from "../hooks/StyleContextHook"
 
 import { formatDistanceToNow } from "date-fns"
 
@@ -37,11 +38,15 @@ export default function CollectionsPage(){
     const { user, dispatch } = UserContextHook()
     // OBTAINING THE GLOBAL COLLECTIONS AND DISPATCH FUNCTIONS
     const { collections, dispatch: collectionsDispatch } = CollectionContextHook()
+    // OBTAINING THE GLOBAL STYLE AND DISPATCH FUNCTION
+    const { darkMode, dispatch:styleDispatch } = StyleContextHook()
+
+    
 
     // A FUNCTION THAT FETCHES ALL THE COLLECTIONS
     async function getCollections(){
         try{
-            const res = await fetch('https://trackminder-project.onrender.com/collections', {
+            const res = await fetch('http://localhost:3000/collections', {
                 headers: {'Authorization':  `Bearer ${user.token}`},
                 method: 'GET'
             })
@@ -70,7 +75,7 @@ export default function CollectionsPage(){
     async function deleteCollection(id){
         try{
             const res = await fetch(`
-https://trackminder-project.onrender.com/collections/collection/${id}`, {
+http://localhost:3000/collections/collection/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${user.token}` }
             })
@@ -160,7 +165,7 @@ https://trackminder-project.onrender.com/collections/collection/${id}`, {
 
         try{
             const res = await fetch(`
-https://trackminder-project.onrender.com/collections/collection/${id}`, {
+http://localhost:3000/collections/collection/${id}`, {
                 method: 'PATCH',
                 headers: {
                     'Authorization': `Bearer ${user.token}`,
@@ -201,7 +206,7 @@ https://trackminder-project.onrender.com/collections/collection/${id}`, {
         })
 
         try{
-            const res = await fetch("https://trackminder-project.onrender.com/collections", {
+            const res = await fetch("http://localhost:3000/collections", {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${user.token}`,
@@ -237,7 +242,7 @@ https://trackminder-project.onrender.com/collections/collection/${id}`, {
     // A FUNCTION THAT DELETES ALL COLLECTIONS
     async function deleteAllCollections(){
         try{
-            const res = await fetch("https://trackminder-project.onrender.com/collections", {
+            const res = await fetch("http://localhost:3000/collections", {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${user.token}` }
             })
