@@ -48,7 +48,33 @@ export default function ProfileCard(props){
                         id="email-tag"
                     >
                         <p className="pl-[10px]  hover:underline hover:text-white transition-all duration-500 dark:hover:text-cyan-200 text-sm">Email</p>
-                        <p className="pr-[10px] hover:underline hover:text-white transition-all duration-500 dark:hover:text-cyan-200 hover:">{props.email}</p>
+                        <p className="pr-[10px] hover:underline hover:text-white transition-all duration-500 dark:hover:text-cyan-20 my-auto text-center text-sm">{props.email}</p>
+                    </div>
+
+                    <div 
+                        className="flex justify-between p-[10px] border-b-black border-b-[2px] text-xl font-[600] dark:border-b-white hover:scale-105 transition-all duration-500 animate-pop-up"
+                        id="theme-tag"
+                    >
+                        <p className="pl-[10px]  hover:underline hover:text-white transition-all duration-500 dark:hover:text-cyan-200 text-sm">Theme</p>
+                        
+                        <div 
+                            id="scroller"
+                            className="flex text-sm duration-500 transition-all gap-[0.5rem]"
+                        >
+                            <p className="text-blue-800 dark:text-sky-500 transition-all duration-500">light</p>
+                            
+                            <div 
+                                id="scroller-holder"
+                                className="flex bg-light-theme-gradient w-[50px] rounded-[20px] transition-all duration-500 justify-start dark:justify-end dark:bg-dark-theme-gradient"
+                            >
+                                <div 
+                                    id="scroller-ball"
+                                    className="bg-white w-[20px] rounded-[20px] shadow-scroller cursor-pointer transition-all duration-500 active:scale-90 dark:bg-gray-700"
+                                ></div>
+                            </div>
+                            
+                            <p className="dark:text-slate-600 text-slate-800 transition-all duration-500">dark</p>
+                        </div>
                     </div>
 
                     <div 

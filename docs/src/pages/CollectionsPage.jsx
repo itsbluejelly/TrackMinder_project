@@ -38,11 +38,7 @@ export default function CollectionsPage(){
     const { user, dispatch } = UserContextHook()
     // OBTAINING THE GLOBAL COLLECTIONS AND DISPATCH FUNCTIONS
     const { collections, dispatch: collectionsDispatch } = CollectionContextHook()
-    // OBTAINING THE GLOBAL STYLE AND DISPATCH FUNCTION
-    const { darkMode, dispatch:styleDispatch } = StyleContextHook()
-
     
-
     // A FUNCTION THAT FETCHES ALL THE COLLECTIONS
     async function getCollections(){
         try{

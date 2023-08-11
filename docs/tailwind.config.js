@@ -18,7 +18,8 @@ export default {
         'titleCard': '-2px 5px 15px black',
         'successCard': '0px 0px 50px black',
         'collectionCard': '0px 4px 15px 0px rgba(0, 0, 0, 0.25)',
-        'knob': '2px 2px 10px black'
+        'knob': '2px 2px 10px black',
+        'scroller': '2px 3px 5px black'
       },
 
       backgroundImage: {
