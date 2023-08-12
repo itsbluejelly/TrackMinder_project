@@ -85,6 +85,7 @@ export default function LoginPage(){
                 <AuthenticationForm
                     handleChange = {(e) => updateData(e)}
                     formData = {formData}
+                    styles = {""}
                 />
             </div>
 
@@ -93,6 +94,7 @@ export default function LoginPage(){
                 innerText = "Log In"
                 handleClick = {submitData}
                 disabled = {disabled}
+                styles = {null}
             />
 
             {/* A FOOTER TEXT TO TOGGLE BTWN LOGIN AND SIGNUP ROUTES */}

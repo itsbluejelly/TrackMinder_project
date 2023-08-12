@@ -85,6 +85,7 @@ export default function SignupPage(){
                 <AuthenticationForm
                     handleChange = {(e) => updateData(e)}
                     formData = {formData}
+                    styles = {""}
                 />
             </div>
 
