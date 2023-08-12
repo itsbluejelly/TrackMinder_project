@@ -45,7 +45,10 @@ export default function signoutPage(){
                 color: "#535353"
             }},
 
-            light: {input: { borderRadius: "22px" }}
+            light: {input: { 
+                borderRadius: "22px",
+                backgroundColor: "white"
+            }}
         },
 
         authenticationButton: {

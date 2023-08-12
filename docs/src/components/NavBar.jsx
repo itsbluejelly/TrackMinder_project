@@ -3,8 +3,6 @@ import { NavLink } from "react-router-dom"
 
 // EXPORTING THE NAVBAR FUNCTION
 export default function NavBar(props){
-
-    console.log(props)
     return(
         <header 
             className="sticky top-0 flex justify-between w-full text-black font-semibold text-lg p-[20px] z-10"

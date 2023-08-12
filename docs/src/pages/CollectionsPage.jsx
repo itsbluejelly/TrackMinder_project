@@ -38,6 +38,129 @@ export default function CollectionsPage(){
     const { user, dispatch } = UserContextHook()
     // OBTAINING THE GLOBAL COLLECTIONS AND DISPATCH FUNCTIONS
     const { collections, dispatch: collectionsDispatch } = CollectionContextHook()
+    // OBTAINING THE GLOBAL DARKMODE AND DISPATCH FUNCTIONS
+    const {darkMode, dispatch:styleDispatch} = StyleContextHook()
+
+    // AN OBJECT OF STYLE PROPERTIES
+    const styles = {
+        collectionCell: {
+            dark: {
+                cellContainer: { boxShadow: "0px 4px 15px 0px rgba(0, 0, 0, 0.25)" },
+
+                nameSection: {
+                    backgroundColor: "rgba(255, 255, 255, 0.87)",
+                    color: "black"
+                },
+
+                updatedDate: { backgroundColor: "silver" },
+                extraInfoSection: { backgroundColor: "#8687E7" },
+
+                button: {
+                   boxShadow: "-2px 5px 15px black",
+                   borderColor: "white" 
+                }
+            },
+
+            light: {
+                cellContainer: { boxShadow: "-2px 5px 15px black" },
+                updatedDate: { backgroundColor: "gold" },
+                extraInfoSection: { backgroundColor: "#F4C27F" },
+                
+                button: {
+                    boxShadow: "2px 2px 10px black",
+                    borderColor: "black" 
+                }
+            }
+        },
+
+        collectionsPage: {
+            dark: {
+                backgroundColor: "#121212",
+                color: "rgba(255, 255, 255, 0.87)"
+            },
+
+            light: { backgroundColor: "rgba(244, 194, 127, 0.67)" }
+
+            // bg-light-theme dark:bg-dark-theme dark:text-dark-theme-text
+        },
+        
+        dataForm: {
+            dark: {
+                updateFormContainer: { backgroundColor: "rgb(0, 0, 0, 0.6)" },
+                
+                updateForm: {
+                    backgroundColor: "#363636",
+                    boxShadow: "0px 0px 50px black"
+                },
+                
+                input: {
+                    borderRadius: "4px",
+                    borderColor: "#979797",
+                    backgroundColor: "#1D1D1D",
+                    color: "#535353"
+                }
+            },
+
+            light: {
+                updateFormContainer: { backgroundColor: "rgb(255, 255, 255, 0.3)" },
+                
+                updateForm: {
+                    backgroundColor: "rgb(254 215 170 / 1)",
+                    boxShadow: "-2px 5px 15px black"
+                },
+                
+                input: {
+                    borderRadius: "22px"
+                }
+            }
+        },
+
+        authenticationButton: {
+            dark: {
+                backgroundImage: "linear-gradient(218deg, #8875FF 0%, rgba(134, 135, 231, 0.50) 100%)",
+                borderRadius: "5px"
+            },
+
+            light: {
+                backgroundImage: "linear-gradient(218deg, #D8605B 0%, #F4C27F 100%)",
+                borderRadius: "50px",
+                boxShadow: "0px 6px 10px 0px rgba(0, 0, 0, 0.15)"
+            }
+        },
+
+        navBar: {
+            dark: {
+                navbarHeader: {
+                    backgroundColor: "#8687E7",
+                    boxShadow: "10px 5px 10px black"
+                },
+
+                userProfileLink: { backgroundColor: "white" }
+            },
+
+            light: {
+                navbarHeader: {
+                    backgroundColor: "white",
+                    boxShadow: "0px 4px 15px 0px rgba(0, 0, 0, 0.25)"
+                },
+                
+                userProfileLink: { backgroundColor: "rgba(244, 194, 127, 0.67)" }
+            }
+        },
+
+        footer: {
+            dark: {footerContainer: {
+                backgroundColor: "#363636",
+                boxShadow: "10px 5px 10px black",
+                color: "white"
+            }},
+
+            light: {footerContainer: {
+               backgroundColor: "rgb(251 146 60 / 1)",
+               boxShadow: "0px 4px 15px 0px rgba(0, 0, 0, 0.25)" 
+            }}
+        }
+    }
     
     // A FUNCTION THAT FETCHES ALL THE COLLECTIONS
     async function getCollections(){
@@ -70,8 +193,7 @@ export default function CollectionsPage(){
     // A FUNCTION THAT DELETES A SINGLE COLLECTION
     async function deleteCollection(id){
         try{
-            const res = await fetch(`
-http://localhost:3000/collections/collection/${id}`, {
+            const res = await fetch(`http://localhost:3000/collections/collection/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${user.token}` }
             })
@@ -160,8 +282,7 @@ http://localhost:3000/collections/collection/${id}`, {
         })
 
         try{
-            const res = await fetch(`
-http://localhost:3000/collections/collection/${id}`, {
+            const res = await fetch(`http://localhost:3000/collections/collection/${id}`, {
                 method: 'PATCH',
                 headers: {
                     'Authorization': `Bearer ${user.token}`,
@@ -295,6 +416,7 @@ http://localhost:3000/collections/collection/${id}`, {
                     handleDelete={() => deleteCollection(collection._id)}
                     updateCollectionID={() => updateCollectionID(collection._id)}
                     disabled={disabled}
+                    styles = {darkMode ? styles.collectionCell.dark : styles.collectionCell.light}
                 />
             )
         })
@@ -307,7 +429,8 @@ http://localhost:3000/collections/collection/${id}`, {
         // A COLLECTIONS PAGE CONTAINER THAT HOLDS ALL NECESSARY COLLECTIONS
         <div 
             id="collections-page"
-            className="min-h-screen bg-light-theme scroll-smooth dark:bg-dark-theme dark:text-dark-theme-text transition-all duration-500 relative"
+            className="min-h-screen transition-all duration-500 relative scroll-smooth"
+            style={darkMode ? styles.collectionsPage.dark : styles.collectionsPage.light}
         >
             {/* AN ERROR POPUP IF AN ERROR OCCURS */}
             {error && <ErrorPopup
@@ -330,6 +453,7 @@ http://localhost:3000/collections/collection/${id}`, {
                         innerText="Update"
                         handleClick={() => updateCollection(collectionID)}
                         disabled={disabled}
+                        styles = {darkMode ? styles.authenticationButton.dark : styles.authenticationButton.light}
                     />}
                     hideForm = {() => setShowUpdatedForm(false)}
                     formData = {formData}
@@ -343,6 +467,7 @@ http://localhost:3000/collections/collection/${id}`, {
                     fieldType2 = "text"
                     fieldName2 = "description"
                     formTitle = "Update collection"
+                    styles = {darkMode ? styles.dataForm.dark : styles.dataForm.light}
                 />
             :
                     showForm
@@ -352,6 +477,7 @@ http://localhost:3000/collections/collection/${id}`, {
                         innerText="Create"
                         handleClick={createCollection}
                         disabled={disabled}
+                        styles = {darkMode ? styles.authenticationButton.dark : styles.authenticationButton.light}
                     />}
                         hideForm = {() => setShowForm(false)}
                         formData = {formData}
@@ -365,6 +491,7 @@ http://localhost:3000/collections/collection/${id}`, {
                         fieldType2 = "text"
                         fieldName2 = "description"
                         formTitle = "Create collection"
+                        styles = {darkMode ? styles.dataForm.dark : styles.dataForm.light}
                     />
                 :
                     null
@@ -375,6 +502,7 @@ http://localhost:3000/collections/collection/${id}`, {
                 navigationTitle = "TrackMinder"
                 username = { user.username }
                 url = "/TrackMinder_project"
+                styles = {darkMode ? styles.navBar.dark : styles.navBar.light}
             />
             
             {/* A GRID OR FLEX CONTAINER FOR ALL COLLECTIONS */}
@@ -389,6 +517,7 @@ http://localhost:3000/collections/collection/${id}`, {
                 handleDelete={deleteAllCollections}
                 addTitle="Add Collection"
                 deleteTitle="Delete Collections"
+                styles = {darkMode ? styles.footer.dark : styles.footer.light}
             />
             
         </div>
