@@ -10,6 +10,7 @@ import TaskCell from "../components/TaskCell"
 import UserContextHook from "../hooks/UserContextHook"
 import CollectionContextHook from "../hooks/CollectionContextHook"
 import TaskContextHook from "../hooks/TaskContextHook"
+import StyleContextHook from "../hooks/StyleContextHook"
 
 import { useParams } from 'react-router-dom'
 import { format } from "date-fns"
@@ -42,7 +43,118 @@ export default function TasksPage(){
     // OBTAINING GLOBAL TASKS AND DISPATCH FUNCTION
     const { tasks, dispatch:tasksDispatch } = TaskContextHook()
     // OBTAINING OF COLLECTION_ID
-    const { id: collectionID } = useParams()
+    const {id:collectionID} = useParams()
+    // OBTAINING GLOBAL DARKMODE AND DISPATCH FUNCTION
+    const {darkMode, dispatch:styleDispatch} = StyleContextHook()
+
+    // AN OBJECT OF STYLE PROPERTIES
+    const styles = {
+        taskCell: {
+            dark: {
+                taskContainer: { backgroundColor: "#8687E7" },
+                
+                button: {
+                    boxShadow: "-2px 5px 15px black",
+                    borderColor: "white"
+                }
+            },
+
+            light: { 
+               taskContainer: { backgroundColor: "rgb(253 186 116 / 1)" },
+               
+                button: {
+                    boxShadow: "2px 2px 10px black",
+                    borderColor: "black"
+                }
+            }
+        },
+
+        tasksContainer: {
+            dark: {
+                backgroundColor: "#121212",
+                color: "rgba(255, 255, 255, 0.87)"
+            },
+
+            light: { backgroundColor: "rgba(244, 194, 127, 0.67)" }
+        },
+
+        dataForm: {
+            dark: {
+                updateFormContainer: { backgroundColor: "rgb(0, 0, 0, 0.6)" },
+                
+                updateForm: {
+                    backgroundColor: "#363636",
+                    boxShadow: "0px 0px 50px black"
+                },
+                
+                input: {
+                    borderRadius: "4px",
+                    borderColor: "#979797",
+                    backgroundColor: "#1D1D1D",
+                    color: "#535353"
+                }
+            },
+
+            light: {
+                updateFormContainer: { backgroundColor: "rgb(255, 255, 255, 0.3)" },
+                
+                updateForm: {
+                    backgroundColor: "rgb(254 215 170 / 1)",
+                    boxShadow: "-2px 5px 15px black"
+                },
+                
+                input: {
+                    borderRadius: "22px"
+                }
+            }
+        },
+
+        authenticationButton: {
+            dark: {
+                backgroundImage: "linear-gradient(218deg, #8875FF 0%, rgba(134, 135, 231, 0.50) 100%)",
+                borderRadius: "5px"
+            },
+
+            light: {
+                backgroundImage: "linear-gradient(218deg, #D8605B 0%, #F4C27F 100%)",
+                borderRadius: "50px",
+                boxShadow: "0px 6px 10px 0px rgba(0, 0, 0, 0.15)"
+            }
+        },
+
+        navBar: {
+            dark: {
+                navbarHeader: {
+                    backgroundColor: "#8687E7",
+                    boxShadow: "10px 5px 10px black"
+                },
+
+                userProfileLink: { backgroundColor: "white" }
+            },
+
+            light: {
+                navbarHeader: {
+                    backgroundColor: "white",
+                    boxShadow: "0px 4px 15px 0px rgba(0, 0, 0, 0.25)"
+                },
+                
+                userProfileLink: { backgroundColor: "rgba(244, 194, 127, 0.67)" }
+            }
+        },
+
+        footer: {
+            dark: {footerContainer: {
+                backgroundColor: "#363636",
+                boxShadow: "10px 5px 10px black",
+                color: "white"
+            }},
+
+            light: {footerContainer: {
+               backgroundColor: "rgb(251 146 60 / 1)",
+               boxShadow: "0px 4px 15px 0px rgba(0, 0, 0, 0.25)" 
+            }}
+        }
+    }
 
     // A FUNCTION THAT OBTAINS COLLECTION NAME
     function getCollectionName(){
@@ -54,8 +166,7 @@ export default function TasksPage(){
     // A FUNCTION THAT FETCHES ALL RELEVANT TASKS FROM API
     async function getTasks(){
         try{
-            const res = await fetch(`
-http://localhost:3000/tasks/?collection=${collectionID}`, {
+            const res = await fetch(`http://localhost:3000/tasks/?collection=${collectionID}`, {
                 method: "GET",
                 headers: {'Authorization': `Bearer ${user.token}`}
             })
@@ -83,8 +194,7 @@ http://localhost:3000/tasks/?collection=${collectionID}`, {
     // A FUNCTION THAT DELETES A TASK
     async function deleteTask(id){
         try{
-            const res = await fetch(`
-http://localhost:3000/tasks/task/${id}`, {
+            const res = await fetch(`http://localhost:3000/tasks/task/${id}`, {
                 method: "DELETE",
                 headers: { "Authorization": `Bearer ${user.token}` }
             })
@@ -173,8 +283,7 @@ http://localhost:3000/tasks/task/${id}`, {
         }
 
         try{
-            const res = await fetch(`
-http://localhost:3000/tasks/task/${id}`, {
+            const res = await fetch(`http://localhost:3000/tasks/task/${id}`, {
                 method: "PATCH",
                 body: JSON.stringify(validateFormData()),
                 headers: {
@@ -215,8 +324,7 @@ http://localhost:3000/tasks/task/${id}`, {
         })
 
         try{
-            const res = await fetch(`
-http://localhost:3000/tasks?collection=${collectionID}`, {
+            const res = await fetch(`http://localhost:3000/tasks?collection=${collectionID}`, {
                 method: "POST",
                 body: JSON.stringify(formData),
                 
@@ -253,8 +361,7 @@ http://localhost:3000/tasks?collection=${collectionID}`, {
     // A FUNCTION THAT DELETES ALL TASK
     async function deleteAllTasks(){
         try{
-            const res = await fetch(`
-http://localhost:3000/tasks/?collection=${collectionID}`, {
+            const res = await fetch(`http://localhost:3000/tasks/?collection=${collectionID}`, {
                 method: "DELETE",
                 headers: { "Authorization": `Bearer ${user.token}` }
             })
@@ -317,7 +424,8 @@ http://localhost:3000/tasks/?collection=${collectionID}`, {
                     handleDelete = {() => deleteTask(task._id)}
                     handleUpdate = {() => updateTaskID(task._id)}
                     key={task._id}
-                    id={task._id}    
+                    id={task._id}
+                    styles = {darkMode ? styles.taskCell.dark : styles.taskCell.light}    
                 />
             )
         })
@@ -330,7 +438,9 @@ http://localhost:3000/tasks/?collection=${collectionID}`, {
         //A TASKS-PAGE CONTAINER MASKING ALL ELEMENTS 
         <div 
             id="tasks-container"
-            className="min-h-screen bg-light-theme scroll-smooth dark:bg-dark-theme dark:text-dark-theme-text transition-all duration-500 relative">
+            className="min-h-screen transition-all duration-500 relative scroll-smooth"
+            style={darkMode ? styles.tasksContainer.dark : styles.tasksContainer.light}
+        >
             {/* AN ERROR POPUP IF AN ERROR OCCURS */}
             {error && <ErrorPopup
                 errorMessage = {error}
@@ -360,11 +470,13 @@ http://localhost:3000/tasks/?collection=${collectionID}`, {
                         fieldType2 = "datetime-local"
                         fieldName2 = "deadline"
                         fieldPlaceholder2 = "Your optional date and time"
+                        styles = {darkMode ? styles.dataForm.dark : styles.dataForm.light}
                         
                         button = {<AuthenticationButton
                             innerText = "Add Task"
                             disabled = {disabled}
                             handleClick = {createTask}
+                            styles = {darkMode ? styles.authenticationButton.dark : styles.authenticationButton.light}
                         />}
                     />
                 :
@@ -383,11 +495,13 @@ http://localhost:3000/tasks/?collection=${collectionID}`, {
                             fieldType2 = "datetime-local"
                             fieldName2 = "deadline"
                             fieldPlaceholder2 = "Your optional date and time"
+                            styles = {darkMode ? styles.dataForm.dark : styles.dataForm.light}
                             
                             button = {<AuthenticationButton
                                 innerText = "Update"
                                 disabled = {disabled}
                                 handleClick = {() => updateTask(taskID)}
+                                styles = {darkMode ? styles.authenticationButton.dark : styles.authenticationButton.light}
                             />}
                         />
                     :
@@ -399,6 +513,7 @@ http://localhost:3000/tasks/?collection=${collectionID}`, {
                 url='/home/collections'
                 navigationTitle= {getCollectionName()}
                 username = {user.username}
+                styles = { darkMode ? styles.navBar.dark : styles.navBar.light }
             />
         
             {/* A CONTAINER FOR ALL TASK CELLS */}
@@ -413,6 +528,7 @@ http://localhost:3000/tasks/?collection=${collectionID}`, {
                 disabled={disabled}
                 showForm={() => setShowForm(true)}
                 handleDelete={deleteAllTasks}
+                styles={darkMode ? styles.footer.dark : styles.footer.light}
             />
         </div>
     )
