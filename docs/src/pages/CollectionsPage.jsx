@@ -426,60 +426,36 @@ export default function CollectionsPage(){
     React.useEffect(() => {getCollections()}, [])
 
     return(
-        // A COLLECTIONS PAGE CONTAINER THAT HOLDS ALL NECESSARY COLLECTIONS
+        // A COLLECTIONS PAGE CONTAINER THAT HOLDS ALL NECESSARY COLLECTIONS AND IS A SPLIT SCREEN IN LARGE
         <div 
             id="collections-page"
-            className="min-h-screen transition-all duration-500 relative scroll-smooth"
+            className="min-h-screen transition-all duration-500 relative scroll-smooth flex flex-col lg:flex-row-reverse"
             style={darkMode ? styles.collectionsPage.dark : styles.collectionsPage.light}
         >
             {/* AN ERROR POPUP IF AN ERROR OCCURS */}
             {error && <ErrorPopup
-                errorMessage = { error }
-                handleClick = {() => setError("")}
+                    errorMessage = { error }
+                    handleClick = {() => setError("")}
             />}
-            
+
             {/* AN SUCCESS POPUP IF AN SUCCESS OCCURS */}
             {success && <SuccessPopup
-                successMessage = { success }
-                handleClick = {() => setSuccess("")}
+                    successMessage = { success }
+                    handleClick = {() => setSuccess("")}
             />}
 
             {/* A POPUP FORM IF THE UPDATE OR ADD BUTTON IS CLICKED */}
             {
-                showUpdatedForm 
-            ? 
-                <DataForm
-                    button = {<AuthenticationButton
-                        innerText="Update"
-                        handleClick={() => updateCollection(collectionID)}
-                        disabled={disabled}
-                        styles = {darkMode ? styles.authenticationButton.dark : styles.authenticationButton.light}
-                    />}
-                    hideForm = {() => setShowUpdatedForm(false)}
-                    formData = {formData}
-                    handleChange = {(e) => updateFormData(e)}
-                    fieldTitle1 = "Name"
-                    fieldPlaceholder1 = "Your collection name"
-                    fieldType1 = "text"
-                    fieldName1 = "name"
-                    fieldTitle2 = "Description"
-                    fieldPlaceholder2 = "Your optional description"
-                    fieldType2 = "text"
-                    fieldName2 = "description"
-                    formTitle = "Update collection"
-                    styles = {darkMode ? styles.dataForm.dark : styles.dataForm.light}
-                />
-            :
-                    showForm
-                ?
+                    showUpdatedForm 
+                ? 
                     <DataForm
-                    button = {<AuthenticationButton
-                        innerText="Create"
-                        handleClick={createCollection}
-                        disabled={disabled}
-                        styles = {darkMode ? styles.authenticationButton.dark : styles.authenticationButton.light}
-                    />}
-                        hideForm = {() => setShowForm(false)}
+                        button = {<AuthenticationButton
+                            innerText="Update"
+                            handleClick={() => updateCollection(collectionID)}
+                            disabled={disabled}
+                            styles = {darkMode ? styles.authenticationButton.dark : styles.authenticationButton.light}
+                        />}
+                        hideForm = {() => setShowUpdatedForm(false)}
                         formData = {formData}
                         handleChange = {(e) => updateFormData(e)}
                         fieldTitle1 = "Name"
@@ -490,26 +466,53 @@ export default function CollectionsPage(){
                         fieldPlaceholder2 = "Your optional description"
                         fieldType2 = "text"
                         fieldName2 = "description"
-                        formTitle = "Create collection"
+                        formTitle = "Update collection"
                         styles = {darkMode ? styles.dataForm.dark : styles.dataForm.light}
                     />
                 :
-                    null
-            }
+                        showForm
+                    ?
+                        <DataForm
+                        button = {<AuthenticationButton
+                            innerText="Create"
+                            handleClick={createCollection}
+                            disabled={disabled}
+                            styles = {darkMode ? styles.authenticationButton.dark : styles.authenticationButton.light}
+                        />}
+                            hideForm = {() => setShowForm(false)}
+                            formData = {formData}
+                            handleChange = {(e) => updateFormData(e)}
+                            fieldTitle1 = "Name"
+                            fieldPlaceholder1 = "Your collection name"
+                            fieldType1 = "text"
+                            fieldName1 = "name"
+                            fieldTitle2 = "Description"
+                            fieldPlaceholder2 = "Your optional description"
+                            fieldType2 = "text"
+                            fieldName2 = "description"
+                            formTitle = "Create collection"
+                            styles = {darkMode ? styles.dataForm.dark : styles.dataForm.light}
+                        />
+                    :
+                        null
+                }
 
-            {/* A NAVBAR TO DIRECT TO THE HOME PAGE, OR THE USER PROFILE */}
-            <NavBar
-                navigationTitle = "TrackMinder"
-                username = { user.username }
-                url = "/TrackMinder_project"
-                styles = {darkMode ? styles.navBar.dark : styles.navBar.light}
-            />
-            
-            {/* A GRID OR FLEX CONTAINER FOR ALL COLLECTIONS */}
-            <div className="lg:grid grid-flow-row lg:grid-cols-3 gap-2 flex flex-col justify-center items-center md:grid md:grid-cols-2">
-                {collections && collectionsArrayGenerator() }
+            {/* A CONTAINER WHERE THE COLLECTIONS ARE VIEWED IN LARGE SCREENS */}
+            <div className="flex flex-col lg:min-w-[90vw] ">
+                {/* A NAVBAR TO DIRECT TO THE HOME PAGE, OR THE USER PROFILE */}
+                <NavBar
+                    navigationTitle = "TrackMinder"
+                    username = { user.username }
+                    url = "/TrackMinder_project"
+                    styles = {darkMode ? styles.navBar.dark : styles.navBar.light}
+                />
+                
+                {/* A GRID OR FLEX CONTAINER FOR ALL COLLECTIONS */}
+                <div className="lg:grid grid-flow-row lg:grid-cols-3 gap-2 flex flex-col justify-center items-center md:grid md:grid-cols-2">
+                    {collections && collectionsArrayGenerator() }
+                </div>
             </div>
-            
+
             {/* A FOOTER TO EITHER DELETE ALL OR ADD A COLLECTION */}
             <Footer
                 disabled={disabled}
@@ -517,10 +520,9 @@ export default function CollectionsPage(){
                 handleDelete={deleteAllCollections}
                 addTitle="Add"
                 deleteTitle="Delete"
-                hideTitle = "Hide"
+                hideTitle = "Hide All"
                 styles = {darkMode ? styles.footer.dark : styles.footer.light}
             />
-            
         </div>
     )
 }

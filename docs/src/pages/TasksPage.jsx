@@ -525,7 +525,7 @@ export default function TasksPage(){
             <Footer
                 addTitle="Add"
                 deleteTitle="Delete"
-                hideTitle = "Hide"
+                hideTitle = "Hide All"
                 disabled={disabled}
                 showForm={() => setShowForm(true)}
                 handleDelete={deleteAllTasks}
