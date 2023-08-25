@@ -1,26 +1,19 @@
 # TrackMinder_project
 This is my first full MERN application, courtesy of DirectEd coding bootcamp and my hard earned work
-## Version 1.1:
-### PAST
-- Basic CRUD Operations
-- Device compatibility
-- Styling
-- Effective backend
-- Hosting priorities using Cyclic
-- Database developed effectively
 ## Version 1.2:
-#### PRESENT
+### PAST
 - Fixed issue with unsafe hosting, switched to Render
 - Fixed image visibility
 - Added dark and light mode
 - Fixed error on routing to welcome page
 ## Version 1.3:
-##### FUTURE
+#### PRESENT
 - To fix scrolling issue with tasks
 - To improve styling of footer
 - To fix scrolling issue with collections
 - Footer device compatibility
 ## Version 1.4:
+##### FUTURE
 - To add search button
 - To add hide button
 - To add reveal button
