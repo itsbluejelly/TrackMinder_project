@@ -515,8 +515,9 @@ export default function CollectionsPage(){
                 disabled={disabled}
                 showForm={() => setShowForm(true)}
                 handleDelete={deleteAllCollections}
-                addTitle="Add Collection"
-                deleteTitle="Delete Collections"
+                addTitle="Add"
+                deleteTitle="Delete"
+                hideTitle = "Hide"
                 styles = {darkMode ? styles.footer.dark : styles.footer.light}
             />
             

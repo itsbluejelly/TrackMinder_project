@@ -523,8 +523,9 @@ export default function TasksPage(){
 
             {/* A FOOTER CONTAINING ADD AND DELETE BUTTONS */}
             <Footer
-                addTitle="Add Task"
-                deleteTitle="Delete All Tasks"
+                addTitle="Add"
+                deleteTitle="Delete"
+                hideTitle = "Hide"
                 disabled={disabled}
                 showForm={() => setShowForm(true)}
                 handleDelete={deleteAllTasks}
