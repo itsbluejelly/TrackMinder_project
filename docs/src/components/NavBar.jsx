@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom"
 export default function NavBar(props){
     return(
         <header 
-            className="sticky top-0 flex justify-between w-full text-black font-semibold text-lg p-[20px] z-10"
+            className="top-0 flex justify-between w-full text-black font-semibold text-lg p-[20px] z-10 mb-[100px]"
             id="navbar-header"
             style={props.styles.navbarHeader}
         >

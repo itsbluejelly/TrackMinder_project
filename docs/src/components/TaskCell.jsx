@@ -2,7 +2,7 @@
 export default function TaskCell(props){
     return(
         <div 
-            className="w-[80%] min-h-[80px] rounded-[20px] mt-[100px] shadow-button p-[10px] animate-drop-down transition-all duration-500 flex flex-col"
+            className="w-[80%] min-h-[80px] rounded-[20px] mb-[50px] mt-[50px] shadow-button p-[10px] animate-drop-down transition-all duration-500 flex flex-col"
             id="task-container"
             style={props.styles.taskContainer}
         >

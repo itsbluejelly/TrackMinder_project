@@ -2,7 +2,7 @@
 export default function Footer(props){
     return(
         <footer 
-            className="sticky bottom-0 flex justify-center transition-all duration-500 rounded-full w-[70%] mx-auto z-10 font-semibold text-[14px] gap-[2rem] p-[10px]"
+            className="absolute flex justify-center transition-all duration-500 rounded-full w-[70%] mx-auto font-semibold text-[14px] gap-[2rem] p-[10px] left-[15%] bottom-0"
             id="footer-container"
             style={props.styles.footerContainer}
         >

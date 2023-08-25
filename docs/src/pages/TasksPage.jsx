@@ -438,7 +438,7 @@ export default function TasksPage(){
         //A TASKS-PAGE CONTAINER MASKING ALL ELEMENTS 
         <div 
             id="tasks-container"
-            className="min-h-screen transition-all duration-500 relative scroll-smooth"
+            className="min-h-screen transition-all duration-500 relative scroll-smooth scroll-m-[200px]"
             style={darkMode ? styles.tasksContainer.dark : styles.tasksContainer.light}
         >
             {/* AN ERROR POPUP IF AN ERROR OCCURS */}
