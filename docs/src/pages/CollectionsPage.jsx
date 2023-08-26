@@ -135,7 +135,9 @@ export default function CollectionsPage(){
                     boxShadow: "10px 5px 10px black"
                 },
 
-                userProfileLink: { backgroundColor: "white" }
+                userProfileLink: { backgroundColor: "white" },
+                footerShowerBorder: { backgroundColor: "grey" },
+                footerShower: { backgroundColor: "white" }
             },
 
             light: {
@@ -144,7 +146,9 @@ export default function CollectionsPage(){
                     boxShadow: "0px 4px 15px 0px rgba(0, 0, 0, 0.25)"
                 },
                 
-                userProfileLink: { backgroundColor: "rgba(244, 194, 127, 0.67)" }
+                userProfileLink: { backgroundColor: "rgba(244, 194, 127, 0.67)" },
+                footerShowerBorder: { backgroundColor: "white" },
+                footerShower: { backgroundColor: "rgba(244, 194, 127, 0.67)" }
             }
         },
 

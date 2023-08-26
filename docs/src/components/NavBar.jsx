@@ -9,10 +9,24 @@ export default function NavBar(props){
             id="navbar-header"
             style={props.styles.navbarHeader}
         >
-            <NavLink 
-                className="text-xl  my-auto dark:active:text-white active:underline active:underline-offset-2 transition-all duration-500 active:text-light-theme hover:scale-105 ml-[20px]" 
-                to={props.url}
-            >{props.navigationTitle}</NavLink>
+            <div className="flex flex-row justify-center">
+                <div 
+                    id="footer-shower-border"
+                    className="cursor-pointer hover:text-2xl transition-all duration-500 active:text-light-theme dark:active:text-white hidden lg:flex my-auto w-[30px] h-[30px] border-[2px] border-black rounded-full justify-center items-center animate-pop-up active:animate-ping"
+                    style={props.styles.footerShowerBorder}
+                >
+                    <div 
+                        id="footer-shower"
+                        className="flex justify-center items-center text-sm w-[20px] h-[20px] rounded-full transition-all duration-500 hover:scale-110"
+                        style={props.styles.footerShower}
+                    >i</div>
+                </div>
+
+                <NavLink 
+                    className="text-xl my-auto dark:active:text-white active:underline active:underline-offset-2 transition-all duration-500 active:text-light-theme hover:scale-105 ml-[20px] lg:ml-[10px]" 
+                    to={props.url}
+                >{props.navigationTitle}</NavLink>
+            </div>
 
             {/* LINK TO USER PROFILE */}
             <div className="flex gap-2 flex-row-reverse mr-[20px]">
