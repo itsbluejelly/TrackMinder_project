@@ -11,6 +11,7 @@ import UserContextHook from "../hooks/UserContextHook"
 import CollectionContextHook from "../hooks/CollectionContextHook"
 import TaskContextHook from "../hooks/TaskContextHook"
 import StyleContextHook from "../hooks/StyleContextHook"
+import ShowFooterContextHook from "../hooks/ShowFooterContextHook"
 
 import { useParams } from 'react-router-dom'
 import { format } from "date-fns"
@@ -46,6 +47,8 @@ export default function TasksPage(){
     const {id:collectionID} = useParams()
     // OBTAINING GLOBAL DARKMODE AND DISPATCH FUNCTION
     const {darkMode, dispatch:styleDispatch} = StyleContextHook()
+    // OBTAINING THE GLOBAL SHOWFOOTER CONTEXT AND DISPATCH FUNCTION
+    const { showFooter, dispatch:showFooterDispatch } = ShowFooterContextHook()
 
     // AN OBJECT OF STYLE PROPERTIES
     const styles = {
@@ -513,13 +516,17 @@ export default function TasksPage(){
             }
 
             {/* A CONTAINER WHERE TASKS ARE VIEWED IN LARGE SCREENS */}
-            <div className="flex flex-col lg:min-w-[90vw]">
+            <div className="flex flex-col lg:min-w-[90vw] flex-1">
                 {/* A NAVBAR TO DIRECT TO COLLECTIONS PAGE OR USER PROFILE */}
                 <NavBar
                     url='/home/collections'
                     navigationTitle= {getCollectionName()}
                     username = {user.username}
                     styles = { darkMode ? styles.navBar.dark : styles.navBar.light }
+
+                    handleShowFooter = {
+                        () => showFooter ? showFooterDispatch({ type: "HIDE_FOOTER" }) : showFooterDispatch({ type: "SHOW_FOOTER" })
+                    }
                 />
             
                 {/* A CONTAINER FOR ALL TASK CELLS */}
@@ -529,7 +536,7 @@ export default function TasksPage(){
             </div>
             
             {/* A FOOTER CONTAINING ADD AND DELETE BUTTONS */}
-            <Footer
+            {showFooter && <Footer
                 addTitle="Add"
                 deleteTitle="Delete"
                 hideTitle = "Hide All"
@@ -537,7 +544,7 @@ export default function TasksPage(){
                 showForm={() => setShowForm(true)}
                 handleDelete={deleteAllTasks}
                 styles={darkMode ? styles.footer.dark : styles.footer.light}
-            />
+            />}
         </div>
     )
 }
