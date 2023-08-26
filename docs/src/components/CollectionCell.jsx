@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom"
 export default function CollectionCell(props){
     return(
         <div 
-            className="w-[300px] h-[250px] flex flex-col m-[50px] bg-white rounded-[25px] text-xl transition-all duration-500 relative mb-[150px] mt-0"
+            className="w-[300px] h-[250px] flex flex-col m-[50px] bg-white rounded-[25px] text-xl transition-all duration-500 relative mb-[150px] mt-0 lg:ml-[15px]"
             id="cell-container"
             style={props.styles.cellContainer}
 
