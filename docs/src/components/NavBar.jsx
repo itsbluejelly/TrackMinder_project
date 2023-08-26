@@ -19,6 +19,7 @@ export default function NavBar(props){
                         id="footer-shower"
                         className="flex justify-center items-center text-sm w-[20px] h-[20px] rounded-full transition-all duration-500 hover:scale-110"
                         style={props.styles.footerShower}
+                        onClick={props.handleShowFooter}
                     >i</div>
                 </div>
 

@@ -10,6 +10,7 @@ import AuthenticationButton from '../components/AuthenticationButton'
 import CollectionContextHook from "../hooks/CollectionContextHook"
 import DataForm from "../components/DataForm"
 import StyleContextHook from "../hooks/StyleContextHook"
+import ShowFooterContextHook from "../hooks/ShowFooterContextHook"
 
 import { formatDistanceToNow } from "date-fns"
 
@@ -40,6 +41,8 @@ export default function CollectionsPage(){
     const { collections, dispatch: collectionsDispatch } = CollectionContextHook()
     // OBTAINING THE GLOBAL DARKMODE AND DISPATCH FUNCTIONS
     const {darkMode, dispatch:styleDispatch} = StyleContextHook()
+    // OBTAINING THE GLOBAL SHOWFOOTER CONTEXT AND DISPATCH FUNCTION
+    const { showFooter, dispatch:showFooterDispatch } = ShowFooterContextHook()
 
     // AN OBJECT OF STYLE PROPERTIES
     const styles = {
@@ -80,8 +83,6 @@ export default function CollectionsPage(){
             },
 
             light: { backgroundColor: "rgba(244, 194, 127, 0.67)" }
-
-            // bg-light-theme dark:bg-dark-theme dark:text-dark-theme-text
         },
         
         dataForm: {
@@ -502,23 +503,27 @@ export default function CollectionsPage(){
                 }
 
             {/* A CONTAINER WHERE THE COLLECTIONS ARE VIEWED IN LARGE SCREENS */}
-            <div className="flex flex-col lg:min-w-[90vw] ">
+            <div className="flex flex-col lg:min-w-[90vw] flex-1">
                 {/* A NAVBAR TO DIRECT TO THE HOME PAGE, OR THE USER PROFILE */}
                 <NavBar
                     navigationTitle = "TrackMinder"
                     username = { user.username }
                     url = "/TrackMinder_project"
                     styles = {darkMode ? styles.navBar.dark : styles.navBar.light}
+                    
+                    handleShowFooter = {
+                        () => showFooter ? showFooterDispatch({ type: "HIDE_FOOTER" }) : showFooterDispatch({ type: "SHOW_FOOTER" })
+                    }
                 />
                 
                 {/* A GRID OR FLEX CONTAINER FOR ALL COLLECTIONS */}
-                <div className="lg:grid grid-flow-row lg:grid-cols-3 gap-2 flex flex-col justify-center items-center md:grid md:grid-cols-2">
+                <div className="grid-flow-row lg:grid-cols-3 gap-2 flex flex-col justify-center items-center md:grid md:grid-cols-2 lg:flex lg:flex-row lg:flex-wrap lg:flex-1">
                     {collections && collectionsArrayGenerator() }
                 </div>
             </div>
 
             {/* A FOOTER TO EITHER DELETE ALL OR ADD A COLLECTION */}
-            <Footer
+            {showFooter && <Footer
                 disabled={disabled}
                 showForm={() => setShowForm(true)}
                 handleDelete={deleteAllCollections}
@@ -526,7 +531,7 @@ export default function CollectionsPage(){
                 deleteTitle="Delete"
                 hideTitle = "Hide All"
                 styles = {darkMode ? styles.footer.dark : styles.footer.light}
-            />
+            />}
         </div>
     )
 }

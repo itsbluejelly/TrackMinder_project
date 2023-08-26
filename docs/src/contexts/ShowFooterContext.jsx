@@ -5,8 +5,8 @@ import React from "react";
 export const ShowFooterContext = React.createContext()
 
 // EXPORTING A SHOWFOOTERREDUCER FUNCTION THAT MANAGES THE SHOWFOOTERSTATE
-export function ShowFooterReducer(state, dispatch){
-    switch(state.type){
+export function ShowFooterReducer(state, action){
+    switch(action.type){
         case "SHOW_FOOTER":
             return { showFooter: true }
 
