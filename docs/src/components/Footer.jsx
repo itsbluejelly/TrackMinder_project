@@ -2,7 +2,7 @@
 export default function Footer(props){
     return(
         <footer 
-            className="lg:relative absolute flex justify-evenly transition-all duration-500 rounded-none md:rounded-full lg:rounded-none md:w-[70%] mx-auto font-semibold text-[14px] gap-[2rem] p-[5px] md:left-[15%] left-0 lg:left-0 bottom-0 items-center w-full lg:flex-col lg:max-w-[10vw]"
+            className="lg:relative absolute flex justify-evenly transition-all duration-500 rounded-none md:rounded-full lg:rounded-none md:w-[70%] mx-auto font-semibold text-[14px] gap-[2rem] p-[5px] md:left-[15%] left-0 lg:left-0 bottom-0 items-center w-full lg:flex-col lg:max-w-[10vw] lg:justify-center"
             id="footer-container"
             style={props.styles.footerContainer}
         >   

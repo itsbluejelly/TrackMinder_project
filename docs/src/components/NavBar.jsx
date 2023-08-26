@@ -12,7 +12,7 @@ export default function NavBar(props){
             <div className="flex flex-row justify-center">
                 <div 
                     id="footer-shower-border"
-                    className="cursor-pointer hover:text-2xl transition-all duration-500 active:text-light-theme dark:active:text-white hidden lg:flex my-auto w-[30px] h-[30px] border-[2px] border-black rounded-full justify-center items-center animate-pop-up active:animate-ping"
+                    className="cursor-pointer hover:text-2xl transition-all duration-300 active:text-light-theme dark:active:text-white hidden lg:flex my-auto w-[30px] h-[30px] border-[2px] border-black rounded-full justify-center items-center animate-pop-up active:animate-ping"
                     style={props.styles.footerShowerBorder}
                 >
                     <div 
