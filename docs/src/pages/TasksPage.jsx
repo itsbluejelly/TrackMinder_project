@@ -435,10 +435,10 @@ export default function TasksPage(){
     React.useEffect(() => {getTasks()}, [])
 
     return (
-        //A TASKS-PAGE CONTAINER MASKING ALL ELEMENTS 
+        //A TASKS-PAGE CONTAINER MASKING ALL ELEMENTS AND IS A SPLIT SCREEN IN LARGE 
         <div 
             id="tasks-container"
-            className="min-h-screen transition-all duration-500 relative scroll-smooth scroll-m-[200px]"
+            className="min-h-screen transition-all duration-500 relative scroll-smooth scroll-m-[200px] flex flex-col lg:flex-row-reverse"
             style={darkMode ? styles.tasksContainer.dark : styles.tasksContainer.light}
         >
             {/* AN ERROR POPUP IF AN ERROR OCCURS */}
@@ -508,19 +508,22 @@ export default function TasksPage(){
                         null
             }
 
-            {/* A NAVBAR TO DIRECT TO COLLECTIONS PAGE OR USER PROFILE */}
-            <NavBar
-                url='/home/collections'
-                navigationTitle= {getCollectionName()}
-                username = {user.username}
-                styles = { darkMode ? styles.navBar.dark : styles.navBar.light }
-            />
-        
-            {/* A CONTAINER FOR ALL TASK CELLS */}
-            <div className="flex flex-col justify-evenly items-center">
-                {tasks && generateTasksArray()}
+            {/* A CONTAINER WHERE TASKS ARE VIEWED IN LARGE SCREENS */}
+            <div className="flex flex-col lg:min-w-[90vw]">
+                {/* A NAVBAR TO DIRECT TO COLLECTIONS PAGE OR USER PROFILE */}
+                <NavBar
+                    url='/home/collections'
+                    navigationTitle= {getCollectionName()}
+                    username = {user.username}
+                    styles = { darkMode ? styles.navBar.dark : styles.navBar.light }
+                />
+            
+                {/* A CONTAINER FOR ALL TASK CELLS */}
+                <div className="flex flex-col justify-evenly items-center">
+                    {tasks && generateTasksArray()}
+                </div>
             </div>
-
+            
             {/* A FOOTER CONTAINING ADD AND DELETE BUTTONS */}
             <Footer
                 addTitle="Add"
