@@ -510,6 +510,7 @@ export default function CollectionsPage(){
                     username = { user.username }
                     url = "/TrackMinder_project"
                     styles = {darkMode ? styles.navBar.dark : styles.navBar.light}
+                    showFooterLogo = {showFooter ? "<-" : "->"}
                     
                     handleShowFooter = {
                         () => showFooter ? showFooterDispatch({ type: "HIDE_FOOTER" }) : showFooterDispatch({ type: "SHOW_FOOTER" })

@@ -14,13 +14,14 @@ export default function NavBar(props){
                     id="footer-shower-border"
                     className="cursor-pointer hover:text-2xl transition-all duration-300 active:text-light-theme dark:active:text-white hidden lg:flex my-auto w-[30px] h-[30px] border-[2px] border-black rounded-full justify-center items-center animate-pop-up active:animate-ping"
                     style={props.styles.footerShowerBorder}
+                    title="show/hide footer"
                 >
                     <div 
                         id="footer-shower"
                         className="flex justify-center items-center text-sm w-[20px] h-[20px] rounded-full transition-all duration-500 hover:scale-110"
                         style={props.styles.footerShower}
                         onClick={props.handleShowFooter}
-                    >i</div>
+                    >{props.showFooterLogo}</div>
                 </div>
 
                 <NavLink 

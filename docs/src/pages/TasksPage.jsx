@@ -523,6 +523,7 @@ export default function TasksPage(){
                     navigationTitle= {getCollectionName()}
                     username = {user.username}
                     styles = { darkMode ? styles.navBar.dark : styles.navBar.light }
+                    showFooterLogo = {showFooter ? "<-" : "->"}
 
                     handleShowFooter = {
                         () => showFooter ? showFooterDispatch({ type: "HIDE_FOOTER" }) : showFooterDispatch({ type: "SHOW_FOOTER" })

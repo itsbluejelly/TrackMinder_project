@@ -20,7 +20,7 @@ export function ShowFooterReducer(state, action){
 
 // EXPORTING A SHOWFOOTERPROVIDER FUNCTION THAT MAKES THE SHOWFOOTERCONTEXT AVAILABLE TO THE APP
 export default function ShowFooterProvider({children}){
-    const [state, dispatch] = React.useReducer(ShowFooterReducer, { showFooter: true })
+    const [state, dispatch] = React.useReducer(ShowFooterReducer, { showFooter: false })
 
     return(
         <ShowFooterContext.Provider value={{...state, dispatch}}>
