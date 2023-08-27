@@ -6,6 +6,7 @@ import Footer from "../components/Footer"
 import UserContextHook from '../hooks/UserContextHook'
 import ErrorPopup from '../components/ErrorPopup'
 import SuccessPopup from '../components/SuccessPopup'
+import HideAllPopup from "../components/GeneralPopup"
 import AuthenticationButton from '../components/AuthenticationButton'
 import CollectionContextHook from "../hooks/CollectionContextHook"
 import DataForm from "../components/DataForm"
@@ -13,6 +14,7 @@ import StyleContextHook from "../hooks/StyleContextHook"
 import ShowFooterContextHook from "../hooks/ShowFooterContextHook"
 
 import { formatDistanceToNow } from "date-fns"
+import GeneralPopup from "../components/GeneralPopup"
 
 // EXPORTING A COLLECTIONSPAGE FUNTION
 export default function CollectionsPage(){
@@ -20,14 +22,16 @@ export default function CollectionsPage(){
     const [error, setError] = React.useState(false)
     //DEFINING A STATE BOOLEAN TO KEEP TRACK OF SUCCESS MESSAGES
     const [success, setSuccess] = React.useState(false)
+    // DEFINING A STATE BOOLEAN TO KEEP TRACK OF GENERAL POPUPS POPUP
+    const [popup, setPopup] = React.useState(false)
     // DEFINING A STATE BOOLEAN TO ACTIVATE UPDATE FORM
     const [showUpdatedForm, setShowUpdatedForm] = React.useState(false)
     // DEFINING A STATE BOOLEAN TO ACTIVATE ADDING FORM
     const [showForm, setShowForm] = React.useState(false)
     // DEFINING A STATE BOOLEAN TO DISABLE FORM BUTTON
     const [disabled, setDisabled] = React.useState(false)
-    // DEFINING A STATE TO KEEP TRACK OF COLLECTION TO UPDATE
-    const [collectionID, setCollectionID] = React.useState('')
+    // DEFINING A STATE BOOLEAN TO KEEP TRACK OF HIDDEN COLLECTIONS
+    const [allHidden, setAllHidden] = React.useState(false)
     
     //DEFINING A STATE TO KEEP TRACK OF FORM DATA
     const [formData, setFormData] = React.useState({
@@ -409,13 +413,25 @@ export default function CollectionsPage(){
         }
     }
 
+    // A FUNCTION THAT HIDES ALL COLLECTIONS
+    async function hideCollections(){
+        setPopup("")
+        setAllHidden(true)
+    }
+
+    // A FUNCTION THAT REVEALS ALL COLLECTIONS
+    async function showCollections(){
+        setAllHidden(false)
+        
+    }
+
     // A FUNCTION THAT GENERATES A LIST OF COLLECTIONCELLS
     function collectionsArrayGenerator(){
         return collections.map(collection => {
             const dateTime = `${formatDistanceToNow(new Date(collection.createdAt), { addSuffix: true })}`
 
             return (
-                collection.hidden 
+                !collection.hidden 
                     ? 
                 <CollectionCell
                     name = {collection.name}
@@ -454,6 +470,13 @@ export default function CollectionsPage(){
             {success && <SuccessPopup
                     successMessage = { success }
                     handleClick = {() => setSuccess("")}
+            />}
+
+            {/* A GENERAL POPUP IF THE A GENERAL POPUP OCCURS */}
+            {popup && <GeneralPopup
+                popupMessage = {popup}
+                handleClose = {() => setPopup("")}
+                handleClick = {() => hideCollections()}
             />}
 
             {/* A POPUP FORM IF THE UPDATE OR ADD BUTTON IS CLICKED */}
@@ -535,9 +558,21 @@ export default function CollectionsPage(){
                 disabled={disabled}
                 showForm={() => setShowForm(true)}
                 handleDelete={deleteAllCollections}
+                
+                showPopup = {
+                    allHidden 
+                        ? 
+                    () => showCollections() 
+                        : 
+                    () => setPopup(
+                        "Please note that this doesn't delete your collections, but rather hides them from view"
+                    )
+                }
+                
                 addTitle="Add"
                 deleteTitle="Delete"
-                hideTitle = "Hide All"
+                hideTitle = {allHidden ? "Show All" : "Hide All"}
+                hideButton = {allHidden}
                 styles = {darkMode ? styles.footer.dark : styles.footer.light}
             />}
         </div>

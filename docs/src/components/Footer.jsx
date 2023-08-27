@@ -26,11 +26,21 @@ export default function Footer(props){
             </div>
             
             <div className="flex flex-col gap-[0.5rem]">
-                <button 
-                    className="rounded-full bg-white border border-black w-[50px] h-[50px] flex justify-center items-center transition-all duration-500 active:scale-110 hover:scale-110 cursor-pointer text-black text-4xl font-[700] active:bg-pink-700 active:text-white active:border-white hover:shadow-button mx-auto font-[Lato]"
-                    disabled={props.disabled}
-                    onClick={props.handleDelete}
-                >&#10006;</button>
+                {
+                    !props.hideButton
+                        ?
+                    <button 
+                        className="rounded-full bg-white border border-black w-[50px] h-[50px] flex justify-center items-center transition-all duration-500 active:scale-110 hover:scale-110 cursor-pointer text-black text-4xl font-[700] active:bg-pink-700 active:text-white active:border-white hover:shadow-button mx-auto font-[Lato]"
+                        disabled={props.disabled}
+                        onClick={props.showPopup}
+                    >&#10006;</button>
+                        :
+                    <button 
+                        className="rounded-full w-[50px] h-[50px] flex justify-center items-center transition-all duration-500 active:scale-110 hover:scale-110 cursor-pointer text-black text-4xl font-[700] active:bg-pink-700 active:text-white active:border-white hover:shadow-button mx-auto font-[Lato]"
+                        disabled={props.disabled}
+                        onClick={props.showPopup}
+                    >&#128064;</button>
+            }
                 <small className="mt-0 mx-auto font-[Lato]">{props.hideTitle}</small>
             </div>
         </footer>
