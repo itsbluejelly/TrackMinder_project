@@ -32,7 +32,8 @@ export default function CollectionsPage(){
     //DEFINING A STATE TO KEEP TRACK OF FORM DATA
     const [formData, setFormData] = React.useState({
         name: "",
-        description: ""
+        description: "",
+        hidden: false
     }) 
 
     // OBTAINING THE GLOBAL USER AND DISPATCH FUNCTIONS
@@ -283,7 +284,8 @@ export default function CollectionsPage(){
 
         setFormData({
             name: "",
-            description: ""
+            description: "",
+            hidden: false
         })
 
         try{
@@ -324,7 +326,8 @@ export default function CollectionsPage(){
     async function createCollection(){
         setFormData({
             name: "",
-            description: ""
+            description: "",
+            hidden: false
         })
 
         try{
@@ -412,6 +415,8 @@ export default function CollectionsPage(){
             const dateTime = `${formatDistanceToNow(new Date(collection.createdAt), { addSuffix: true })}`
 
             return (
+                collection.hidden 
+                    ? 
                 <CollectionCell
                     name = {collection.name}
                     createdDate = {`Created ${dateTime}`}
@@ -422,7 +427,9 @@ export default function CollectionsPage(){
                     updateCollectionID={() => updateCollectionID(collection._id)}
                     disabled={disabled}
                     styles = {darkMode ? styles.collectionCell.dark : styles.collectionCell.light}
-                />
+                /> 
+                    :
+                null 
             )
         })
     }

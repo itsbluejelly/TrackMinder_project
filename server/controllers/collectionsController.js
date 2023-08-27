@@ -95,9 +95,34 @@ async function deleteController(req, res, next){
     next()
 }
 
+// A PUTCONTROLLER FUNCTION THAT DEALS WITH PUT REQUESTS
+async function putController(req, res, next){
+    try{
+        const userID = req.storedUser._id
+        const updatedCollections = await CollectionModel.updateMany({ userID }, req.body, { new: true })
+        res.status(200).json({ success: `${updatedCollections.modifiedCount} collections updated successfully` })
+        eventLogger(`User ${userID} successfully updated collections`, `${updatedCollections.modifiedCount} collections upddated successfully`, "databaseLogs.txt")
+    }catch(error){
+        if(
+            error.message === "Cannot read properties of undefined (reading '_id')" 
+                || 
+            error.message === "Cannot read properties of null (reading '_id')"
+        ){
+            res.status(403).json({ error: "Consider signing up or logging in" })
+        }else{
+            res.status(404).json({ error: error.message })
+        }
+        
+        eventLogger(error.name, error.message, "errorLogs.txt")
+    }
+
+    next()
+}
+
 // EXPORTING VARIOUS CONTROLLERS
 module.exports = { 
     getController,
     postController,
-    deleteController
+    deleteController,
+    putController
 }

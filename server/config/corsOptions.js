@@ -12,7 +12,7 @@ function confirmURL(origin, callback){
 // AN OBJECT THAT REGULATES WHAT IS ALLOWED TO USE DATA BY CORS
 const corsOptions = {
     origin: confirmURL,
-    methods: 'GET,POST,PATCH,DELETE',
+    methods: 'GET,POST,PATCH,DELETE,PUT',
     allowedHeaders: 'Authorization,Content-Type'
 }
 
