@@ -10,7 +10,7 @@ async function getController(req, res, next){
 
         const foundCollections = await CollectionModel
             .find({ userID })
-            .select("name description createdAt updatedAt")
+            .select("name description createdAt updatedAt hidden")
             
             .sort({ 
                 updatedAt: -1, 

@@ -17,7 +17,12 @@ const CollectionSchema = new Schema(
         userID: {
             type: String,
             required: [true, "Your collection must have a userID"]
-        } 
+        },
+
+        hidden: {
+            type: Boolean,
+            required: [true, "Your collection must have a hidden property"]
+        }
     }, 
     
     { timestamps: true }

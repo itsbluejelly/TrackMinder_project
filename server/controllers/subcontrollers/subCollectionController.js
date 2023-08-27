@@ -19,7 +19,7 @@ async function deleteController(req, res, next){
         
         const deletedCollection = await CollectionModel
             .findByIdAndDelete(idParameter)
-            .select("name description updatedAt createdAt")
+            .select("name description updatedAt createdAt hidden")
         
         const collectionID = deletedCollection._id    
         await TaskModel.deleteMany({ collectionID })    
@@ -62,7 +62,7 @@ async function patchController(req, res, next){
         
         const updatedCollection = await CollectionModel
             .findByIdAndUpdate(idParameter, req.body, { new: true })
-            .select("name description createdAt updatedAt")
+            .select("name description createdAt updatedAt hidden")
         
         res.status(200).json({
             success: "Collection updated successfully",
