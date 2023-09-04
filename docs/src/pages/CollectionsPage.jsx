@@ -6,7 +6,7 @@ import Footer from "../components/Footer"
 import UserContextHook from '../hooks/UserContextHook'
 import ErrorPopup from '../components/ErrorPopup'
 import SuccessPopup from '../components/SuccessPopup'
-import HideAllPopup from "../components/GeneralPopup"
+import GeneralPopup from "../components/GeneralPopup"
 import AuthenticationButton from '../components/AuthenticationButton'
 import CollectionContextHook from "../hooks/CollectionContextHook"
 import DataForm from "../components/DataForm"
@@ -14,7 +14,6 @@ import StyleContextHook from "../hooks/StyleContextHook"
 import ShowFooterContextHook from "../hooks/ShowFooterContextHook"
 
 import { formatDistanceToNow } from "date-fns"
-import GeneralPopup from "../components/GeneralPopup"
 
 // EXPORTING A COLLECTIONSPAGE FUNTION
 export default function CollectionsPage(){
@@ -31,13 +30,15 @@ export default function CollectionsPage(){
     // DEFINING A STATE BOOLEAN TO DISABLE FORM BUTTON
     const [disabled, setDisabled] = React.useState(false)
     // DEFINING A STATE BOOLEAN TO KEEP TRACK OF HIDDEN COLLECTIONS
-    const [allHidden, setAllHidden] = React.useState(false)
-    
+    const [allNotHidden, setAllNotHidden] = React.useState(true)
+    // DEFINING A STATE TO KEEP TRCK OF COLLECTIONID
+    const [collectionID, setCollectionID] = React.useState("")
+
     //DEFINING A STATE TO KEEP TRACK OF FORM DATA
     const [formData, setFormData] = React.useState({
         name: "",
         description: "",
-        hidden: false
+        notHidden: true
     }) 
 
     // OBTAINING THE GLOBAL USER AND DISPATCH FUNCTIONS
@@ -289,7 +290,7 @@ export default function CollectionsPage(){
         setFormData({
             name: "",
             description: "",
-            hidden: false
+            notHidden: true
         })
 
         try{
@@ -331,7 +332,7 @@ export default function CollectionsPage(){
         setFormData({
             name: "",
             description: "",
-            hidden: false
+            notHidden: true
         })
 
         try{
@@ -416,13 +417,14 @@ export default function CollectionsPage(){
     // A FUNCTION THAT HIDES ALL COLLECTIONS
     async function hideCollections(){
         setPopup("")
-        setAllHidden(true)
+        setAllNotHidden(false)
+        console.log({allNotHidden})
     }
 
     // A FUNCTION THAT REVEALS ALL COLLECTIONS
     async function showCollections(){
-        setAllHidden(false)
-        
+        setAllNotHidden(true)
+        console.log({allNotHidden})
     }
 
     // A FUNCTION THAT GENERATES A LIST OF COLLECTIONCELLS
@@ -431,7 +433,7 @@ export default function CollectionsPage(){
             const dateTime = `${formatDistanceToNow(new Date(collection.createdAt), { addSuffix: true })}`
 
             return (
-                !collection.hidden 
+                collection.notHidden 
                     ? 
                 <CollectionCell
                     name = {collection.name}
@@ -560,19 +562,19 @@ export default function CollectionsPage(){
                 handleDelete={deleteAllCollections}
                 
                 showPopup = {
-                    allHidden 
-                        ? 
-                    () => showCollections() 
-                        : 
+                    allNotHidden 
+                        ?
                     () => setPopup(
                         "Please note that this doesn't delete your collections, but rather hides them from view"
                     )
+                        :
+                    () => showCollections()  
                 }
                 
                 addTitle="Add"
                 deleteTitle="Delete"
-                hideTitle = {allHidden ? "Show All" : "Hide All"}
-                hideButton = {allHidden}
+                hideTitle = {allNotHidden ? "Hide All" : "Show All"}
+                hideButton = {allNotHidden}
                 styles = {darkMode ? styles.footer.dark : styles.footer.light}
             />}
         </div>
