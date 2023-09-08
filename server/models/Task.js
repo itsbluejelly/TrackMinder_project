@@ -21,7 +21,12 @@ const TaskSchema = new Schema({
     userID: {
         type: String,
         required: [true, "Your task must have a userID"]
-    } 
+    },
+
+    notHidden: {
+        type: Boolean,
+        required: [true, "Your collection must have a hidden property"]
+    }
 }, { timestamps: true })
 
 // EXPORING THE TASK MODEL
