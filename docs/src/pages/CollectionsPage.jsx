@@ -417,14 +417,70 @@ export default function CollectionsPage(){
     // A FUNCTION THAT HIDES ALL COLLECTIONS
     async function hideCollections(){
         setPopup("")
-        setAllNotHidden(false)
-        console.log({allNotHidden})
+        
+        try{
+            const res = await fetch("http://localhost:3000/collections", {
+                headers: {
+                    'Authorization': `Bearer ${user.token}`,
+                    "Content-Type": "application/json"
+                },
+
+                method: 'PUT',
+                body: JSON.stringify({ notHidden: false })
+            })
+
+            const response = await res.json()
+            setDisabled(true)
+            
+            if(!res.ok){
+                setSuccess('')
+                setError(response.error)
+                setDisabled(false)
+            }else{
+                setError('')
+                setSuccess(response.success)
+                setDisabled(false)
+                setAllNotHidden(false)
+            }
+        }catch(error){
+            setSuccess('')
+            setError(error.message)
+            setDisabled(false)
+        }
     }
 
     // A FUNCTION THAT REVEALS ALL COLLECTIONS
     async function showCollections(){
-        setAllNotHidden(true)
-        console.log({allNotHidden})
+        try{
+            const res = await fetch('http://localhost:3000/collections', {
+                headers: {
+                    'Authorization': `Bearer ${user.token}`,
+                    'Content-Type': "application/json"
+                },
+
+                method: 'PUT',
+                body: JSON.stringify({ notHidden: true })
+            })
+
+            const response = await res.json()
+            setDisabled(true)
+
+            if(!res.ok){
+                setSuccess('')
+                setError(response.error)
+                setDisabled(false)
+            }else{
+                setError('')
+                setSuccess(response.success)
+                setDisabled(false)
+                setAllNotHidden(true)
+            }
+        }catch(error){
+            setSuccess('')
+            setError(error.message)
+            setDisabled(false)
+        }
+        
     }
 
     // A FUNCTION THAT GENERATES A LIST OF COLLECTIONCELLS
@@ -453,7 +509,7 @@ export default function CollectionsPage(){
     }
 
     // A USEEFFECT FUNCION THAT CALLS GETCOLLECTIONS
-    React.useEffect(() => {getCollections()}, [])
+    React.useEffect(() => {getCollections()}, [allNotHidden])
 
     return(
         // A COLLECTIONS PAGE CONTAINER THAT HOLDS ALL NECESSARY COLLECTIONS AND IS A SPLIT SCREEN IN LARGE
