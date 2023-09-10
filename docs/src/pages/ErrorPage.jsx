@@ -27,7 +27,7 @@ export default function ErrorPage(){
         >
             <img 
                 className="mb-[20px] w-[70%] lg:w-[50%] mt-[50px]"
-                src="../../public/img/404_image.png" 
+                src="./public/img/404_image.png" 
                 alt="Error image" 
                 title="Error image"
                 id="error-image"
