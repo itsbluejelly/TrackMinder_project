@@ -39,15 +39,13 @@ export function CollectionContextReducer(state, action){
                 collection => {
                     return {...collection, notHidden : false}
                 })
-            console.log(hiddenCollectionsArray)
             return { collections: hiddenCollectionsArray }
 
         case "SHOW_ALL_COLLECTIONS":
             const shownCollectionsArray = state.collections.map(
                 collection => {
                     return {...collection, notHidden : true}
-                })
-            console.log(shownCollectionsArray)
+                })            
             return { collections: shownCollectionsArray }
 
         default:

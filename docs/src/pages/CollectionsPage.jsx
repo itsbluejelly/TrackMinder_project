@@ -21,7 +21,7 @@ export default function CollectionsPage(){
     const [error, setError] = React.useState(false)
     //DEFINING A STATE BOOLEAN TO KEEP TRACK OF SUCCESS MESSAGES
     const [success, setSuccess] = React.useState(false)
-    // DEFINING A STATE BOOLEAN TO KEEP TRACK OF GENERAL POPUPS POPUP
+    // DEFINING A STATE BOOLEAN TO KEEP TRACK OF GENERAL POPUPS
     const [popup, setPopup] = React.useState(false)
     // DEFINING A STATE BOOLEAN TO ACTIVATE UPDATE FORM
     const [showUpdatedForm, setShowUpdatedForm] = React.useState(false)
@@ -29,8 +29,6 @@ export default function CollectionsPage(){
     const [showForm, setShowForm] = React.useState(false)
     // DEFINING A STATE BOOLEAN TO DISABLE FORM BUTTON
     const [disabled, setDisabled] = React.useState(false)
-    // DEFINING A STATE BOOLEAN TO KEEP TRACK OF HIDDEN COLLECTIONS
-    const [allNotHidden, setAllNotHidden] = React.useState(true)
     // DEFINING A STATE TO KEEP TRCK OF COLLECTIONID
     const [collectionID, setCollectionID] = React.useState("")
 
@@ -49,6 +47,17 @@ export default function CollectionsPage(){
     const {darkMode, dispatch:styleDispatch} = StyleContextHook()
     // OBTAINING THE GLOBAL SHOWFOOTER CONTEXT AND DISPATCH FUNCTION
     const { showFooter, dispatch:showFooterDispatch } = ShowFooterContextHook()
+
+    // DEFINING A STATE BOOLEAN TO KEEP TRACK OF HIDDEN COLLECTIONS
+    const [allNotHidden, setAllNotHidden] = React.useState(
+        () => {collections.map(collection => {
+            if(collection.notHidden){
+                return true
+            }else{
+                return false
+            }
+        })}
+    )
 
     // AN OBJECT OF STYLE PROPERTIES
     const styles = {

@@ -2,6 +2,7 @@
 import React from "react"
 import ErrorPopup from "../components/ErrorPopup"
 import SuccessPopup from "../components/SuccessPopup"
+import GeneralPopup from "../components/GeneralPopup"
 import DataForm from "../components/DataForm"
 import AuthenticationButton from "../components/AuthenticationButton"
 import NavBar from "../components/NavBar"
@@ -28,7 +29,8 @@ export default function TasksPage(){
     // A STATE TO MANAGE FORM DATA
     const [formData, setFormData] = React.useState({
         activity: "",
-        deadline: ""
+        deadline: "",
+        notHidden: true
     })
 
     // A BOOLEAN TO DETERMINE WHETHER A FORM RELAYS UPDATE INFO
@@ -37,6 +39,8 @@ export default function TasksPage(){
     const [showForm, setShowForm] = React.useState(false)
     // A BOOLEAN TO DETERMINE IF A BUTTON IS DISABLED
     const [disabled, setDisabled] = React.useState(false)
+    // DEFINING A STATE BOOLEAN TO KEEP TRACK OF GENERAL POPUPS
+    const [popup, setPopup] = React.useState(false)
     // OBTAINING GLOBAL USER AND DISPATCH FUNCTIONS
     const { user, dispatch } = UserContextHook()
     // OBTAINING GLOBAL COLLECTIONS AND DISPATCH FUNCTION
@@ -49,6 +53,17 @@ export default function TasksPage(){
     const {darkMode, dispatch:styleDispatch} = StyleContextHook()
     // OBTAINING THE GLOBAL SHOWFOOTER CONTEXT AND DISPATCH FUNCTION
     const { showFooter, dispatch:showFooterDispatch } = ShowFooterContextHook()
+
+    // DEFINING A STATE BOOLEAN TO KEEP TRACK OF HIDDEN TASKS
+    const [allNotHidden, setAllNotHidden] = React.useState(
+        () => {tasks.map(task => {
+            if(task.notHidden){
+                return true
+            }else{
+                return false
+            }
+        })}
+    )
 
     // AN OBJECT OF STYLE PROPERTIES
     const styles = {
@@ -282,7 +297,8 @@ export default function TasksPage(){
     async function updateTask(id){
         setFormData({
             activity: "",
-            deadline: ""
+            deadline: "",
+            notHidden: true
         })
 
         if(!validateFormData()){
@@ -327,7 +343,8 @@ export default function TasksPage(){
     async function createTask(){
         setFormData({
             activity: "",
-            deadline: ""
+            deadline: "", 
+            notHidden: true
         })
 
         try{
@@ -410,6 +427,79 @@ export default function TasksPage(){
         }
     }
 
+    // A FUNCTION THAT HIDES ALL TASKS
+    async function hideTasks(){
+        setPopup("")
+        
+        try{
+            const res = await fetch(`http://localhost:3000/tasks/?collection=${collectionID}`, {
+                headers: {
+                    'Authorization': `Bearer ${user.token}`,
+                    "Content-Type": "application/json"
+                },
+
+                method: 'PUT',
+                body: JSON.stringify({ notHidden: false })
+            })
+
+            const response = await res.json()
+            setDisabled(true)
+            
+            if(!res.ok){
+                setSuccess('')
+                setError(response.error)
+                setDisabled(false)
+            }else{
+                setError('')
+                setSuccess(response.success)
+                setDisabled(false)
+                setAllNotHidden(false)
+
+                tasksDispatch({ type: "HIDE_ALL_TASKS" })
+            }
+        }catch(error){
+            setSuccess('')
+            setError(error.message)
+            setDisabled(false)
+        }
+    }
+
+    // A FUNCTION THAT REVEALS ALL TASKS
+    async function showTasks(){
+        try{
+            const res = await fetch(`http://localhost:3000/tasks/?collection=${collectionID}`, {
+                headers: {
+                    'Authorization': `Bearer ${user.token}`,
+                    'Content-Type': "application/json"
+                },
+
+                method: 'PUT',
+                body: JSON.stringify({ notHidden: true })
+            })
+
+            const response = await res.json()
+            setDisabled(true)
+
+            if(!res.ok){
+                setSuccess('')
+                setError(response.error)
+                setDisabled(false)
+            }else{
+                setError('')
+                setSuccess(response.success)
+                setDisabled(false)
+                setAllNotHidden(true)
+
+                tasksDispatch({ type: "SHOW_ALL_TASKS" })
+            }
+        }catch(error){
+            setSuccess('')
+            setError(error.message)
+            setDisabled(false)
+        }
+        
+    }
+
     // A FUNCTION THAT CONVERTS FETCHED TASKS OBJECTS TO TASKS COMPONENTS
     function generateTasksArray(){
         return tasks.map(task => {
@@ -421,6 +511,8 @@ export default function TasksPage(){
             const [updatedDate, updatedTime] = dateTime.split('\t')
             
             return (
+                task.notHidden
+                    ?
                 <TaskCell
                     activity={task.activity}
                     deadlineDate={deadlineDate}    
@@ -434,6 +526,8 @@ export default function TasksPage(){
                     id={task._id}
                     styles = {darkMode ? styles.taskCell.dark : styles.taskCell.light}    
                 />
+                    : 
+                null
             )
         })
     }
@@ -458,6 +552,13 @@ export default function TasksPage(){
             {success && <SuccessPopup
                 successMessage = {success}
                 handleClick = {() => setSuccess('')}
+            />}
+
+            {/* A GENERAL POPUP IF THE A GENERAL POPUP OCCURS */}
+            {popup && <GeneralPopup
+                popupMessage = {popup}
+                handleClose = {() => setPopup("")}
+                handleClick = {() => hideTasks()}
             />}
 
             {/* A POPUP FORM IF EITHER CREATE OR UPDATE BUTTON IS CLICKED */}
@@ -540,10 +641,23 @@ export default function TasksPage(){
             {showFooter && <Footer
                 addTitle="Add"
                 deleteTitle="Delete"
-                hideTitle = "Hide All"
                 disabled={disabled}
                 showForm={() => setShowForm(true)}
                 handleDelete={deleteAllTasks}
+
+                showPopup = {
+                    allNotHidden 
+                        ?
+                    () => setPopup(
+                        "Please note that this doesn't delete your tasks, but rather hides them from view"
+                    )
+                        :
+                    () => showTasks()  
+                }
+
+                hideTitle = {allNotHidden ? "Hide All" : "Show All"}
+                hideButton = {allNotHidden}
+
                 styles={darkMode ? styles.footer.dark : styles.footer.light}
             />}
         </div>
