@@ -55,15 +55,7 @@ export default function TasksPage(){
     const { showFooter, dispatch:showFooterDispatch } = ShowFooterContextHook()
 
     // DEFINING A STATE BOOLEAN TO KEEP TRACK OF HIDDEN TASKS
-    const [allNotHidden, setAllNotHidden] = React.useState(
-        () => {tasks.map(task => {
-            if(task.notHidden){
-                return true
-            }else{
-                return false
-            }
-        })}
-    )
+    const [allNotHidden, setAllNotHidden] = React.useState(false)
 
     // AN OBJECT OF STYLE PROPERTIES
     const styles = {

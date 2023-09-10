@@ -49,15 +49,9 @@ export default function CollectionsPage(){
     const { showFooter, dispatch:showFooterDispatch } = ShowFooterContextHook()
 
     // DEFINING A STATE BOOLEAN TO KEEP TRACK OF HIDDEN COLLECTIONS
-    const [allNotHidden, setAllNotHidden] = React.useState(
-        () => {collections.map(collection => {
-            if(collection.notHidden){
-                return true
-            }else{
-                return false
-            }
-        })}
-    )
+    const [allNotHidden, setAllNotHidden] = React.useState(false)
+
+    console.log(allNotHidden)
 
     // AN OBJECT OF STYLE PROPERTIES
     const styles = {
