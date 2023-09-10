@@ -21,7 +21,7 @@ export default function WelcomePage(){
             >
                 <figure>
                     <img 
-                        src="./img/TrackMinder_logo.png" 
+                        src="../../public/img/TrackMinder_logo.png" 
                         alt="TrackMinder Logo"
                         title="TrackMinder Logo"
                         width="100%"
