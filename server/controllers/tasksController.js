@@ -2,7 +2,6 @@
 const mongoose = require('mongoose')
 const eventLogger = require('../middleware/eventLogger')
 const TaskModel = require('../models/Task')
-const { putController } = require('./collectionsController')
 
 // A GETCONTROLLER FUNCTION THAT DEALS WITH GET REQUESTS
 async function getController(req, res, next){
@@ -20,7 +19,7 @@ async function getController(req, res, next){
 
         const foundTasks = await TaskModel
             .find({ collectionID })
-            .select("activity deadline createdAt updatedAt")
+            .select("activity deadline createdAt updatedAt notHidden")
             
             .sort({
                 deadline: 1,

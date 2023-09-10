@@ -441,6 +441,8 @@ export default function CollectionsPage(){
                 setSuccess(response.success)
                 setDisabled(false)
                 setAllNotHidden(false)
+
+                collectionsDispatch({ type: "HIDE_ALL_COLLECTIONS" })
             }
         }catch(error){
             setSuccess('')
@@ -474,6 +476,8 @@ export default function CollectionsPage(){
                 setSuccess(response.success)
                 setDisabled(false)
                 setAllNotHidden(true)
+
+                collectionsDispatch({ type: "SHOW_ALL_COLLECTIONS" })
             }
         }catch(error){
             setSuccess('')
@@ -509,7 +513,7 @@ export default function CollectionsPage(){
     }
 
     // A USEEFFECT FUNCION THAT CALLS GETCOLLECTIONS
-    React.useEffect(() => {getCollections()}, [allNotHidden])
+    React.useEffect(() => {getCollections()}, [])
 
     return(
         // A COLLECTIONS PAGE CONTAINER THAT HOLDS ALL NECESSARY COLLECTIONS AND IS A SPLIT SCREEN IN LARGE
