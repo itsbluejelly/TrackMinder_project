@@ -28,10 +28,26 @@ export function TaskContextReducer(state, action){
             return {tasks: [action.payload, ...state.tasks]}
 
         case "DELETE_ALL_TASKS":
-            return { tasks: null }
+            return { tasks: [] }
 
         case "GET_TASKS":
             return { tasks: action.payload }
+
+        case "HIDE_ALL_TASKS":
+            const hiddenTasksArray = state.tasks.map(
+                task => {
+                    return {...task, notHidden : false}
+                })
+
+            return { tasks: hiddenTasksArray }
+
+        case "SHOW_ALL_TASKS":
+            const shownTasksArray = state.tasks.map(
+                task => {
+                    return {...task, notHidden : true}
+                })
+                
+            return { tasks: shownTasksArray }
 
         default:
             return state
@@ -41,7 +57,7 @@ export function TaskContextReducer(state, action){
 
 // EXPORTING A TASKCONTEXT PROVIDER THAT PROVIDES THE TASK CONTEXT TO ALL COMPONENTS
 export default function TaskContextProvider({ children }){
-    const [state, dispatch] = React.useReducer(TaskContextReducer, { tasks: null })
+    const [state, dispatch] = React.useReducer(TaskContextReducer, { tasks: [] })
 
     return(
         <TaskContext.Provider value={{...state, dispatch}}>

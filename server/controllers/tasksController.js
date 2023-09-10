@@ -19,7 +19,7 @@ async function getController(req, res, next){
 
         const foundTasks = await TaskModel
             .find({ collectionID })
-            .select("activity deadline createdAt updatedAt")
+            .select("activity deadline createdAt updatedAt notHidden")
             
             .sort({
                 deadline: 1,
@@ -125,9 +125,44 @@ async function deleteController(req, res, next){
     next()
 }
 
+// A PUTCONTROLLER FUNCTION THAT DEALS WITH PUT REQUESTS
+async function putController(req, res, next){
+    try{
+        const userID = req.storedUser._id
+        const collectionID = req.query.collection
+
+        if(!collectionID){
+            throw new Error("Missing collectionID, invalid URL")
+        }else if(!mongoose.Types.ObjectId.isValid(collectionID)){
+            throw new Error("The collection parameter is invalid")
+        }else if(!userID){
+            throw new Error("Consider signing up or logging in")
+        }
+
+        const updatedTasks = await TaskModel.updateMany({collectionID}, req.body, { new: true })
+        res.status(200).json({ success: `${updatedTasks.modifiedCount} tasks updated successfully` })
+        eventLogger(`User ${userID} successfully updated tasks`, `${updatedTasks.modifiedCount} tasks upddated successfully`, "databaseLogs.txt")
+    }catch(error){
+        if(
+            error.message === "Cannot read properties of undefined (reading '_id')" 
+                || 
+            error.message === "Cannot read properties of null (reading '_id')"
+        ){
+            res.status(403).json({ error: "Consider signing up or logging in" })
+        }else{
+            res.status(400).json({ error: error.message })
+        }
+        
+        eventLogger(error.name, error.message, "errorLogs.txt")
+    }
+
+    next()
+}
+
 // EXPORTING ALL CONTROLLERS
 module.exports = {
     getController,
     postController,
-    deleteController
+    deleteController,
+    putController
 }

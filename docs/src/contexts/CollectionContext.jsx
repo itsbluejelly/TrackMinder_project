@@ -13,6 +13,7 @@ export function CollectionContextReducer(state, action){
         
         case "UPDATE_COLLECTION":
             const updatedCollectionsArray = []
+            
             state.collections.map(collection => {
 
                 if(collection._id === action.payload._id){
@@ -28,10 +29,24 @@ export function CollectionContextReducer(state, action){
             return {collections: [action.payload, ...state.collections]}
 
         case "DELETE_ALL_COLLECTIONS":
-            return { collections: null }
+            return { collections: [] }
 
         case "GET_COLLECTIONS":
             return { collections: action.payload }
+
+        case "HIDE_ALL_COLLECTIONS":
+            const hiddenCollectionsArray = state.collections.map(
+                collection => {
+                    return {...collection, notHidden : false}
+                })
+            return { collections: hiddenCollectionsArray }
+
+        case "SHOW_ALL_COLLECTIONS":
+            const shownCollectionsArray = state.collections.map(
+                collection => {
+                    return {...collection, notHidden : true}
+                })            
+            return { collections: shownCollectionsArray }
 
         default:
             return state
@@ -40,7 +55,7 @@ export function CollectionContextReducer(state, action){
 
 // EXPORTING A COLLECTIONCONTEXTPROVIDER THAT PROVIDES THE COLLECTIONCONTEXT TO ALL COMPONENTS
 export default function CollectionContextProvider({ children }){
-    const [state, dispatch] = React.useReducer(CollectionContextReducer, { collections: null })
+    const [state, dispatch] = React.useReducer(CollectionContextReducer, { collections: [] })
 
     return(
         <CollectionContext.Provider value={{...state, dispatch}}>

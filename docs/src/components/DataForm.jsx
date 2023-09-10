@@ -2,7 +2,7 @@
 export default function DataForm(props){
     return (
         <div 
-        className="min-h-full w-full z-20 absolute flex justify-center items-center transition-all duration-500 cursor-not-allowed"
+        className="min-h-full w-full z-20 absolute flex justify-center items-start transition-all duration-500 cursor-not-allowed"
         id="updateForm-container"
         style={props.styles.updateFormContainer}
         >

@@ -11,6 +11,7 @@ collectionsRouter.route("/")
     .get(collectionsController.getController)
     .post(collectionsController.postController)
     .delete(collectionsController.deleteController)
+    .put(collectionsController.putController)
 
     // SUB-ROUTE MIDDLEWARE
     collectionsRouter.use("/collection", subCollectionRouter)

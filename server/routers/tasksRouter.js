@@ -11,6 +11,7 @@ tasksRouter.route('/')
     .get(tasksController.getController)
     .post(tasksController.postController)
     .delete(tasksController.deleteController)
+    .put(tasksController.putController)
 
     // SUB-ROUTE MIDDLEWARES
     tasksRouter.use('/task', subTaskRouter)

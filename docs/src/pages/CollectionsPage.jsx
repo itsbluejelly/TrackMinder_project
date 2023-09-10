@@ -6,10 +6,12 @@ import Footer from "../components/Footer"
 import UserContextHook from '../hooks/UserContextHook'
 import ErrorPopup from '../components/ErrorPopup'
 import SuccessPopup from '../components/SuccessPopup'
+import GeneralPopup from "../components/GeneralPopup"
 import AuthenticationButton from '../components/AuthenticationButton'
 import CollectionContextHook from "../hooks/CollectionContextHook"
 import DataForm from "../components/DataForm"
 import StyleContextHook from "../hooks/StyleContextHook"
+import ShowFooterContextHook from "../hooks/ShowFooterContextHook"
 
 import { formatDistanceToNow } from "date-fns"
 
@@ -19,19 +21,22 @@ export default function CollectionsPage(){
     const [error, setError] = React.useState(false)
     //DEFINING A STATE BOOLEAN TO KEEP TRACK OF SUCCESS MESSAGES
     const [success, setSuccess] = React.useState(false)
+    // DEFINING A STATE BOOLEAN TO KEEP TRACK OF GENERAL POPUPS
+    const [popup, setPopup] = React.useState(false)
     // DEFINING A STATE BOOLEAN TO ACTIVATE UPDATE FORM
     const [showUpdatedForm, setShowUpdatedForm] = React.useState(false)
     // DEFINING A STATE BOOLEAN TO ACTIVATE ADDING FORM
     const [showForm, setShowForm] = React.useState(false)
     // DEFINING A STATE BOOLEAN TO DISABLE FORM BUTTON
     const [disabled, setDisabled] = React.useState(false)
-    // DEFINING A STATE TO KEEP TRACK OF COLLECTION TO UPDATE
-    const [collectionID, setCollectionID] = React.useState('')
-    
+    // DEFINING A STATE TO KEEP TRCK OF COLLECTIONID
+    const [collectionID, setCollectionID] = React.useState("")
+
     //DEFINING A STATE TO KEEP TRACK OF FORM DATA
     const [formData, setFormData] = React.useState({
         name: "",
-        description: ""
+        description: "",
+        notHidden: true
     }) 
 
     // OBTAINING THE GLOBAL USER AND DISPATCH FUNCTIONS
@@ -40,6 +45,13 @@ export default function CollectionsPage(){
     const { collections, dispatch: collectionsDispatch } = CollectionContextHook()
     // OBTAINING THE GLOBAL DARKMODE AND DISPATCH FUNCTIONS
     const {darkMode, dispatch:styleDispatch} = StyleContextHook()
+    // OBTAINING THE GLOBAL SHOWFOOTER CONTEXT AND DISPATCH FUNCTION
+    const { showFooter, dispatch:showFooterDispatch } = ShowFooterContextHook()
+
+    // DEFINING A STATE BOOLEAN TO KEEP TRACK OF HIDDEN COLLECTIONS
+    const [allNotHidden, setAllNotHidden] = React.useState(false)
+
+    console.log(allNotHidden)
 
     // AN OBJECT OF STYLE PROPERTIES
     const styles = {
@@ -80,8 +92,6 @@ export default function CollectionsPage(){
             },
 
             light: { backgroundColor: "rgba(244, 194, 127, 0.67)" }
-
-            // bg-light-theme dark:bg-dark-theme dark:text-dark-theme-text
         },
         
         dataForm: {
@@ -135,7 +145,9 @@ export default function CollectionsPage(){
                     boxShadow: "10px 5px 10px black"
                 },
 
-                userProfileLink: { backgroundColor: "white" }
+                userProfileLink: { backgroundColor: "white" },
+                footerShowerBorder: { backgroundColor: "grey" },
+                footerShower: { backgroundColor: "white" }
             },
 
             light: {
@@ -144,7 +156,9 @@ export default function CollectionsPage(){
                     boxShadow: "0px 4px 15px 0px rgba(0, 0, 0, 0.25)"
                 },
                 
-                userProfileLink: { backgroundColor: "rgba(244, 194, 127, 0.67)" }
+                userProfileLink: { backgroundColor: "rgba(244, 194, 127, 0.67)" },
+                footerShowerBorder: { backgroundColor: "white" },
+                footerShower: { backgroundColor: "rgba(244, 194, 127, 0.67)" }
             }
         },
 
@@ -278,7 +292,8 @@ export default function CollectionsPage(){
 
         setFormData({
             name: "",
-            description: ""
+            description: "",
+            notHidden: true
         })
 
         try{
@@ -319,7 +334,8 @@ export default function CollectionsPage(){
     async function createCollection(){
         setFormData({
             name: "",
-            description: ""
+            description: "",
+            notHidden: true
         })
 
         try{
@@ -401,12 +417,87 @@ export default function CollectionsPage(){
         }
     }
 
+    // A FUNCTION THAT HIDES ALL COLLECTIONS
+    async function hideCollections(){
+        setPopup("")
+        
+        try{
+            const res = await fetch("https://trackminder-project.onrender.com/collections", {
+                headers: {
+                    'Authorization': `Bearer ${user.token}`,
+                    "Content-Type": "application/json"
+                },
+
+                method: 'PUT',
+                body: JSON.stringify({ notHidden: false })
+            })
+
+            const response = await res.json()
+            setDisabled(true)
+            
+            if(!res.ok){
+                setSuccess('')
+                setError(response.error)
+                setDisabled(false)
+            }else{
+                setError('')
+                setSuccess(response.success)
+                setDisabled(false)
+                setAllNotHidden(false)
+
+                collectionsDispatch({ type: "HIDE_ALL_COLLECTIONS" })
+            }
+        }catch(error){
+            setSuccess('')
+            setError(error.message)
+            setDisabled(false)
+        }
+    }
+
+    // A FUNCTION THAT REVEALS ALL COLLECTIONS
+    async function showCollections(){
+        try{
+            const res = await fetch('https://trackminder-project.onrender.com/collections', {
+                headers: {
+                    'Authorization': `Bearer ${user.token}`,
+                    'Content-Type': "application/json"
+                },
+
+                method: 'PUT',
+                body: JSON.stringify({ notHidden: true })
+            })
+
+            const response = await res.json()
+            setDisabled(true)
+
+            if(!res.ok){
+                setSuccess('')
+                setError(response.error)
+                setDisabled(false)
+            }else{
+                setError('')
+                setSuccess(response.success)
+                setDisabled(false)
+                setAllNotHidden(true)
+
+                collectionsDispatch({ type: "SHOW_ALL_COLLECTIONS" })
+            }
+        }catch(error){
+            setSuccess('')
+            setError(error.message)
+            setDisabled(false)
+        }
+        
+    }
+
     // A FUNCTION THAT GENERATES A LIST OF COLLECTIONCELLS
     function collectionsArrayGenerator(){
         return collections.map(collection => {
             const dateTime = `${formatDistanceToNow(new Date(collection.createdAt), { addSuffix: true })}`
 
             return (
+                collection.notHidden 
+                    ? 
                 <CollectionCell
                     name = {collection.name}
                     createdDate = {`Created ${dateTime}`}
@@ -417,7 +508,9 @@ export default function CollectionsPage(){
                     updateCollectionID={() => updateCollectionID(collection._id)}
                     disabled={disabled}
                     styles = {darkMode ? styles.collectionCell.dark : styles.collectionCell.light}
-                />
+                /> 
+                    :
+                null 
             )
         })
     }
@@ -426,60 +519,43 @@ export default function CollectionsPage(){
     React.useEffect(() => {getCollections()}, [])
 
     return(
-        // A COLLECTIONS PAGE CONTAINER THAT HOLDS ALL NECESSARY COLLECTIONS
+        // A COLLECTIONS PAGE CONTAINER THAT HOLDS ALL NECESSARY COLLECTIONS AND IS A SPLIT SCREEN IN LARGE
         <div 
             id="collections-page"
-            className="min-h-screen transition-all duration-500 relative scroll-smooth"
+            className="min-h-screen transition-all duration-500 relative scroll-smooth flex flex-col lg:flex-row-reverse"
             style={darkMode ? styles.collectionsPage.dark : styles.collectionsPage.light}
         >
             {/* AN ERROR POPUP IF AN ERROR OCCURS */}
             {error && <ErrorPopup
-                errorMessage = { error }
-                handleClick = {() => setError("")}
+                    errorMessage = { error }
+                    handleClick = {() => setError("")}
             />}
-            
+
             {/* AN SUCCESS POPUP IF AN SUCCESS OCCURS */}
             {success && <SuccessPopup
-                successMessage = { success }
-                handleClick = {() => setSuccess("")}
+                    successMessage = { success }
+                    handleClick = {() => setSuccess("")}
+            />}
+
+            {/* A GENERAL POPUP IF THE A GENERAL POPUP OCCURS */}
+            {popup && <GeneralPopup
+                popupMessage = {popup}
+                handleClose = {() => setPopup("")}
+                handleClick = {() => hideCollections()}
             />}
 
             {/* A POPUP FORM IF THE UPDATE OR ADD BUTTON IS CLICKED */}
             {
-                showUpdatedForm 
-            ? 
-                <DataForm
-                    button = {<AuthenticationButton
-                        innerText="Update"
-                        handleClick={() => updateCollection(collectionID)}
-                        disabled={disabled}
-                        styles = {darkMode ? styles.authenticationButton.dark : styles.authenticationButton.light}
-                    />}
-                    hideForm = {() => setShowUpdatedForm(false)}
-                    formData = {formData}
-                    handleChange = {(e) => updateFormData(e)}
-                    fieldTitle1 = "Name"
-                    fieldPlaceholder1 = "Your collection name"
-                    fieldType1 = "text"
-                    fieldName1 = "name"
-                    fieldTitle2 = "Description"
-                    fieldPlaceholder2 = "Your optional description"
-                    fieldType2 = "text"
-                    fieldName2 = "description"
-                    formTitle = "Update collection"
-                    styles = {darkMode ? styles.dataForm.dark : styles.dataForm.light}
-                />
-            :
-                    showForm
-                ?
+                    showUpdatedForm 
+                ? 
                     <DataForm
-                    button = {<AuthenticationButton
-                        innerText="Create"
-                        handleClick={createCollection}
-                        disabled={disabled}
-                        styles = {darkMode ? styles.authenticationButton.dark : styles.authenticationButton.light}
-                    />}
-                        hideForm = {() => setShowForm(false)}
+                        button = {<AuthenticationButton
+                            innerText="Update"
+                            handleClick={() => updateCollection(collectionID)}
+                            disabled={disabled}
+                            styles = {darkMode ? styles.authenticationButton.dark : styles.authenticationButton.light}
+                        />}
+                        hideForm = {() => setShowUpdatedForm(false)}
                         formData = {formData}
                         handleChange = {(e) => updateFormData(e)}
                         fieldTitle1 = "Name"
@@ -490,36 +566,80 @@ export default function CollectionsPage(){
                         fieldPlaceholder2 = "Your optional description"
                         fieldType2 = "text"
                         fieldName2 = "description"
-                        formTitle = "Create collection"
+                        formTitle = "Update collection"
                         styles = {darkMode ? styles.dataForm.dark : styles.dataForm.light}
                     />
                 :
-                    null
-            }
+                        showForm
+                    ?
+                        <DataForm
+                        button = {<AuthenticationButton
+                            innerText="Create"
+                            handleClick={createCollection}
+                            disabled={disabled}
+                            styles = {darkMode ? styles.authenticationButton.dark : styles.authenticationButton.light}
+                        />}
+                            hideForm = {() => setShowForm(false)}
+                            formData = {formData}
+                            handleChange = {(e) => updateFormData(e)}
+                            fieldTitle1 = "Name"
+                            fieldPlaceholder1 = "Your collection name"
+                            fieldType1 = "text"
+                            fieldName1 = "name"
+                            fieldTitle2 = "Description"
+                            fieldPlaceholder2 = "Your optional description"
+                            fieldType2 = "text"
+                            fieldName2 = "description"
+                            formTitle = "Create collection"
+                            styles = {darkMode ? styles.dataForm.dark : styles.dataForm.light}
+                        />
+                    :
+                        null
+                }
 
-            {/* A NAVBAR TO DIRECT TO THE HOME PAGE, OR THE USER PROFILE */}
-            <NavBar
-                navigationTitle = "TrackMinder"
-                username = { user.username }
-                url = "/TrackMinder_project"
-                styles = {darkMode ? styles.navBar.dark : styles.navBar.light}
-            />
-            
-            {/* A GRID OR FLEX CONTAINER FOR ALL COLLECTIONS */}
-            <div className="lg:grid grid-flow-row lg:grid-cols-3 gap-2 flex flex-col justify-center items-center md:grid md:grid-cols-2">
-                {collections && collectionsArrayGenerator() }
+            {/* A CONTAINER WHERE THE COLLECTIONS ARE VIEWED IN LARGE SCREENS */}
+            <div className="flex flex-col lg:min-w-[90vw] flex-1">
+                {/* A NAVBAR TO DIRECT TO THE HOME PAGE, OR THE USER PROFILE */}
+                <NavBar
+                    navigationTitle = "TrackMinder"
+                    username = { user.username }
+                    url = "/TrackMinder_project"
+                    styles = {darkMode ? styles.navBar.dark : styles.navBar.light}
+                    showFooterLogo = {showFooter ? "<-" : "->"}
+                    
+                    handleShowFooter = {
+                        () => showFooter ? showFooterDispatch({ type: "HIDE_FOOTER" }) : showFooterDispatch({ type: "SHOW_FOOTER" })
+                    }
+                />
+                
+                {/* A GRID OR FLEX CONTAINER FOR ALL COLLECTIONS */}
+                <div className="grid-flow-row lg:grid-cols-3 gap-2 flex flex-col justify-center items-center md:grid md:grid-cols-2 lg:flex lg:flex-row lg:flex-wrap lg:flex-1">
+                    {collections && collectionsArrayGenerator() }
+                </div>
             </div>
-            
+
             {/* A FOOTER TO EITHER DELETE ALL OR ADD A COLLECTION */}
-            <Footer
+            {showFooter && <Footer
                 disabled={disabled}
                 showForm={() => setShowForm(true)}
                 handleDelete={deleteAllCollections}
-                addTitle="Add Collection"
-                deleteTitle="Delete Collections"
+                
+                showPopup = {
+                    allNotHidden 
+                        ?
+                    () => setPopup(
+                        "Please note that this doesn't delete your collections, but rather hides them from view"
+                    )
+                        :
+                    () => showCollections()  
+                }
+                
+                addTitle="Add"
+                deleteTitle="Delete"
+                hideTitle = {allNotHidden ? "Hide All" : "Show All"}
+                hideButton = {allNotHidden}
                 styles = {darkMode ? styles.footer.dark : styles.footer.light}
-            />
-            
+            />}
         </div>
     )
 }

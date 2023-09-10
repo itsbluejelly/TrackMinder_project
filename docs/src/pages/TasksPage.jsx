@@ -2,6 +2,7 @@
 import React from "react"
 import ErrorPopup from "../components/ErrorPopup"
 import SuccessPopup from "../components/SuccessPopup"
+import GeneralPopup from "../components/GeneralPopup"
 import DataForm from "../components/DataForm"
 import AuthenticationButton from "../components/AuthenticationButton"
 import NavBar from "../components/NavBar"
@@ -11,6 +12,7 @@ import UserContextHook from "../hooks/UserContextHook"
 import CollectionContextHook from "../hooks/CollectionContextHook"
 import TaskContextHook from "../hooks/TaskContextHook"
 import StyleContextHook from "../hooks/StyleContextHook"
+import ShowFooterContextHook from "../hooks/ShowFooterContextHook"
 
 import { useParams } from 'react-router-dom'
 import { format } from "date-fns"
@@ -27,7 +29,8 @@ export default function TasksPage(){
     // A STATE TO MANAGE FORM DATA
     const [formData, setFormData] = React.useState({
         activity: "",
-        deadline: ""
+        deadline: "",
+        notHidden: true
     })
 
     // A BOOLEAN TO DETERMINE WHETHER A FORM RELAYS UPDATE INFO
@@ -36,6 +39,8 @@ export default function TasksPage(){
     const [showForm, setShowForm] = React.useState(false)
     // A BOOLEAN TO DETERMINE IF A BUTTON IS DISABLED
     const [disabled, setDisabled] = React.useState(false)
+    // DEFINING A STATE BOOLEAN TO KEEP TRACK OF GENERAL POPUPS
+    const [popup, setPopup] = React.useState(false)
     // OBTAINING GLOBAL USER AND DISPATCH FUNCTIONS
     const { user, dispatch } = UserContextHook()
     // OBTAINING GLOBAL COLLECTIONS AND DISPATCH FUNCTION
@@ -46,6 +51,11 @@ export default function TasksPage(){
     const {id:collectionID} = useParams()
     // OBTAINING GLOBAL DARKMODE AND DISPATCH FUNCTION
     const {darkMode, dispatch:styleDispatch} = StyleContextHook()
+    // OBTAINING THE GLOBAL SHOWFOOTER CONTEXT AND DISPATCH FUNCTION
+    const { showFooter, dispatch:showFooterDispatch } = ShowFooterContextHook()
+
+    // DEFINING A STATE BOOLEAN TO KEEP TRACK OF HIDDEN TASKS
+    const [allNotHidden, setAllNotHidden] = React.useState(false)
 
     // AN OBJECT OF STYLE PROPERTIES
     const styles = {
@@ -129,7 +139,9 @@ export default function TasksPage(){
                     boxShadow: "10px 5px 10px black"
                 },
 
-                userProfileLink: { backgroundColor: "white" }
+                userProfileLink: { backgroundColor: "white" },
+                footerShowerBorder: { backgroundColor: "grey" },
+                footerShower: { backgroundColor: "white" }
             },
 
             light: {
@@ -138,7 +150,9 @@ export default function TasksPage(){
                     boxShadow: "0px 4px 15px 0px rgba(0, 0, 0, 0.25)"
                 },
                 
-                userProfileLink: { backgroundColor: "rgba(244, 194, 127, 0.67)" }
+                userProfileLink: { backgroundColor: "rgba(244, 194, 127, 0.67)" },
+                footerShowerBorder: { backgroundColor: "white" },
+                footerShower: { backgroundColor: "rgba(244, 194, 127, 0.67)" }
             }
         },
 
@@ -275,7 +289,8 @@ export default function TasksPage(){
     async function updateTask(id){
         setFormData({
             activity: "",
-            deadline: ""
+            deadline: "",
+            notHidden: true
         })
 
         if(!validateFormData()){
@@ -320,7 +335,8 @@ export default function TasksPage(){
     async function createTask(){
         setFormData({
             activity: "",
-            deadline: ""
+            deadline: "", 
+            notHidden: true
         })
 
         try{
@@ -403,6 +419,79 @@ export default function TasksPage(){
         }
     }
 
+    // A FUNCTION THAT HIDES ALL TASKS
+    async function hideTasks(){
+        setPopup("")
+        
+        try{
+            const res = await fetch(`https://trackminder-project.onrender.com/tasks/?collection=${collectionID}`, {
+                headers: {
+                    'Authorization': `Bearer ${user.token}`,
+                    "Content-Type": "application/json"
+                },
+
+                method: 'PUT',
+                body: JSON.stringify({ notHidden: false })
+            })
+
+            const response = await res.json()
+            setDisabled(true)
+            
+            if(!res.ok){
+                setSuccess('')
+                setError(response.error)
+                setDisabled(false)
+            }else{
+                setError('')
+                setSuccess(response.success)
+                setDisabled(false)
+                setAllNotHidden(false)
+
+                tasksDispatch({ type: "HIDE_ALL_TASKS" })
+            }
+        }catch(error){
+            setSuccess('')
+            setError(error.message)
+            setDisabled(false)
+        }
+    }
+
+    // A FUNCTION THAT REVEALS ALL TASKS
+    async function showTasks(){
+        try{
+            const res = await fetch(`https://trackminder-project.onrender.com/tasks/?collection=${collectionID}`, {
+                headers: {
+                    'Authorization': `Bearer ${user.token}`,
+                    'Content-Type': "application/json"
+                },
+
+                method: 'PUT',
+                body: JSON.stringify({ notHidden: true })
+            })
+
+            const response = await res.json()
+            setDisabled(true)
+
+            if(!res.ok){
+                setSuccess('')
+                setError(response.error)
+                setDisabled(false)
+            }else{
+                setError('')
+                setSuccess(response.success)
+                setDisabled(false)
+                setAllNotHidden(true)
+
+                tasksDispatch({ type: "SHOW_ALL_TASKS" })
+            }
+        }catch(error){
+            setSuccess('')
+            setError(error.message)
+            setDisabled(false)
+        }
+        
+    }
+
     // A FUNCTION THAT CONVERTS FETCHED TASKS OBJECTS TO TASKS COMPONENTS
     function generateTasksArray(){
         return tasks.map(task => {
@@ -414,6 +503,8 @@ export default function TasksPage(){
             const [updatedDate, updatedTime] = dateTime.split('\t')
             
             return (
+                task.notHidden
+                    ?
                 <TaskCell
                     activity={task.activity}
                     deadlineDate={deadlineDate}    
@@ -427,6 +518,8 @@ export default function TasksPage(){
                     id={task._id}
                     styles = {darkMode ? styles.taskCell.dark : styles.taskCell.light}    
                 />
+                    : 
+                null
             )
         })
     }
@@ -435,10 +528,10 @@ export default function TasksPage(){
     React.useEffect(() => {getTasks()}, [])
 
     return (
-        //A TASKS-PAGE CONTAINER MASKING ALL ELEMENTS 
+        //A TASKS-PAGE CONTAINER MASKING ALL ELEMENTS AND IS A SPLIT SCREEN IN LARGE 
         <div 
             id="tasks-container"
-            className="min-h-screen transition-all duration-500 relative scroll-smooth"
+            className="min-h-screen transition-all duration-500 relative scroll-smooth scroll-m-[200px] flex flex-col lg:flex-row-reverse"
             style={darkMode ? styles.tasksContainer.dark : styles.tasksContainer.light}
         >
             {/* AN ERROR POPUP IF AN ERROR OCCURS */}
@@ -451,6 +544,13 @@ export default function TasksPage(){
             {success && <SuccessPopup
                 successMessage = {success}
                 handleClick = {() => setSuccess('')}
+            />}
+
+            {/* A GENERAL POPUP IF THE A GENERAL POPUP OCCURS */}
+            {popup && <GeneralPopup
+                popupMessage = {popup}
+                handleClose = {() => setPopup("")}
+                handleClick = {() => hideTasks()}
             />}
 
             {/* A POPUP FORM IF EITHER CREATE OR UPDATE BUTTON IS CLICKED */}
@@ -508,28 +608,50 @@ export default function TasksPage(){
                         null
             }
 
-            {/* A NAVBAR TO DIRECT TO COLLECTIONS PAGE OR USER PROFILE */}
-            <NavBar
-                url='/home/collections'
-                navigationTitle= {getCollectionName()}
-                username = {user.username}
-                styles = { darkMode ? styles.navBar.dark : styles.navBar.light }
-            />
-        
-            {/* A CONTAINER FOR ALL TASK CELLS */}
-            <div className="flex flex-col justify-evenly items-center">
-                {tasks && generateTasksArray()}
-            </div>
+            {/* A CONTAINER WHERE TASKS ARE VIEWED IN LARGE SCREENS */}
+            <div className="flex flex-col lg:min-w-[90vw] flex-1">
+                {/* A NAVBAR TO DIRECT TO COLLECTIONS PAGE OR USER PROFILE */}
+                <NavBar
+                    url='/home/collections'
+                    navigationTitle= {getCollectionName()}
+                    username = {user.username}
+                    styles = { darkMode ? styles.navBar.dark : styles.navBar.light }
+                    showFooterLogo = {showFooter ? "<-" : "->"}
 
+                    handleShowFooter = {
+                        () => showFooter ? showFooterDispatch({ type: "HIDE_FOOTER" }) : showFooterDispatch({ type: "SHOW_FOOTER" })
+                    }
+                />
+            
+                {/* A CONTAINER FOR ALL TASK CELLS */}
+                <div className="flex flex-col justify-evenly items-center">
+                    {tasks && generateTasksArray()}
+                </div>
+            </div>
+            
             {/* A FOOTER CONTAINING ADD AND DELETE BUTTONS */}
-            <Footer
-                addTitle="Add Task"
-                deleteTitle="Delete All Tasks"
+            {showFooter && <Footer
+                addTitle="Add"
+                deleteTitle="Delete"
                 disabled={disabled}
                 showForm={() => setShowForm(true)}
                 handleDelete={deleteAllTasks}
+
+                showPopup = {
+                    allNotHidden 
+                        ?
+                    () => setPopup(
+                        "Please note that this doesn't delete your tasks, but rather hides them from view"
+                    )
+                        :
+                    () => showTasks()  
+                }
+
+                hideTitle = {allNotHidden ? "Hide All" : "Show All"}
+                hideButton = {allNotHidden}
+
                 styles={darkMode ? styles.footer.dark : styles.footer.light}
-            />
+            />}
         </div>
     )
 }
